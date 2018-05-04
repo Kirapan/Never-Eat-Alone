@@ -43,16 +43,16 @@ exports.seed = function(knex, Promise) {
         knex('offers_needs').insert({title: 'Industry advice'})
       ]);
     })
-//    .then(function() {
-//        return knex('messages').del();
-//      })
-//    .then(function () {
-//      return Promise.all([
-//        knex('messages').insert({content: "Hello there!", from_user_id: 1, to_user_id: 2, read: false }),
-//        knex('messages').insert({content: "How are you?", from_user_id: 2, to_user_id: 1, read: false }),
-//        knex('messages').insert({content: "Great idea!", from_user_id: 3, to_user_id: 2, read: false })
-//      ]);
-//    })
+    .then(function() {
+        return knex('messages').del();
+      })
+    .then(function () {
+      return Promise.all([
+        knex('messages').insert({content: "Hello there!", from_user_id: 1, to_user_id: 2, read: false }),
+        knex('messages').insert({content: "How are you?", from_user_id: 2, to_user_id: 1, read: false }),
+        knex('messages').insert({content: "Great idea!", from_user_id: 3, to_user_id: 2, read: false })
+      ]);
+    })
     .then(function() {
         return knex('users_offers_needs').del();
       })
@@ -69,22 +69,22 @@ exports.seed = function(knex, Promise) {
         knex('users_offers_needs').insert({user_id: 6, offer_need_id: 2})
       ]);
     })
-//    .then(function() {
-//        return knex('users_offers_seeks').del();
-//      }
-//    .then(function () {
-//      return Promise.all([
-//        knex('users_offers_seeks').insert({user_id: 1, seeker_id: 1}),
-//        knex('users_offers_seeks').insert({user_id: 2, seeker_id: 2}),
-//        knex('users_offers_seeks').insert({user_id: 3, seeker_id: 3}),
-//        knex('users_offers_seeks').insert({user_id: 4, seeker_id: 3}),
-//        knex('users_offers_seeks').insert({user_id: 5, seeker_id: 2}),
-//        knex('users_offers_seeks').insert({user_id: 6, seeker_id: 1}),
-//        knex('users_offers_seeks').insert({user_id: 7, seeker_id: 1}),
-//        knex('users_offers_seeks').insert({user_id: 8, seeker_id: 3}),
-//        knex('users_offers_seeks').insert({user_id: 8, seeker_id: 2})
-//      ]);
-//    })
+    .then(function() {
+        return knex('users_offers_seeks').del();
+    })
+    .then(function () {
+      return Promise.all([
+        knex('users_offers_seeks').insert({user_id: 1, offer_seek_id: 1}),
+        knex('users_offers_seeks').insert({user_id: 2, offer_seek_id: 2}),
+        knex('users_offers_seeks').insert({user_id: 3, offer_seek_id: 3}),
+        knex('users_offers_seeks').insert({user_id: 4, offer_seek_id: 3}),
+        knex('users_offers_seeks').insert({user_id: 5, offer_seek_id: 2}),
+        knex('users_offers_seeks').insert({user_id: 6, offer_seek_id: 1}),
+        knex('users_offers_seeks').insert({user_id: 7, offer_seek_id: 1}),
+        knex('users_offers_seeks').insert({user_id: 8, offer_seek_id: 3}),
+        knex('users_offers_seeks').insert({user_id: 8, offer_seek_id: 2})
+      ]);
+    })
     .then(function() {
         return knex('users_industries').del();
       })

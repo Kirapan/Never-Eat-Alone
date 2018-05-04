@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     table.integer('from_user_id').references('id').inTable('users');
     table.integer('to_user_id').references('id').inTable('users');
     table.boolean('read');
-    table.timestamps();
+    table.timestamp('created_at').defaultTo(knex.fn.now());
   })
 };
 

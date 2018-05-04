@@ -8,7 +8,8 @@ exports.up = function(knex, Promise) {
     table.integer('industry_id').references('id').inTable('industries');
     table.string('company');
     table.string('location');
-    table.timestamps();
+    table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('updated_at').defaultTo(knex.fn.now());
   })
 };
 
