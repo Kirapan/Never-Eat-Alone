@@ -70,7 +70,7 @@ app.use("/styles", sass({
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Mount all resource routes
-app.use("/users", usersRoutes(knex));
+app.use("/api", usersRoutes(knex));
 
 // API routes
 //app.use('/users', require('./api/users')(models))

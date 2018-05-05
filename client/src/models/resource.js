@@ -16,7 +16,9 @@ const Resource = (endpoint) => {
     console.log("inside findUserProfile");
     return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}`)
-        .then((result) => resolve(result))
+        .then((result) =>{
+          resolve(result.data)
+        })
         .catch((errors) => reject(errors))
     })
   }
@@ -26,11 +28,19 @@ const Resource = (endpoint) => {
   }
 
   function findMessages(from_id, to_id) {
-    return api.get(`api/${endpoint}/${from_id}/messages/${to_id}`)
+    return new Promise((resolve, reject)=>{
+      api.get(`api/${endpoint}/${from_id}/messages/${to_id}`)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
   }
 
   function findFavorites(id) {
-    return api.get(`api/${endpoint}/${id}/favorites`)
+    return new Promise((resolve, reject)=>{
+      api.get(`api/${endpoint}/${id}/favorites`)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
   }
 
   function addFavorites(from_id, to_id) {
@@ -38,7 +48,11 @@ const Resource = (endpoint) => {
   }
 
   function findMatches(id) {
-    return api.get(`api/${endpoint}/${id}/matches`)
+    return new Promise((resolve, reject)=>{
+      api.get(`api/${endpoint}/${id}/matches`)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
   }
 
   return {
