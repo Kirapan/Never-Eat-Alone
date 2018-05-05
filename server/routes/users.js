@@ -5,38 +5,30 @@ const router = express.Router();
 
 module.exports = (knex) => {
 
-  router.get('/', function(req, res) {
-    res.json([{
-      id: 1,
-      username: "samsepi0l"
-    }, {
-      id: 2,
-      username: "D0loresH4ze"
-    }]);
-  });
-
-
-  //  router.get("/", (req, res) => {
-  //    knex
-  //      .select("*")
-  //      .from("users")
-  //      .then((results) => {
-  //        res.json(results);
-  //      });
-  //  });
+   router.get("/", (req, res) => {
+     knex
+       .select("*")
+       .from("users")
+       .then((results) => {
+         res.json(results);
+       });
+   });
 
   function getUserProfile(id) {
     return knex
       .select()
       .from('users')
-      .where('id', '=', id)
+      .innerJoin('industries', 'users.industry_id', 'industries.id')
+      .where('users.id', '=', id)
+
+//select * from users u inner join industries i on u.industry_id = i.id where u.id = 1;
   }
 
   router.get('/users/:id', (req, res) => {
     getUserProfile(req.params.id)
-      .then((profileData) => {
-        res.json(profileData);
-      })
+      .then((results) => {
+          res.json(results[0]);
+        })
       .catch((err) => {
         res.send(err);
       })
