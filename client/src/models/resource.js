@@ -13,6 +13,7 @@ const Resource = (endpoint) => {
 
   // We're extracting result.data and returning it on success to avoid
   function findUserProfile(id) {
+    console.log("inside findUserProfile");
     return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}`)
         .then((result) =>{
