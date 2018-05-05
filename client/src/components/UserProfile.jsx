@@ -4,7 +4,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import Resource from '../models/resource'
 import {Grid, Row, Col} from 'react-bootstrap'
-import Geosuggest from 'react-geosuggest'
+//import Geosuggest from 'react-geosuggest'
 
 
 const userData = Resource('users')
@@ -68,13 +68,6 @@ class userProfile extends React.Component {
         </label>
         <label>
           Company Address
-          <Geosuggest
-          ref={el=>this._geoSuggest=el}
-          placeholder="Start typing!"
-          initialValue="Hamburg"
-          onSuggestSelect={this.onSuggestSelect}
-          location={new google.maps.LatLng(53.558572, 9.9278215)}
-          radius="20" />
         </label>
            <input type="submit" value="Submit" />
          </form>

@@ -5,26 +5,6 @@ const router = express.Router();
 
 module.exports = (knex) => {
 
-<<<<<<< HEAD
-//  router.get('/', function(req, res) {
-//    res.json([{
-//      id: 1,
-//      username: "samsepi0l"
-//    }, {
-//      id: 2,
-//      username: "D0loresH4ze"
-//    }]);
-//  });
-
-   router.get('/', (req, res) => {
-      knex
-        .select("*")
-        .from("users")
-        .then((results) => {
-          res.json(results);
-        });
-    });
-=======
    router.get("/", (req, res) => {
      knex
        .select("*")
@@ -33,7 +13,6 @@ module.exports = (knex) => {
          res.json(results);
        });
    });
->>>>>>> 5fcc31f02d4febea57b6c153031d4a781018fa27
 
   function getUserProfile(id) {
     return knex
