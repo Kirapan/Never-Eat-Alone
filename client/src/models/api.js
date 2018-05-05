@@ -23,8 +23,8 @@ const server = axios.create({
 
 
 /*
- * PUBLIC METHODS
- */
+* PUBLIC METHODS
+*/
 
 function get(endpoint) {
   return server.get(endpoint)

@@ -21,6 +21,7 @@ class userProfile extends React.Component {
   }
 
   componentWillMount() {
+    console.log("inside userProfile");
     if (!this.state.userId) return
     userData.findUserProfile(this.state.userId)
     .then((result) => this.setState({
@@ -33,10 +34,13 @@ class userProfile extends React.Component {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect to={this.state.redirect} />
-
+    console.log("in render userProfile");
+    //if (this.state.redirect) return <Redirect to={this.state.redirect} />
+    //<p> Hello there</p>
     return (
-
+      <div>
+          <span>Hello there{this.props.value.name}</span>
+      </div>
     )
   }
 }

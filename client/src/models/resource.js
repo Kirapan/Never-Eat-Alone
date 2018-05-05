@@ -13,31 +13,32 @@ const Resource = (endpoint) => {
 
   // We're extracting result.data and returning it on success to avoid
   function findUserProfile(id) {
+    console.log("inside findUserProfile");
     return new Promise((resolve, reject) => {
-      api.get(`/${endpoint}/${id}`)
+      api.get(`api/${endpoint}/${id}`)
         .then((result) => resolve(result))
         .catch((errors) => reject(errors))
     })
   }
 
   function saveUserProfile(id, data) {
-    return api.patch(`/${endpoint}/${id}/update`, data)
+    return api.patch(`api/${endpoint}/${id}/update`, data)
   }
 
   function findMessages(from_id, to_id) {
-    return api.get(`/${endpoint}/${from_id}/messages/${to_id}`)
+    return api.get(`api/${endpoint}/${from_id}/messages/${to_id}`)
   }
 
   function findFavorites(id) {
-    return api.get(`/${endpoint}/${id}/favorites`)
+    return api.get(`api/${endpoint}/${id}/favorites`)
   }
 
   function addFavorites(from_id, to_id) {
-    return api.put(`/${endpoint}/${from_id}/favorites/${to_id}`)
+    return api.put(`api/${endpoint}/${from_id}/favorites/${to_id}`)
   }
 
   function findMatches(id) {
-    return api.get(`/${endpoint}/${id}/matches`)
+    return api.get(`api/${endpoint}/${id}/matches`)
   }
 
   return {
