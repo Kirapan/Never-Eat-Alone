@@ -27,6 +27,7 @@ module.exports = (knex) => {
   router.get('/users/:id', (req, res) => {
     getUserProfile(req.params.id)
       .then((results) => {
+        console.log("ddfsfsfs",results[0])
           res.json(results[0]);
         })
       .catch((err) => {
