@@ -22,26 +22,6 @@ const usersRoutes = require("./routes/users");
 // Set environment
 app.set('env', process.env['APP_ENV'] || 'development')
 
-// Enabling CORS
-// More info: https://github.com/expressjs/cors
-let corsOptions = {}
-if (app.settings.env === 'production') {
-  // Configuration in production mode should be per domain!
-  const corsWhitelist = ['http://example1.com', 'https://example2.com']
-  corsOptions = {
-    origin: (origin, callback) => {
-      if (corsWhitelist.indexOf(origin) !== -1) callback(null, true)
-      else callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-app.use(cors(corsOptions))
-app.options('*', cors(corsOptions))
-
-// View engine setup (HTML views)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'hbs')
-
 // HTTP Request logging (disabled in test mode)
 if (app.settings.env !== 'test') {
   const loggerType = app.settings.env == 'production' ? 'common' : 'dev'
@@ -56,21 +36,14 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
-//app.set("view engine", "ejs");
-// Parser middleware: cookies, forms and JSON
-app.use(bodyParser.json({type: '*/*'}))
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/styles", sass({
-  src: __dirname + "/styles",
-  dest: __dirname + "/public/styles",
-  debug: true,
-  outputStyle: 'expanded'
+app.use(bodyParser.urlencoded({
+  extended: true
 }));
 // Serve static content from /public
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Mount all resource routes
-//app.use("/api", usersRoutes(knex));
+app.use("/api", usersRoutes(knex));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
