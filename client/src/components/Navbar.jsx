@@ -14,13 +14,13 @@ const TopNav = (props) => (
     </Navbar.Header>
     <Nav>
       <NavItem eventKey={1}>
-        <Link to="/users">Find a lunch partner</Link>
+        <Link to="/api/users">Find a lunch partner</Link>
       </NavItem>
       <NavItem eventKey={2}>
-        <Link to="/clients">Messages</Link>
+        <Link to="/api/messages">Messages</Link>
       </NavItem>
     </Nav>
-    <span class="navbar-text my-2 my-lg-0"><Link to='/login'>Login</Link> | <Link to='/logout'>logout</Link></span>
+    <span class="navbar-text my-2 my-lg-0"><Link to='/api/login'>Login</Link> | <Link to='/api/logout'>Logout</Link></span>
   </Navbar>
 )
 

@@ -70,11 +70,7 @@ app.use("/styles", sass({
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Mount all resource routes
-app.use("/api", usersRoutes(knex));
-
-// API routes
-//app.use('/users', require('./api/users')(models))
-//app.use('/users', require('./users')(models))
+//app.use("/api", usersRoutes(knex));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
