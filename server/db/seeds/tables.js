@@ -54,35 +54,35 @@ exports.seed = function(knex, Promise) {
       ]);
     })
     .then(function() {
-        return knex('users_offers_needs').del();
+        return knex('users_offers').del();
       })
     .then(function () {
       return Promise.all([
-        knex('users_offers_needs').insert({user_id: 1, offer_need_id: 1}),
-        knex('users_offers_needs').insert({user_id: 1, offer_need_id: 2}),
-        knex('users_offers_needs').insert({user_id: 2, offer_need_id: 3}),
-        knex('users_offers_needs').insert({user_id: 3, offer_need_id: 3}),
-        knex('users_offers_needs').insert({user_id: 3, offer_need_id: 2}),
-        knex('users_offers_needs').insert({user_id: 4, offer_need_id: 1}),
-        knex('users_offers_needs').insert({user_id: 5, offer_need_id: 1}),
-        knex('users_offers_needs').insert({user_id: 6, offer_need_id: 3}),
-        knex('users_offers_needs').insert({user_id: 6, offer_need_id: 2})
+        knex('users_offers').insert({user_id: 1, offer_id: 1}),
+        knex('users_offers').insert({user_id: 1, offer_id: 2}),
+        knex('users_offers').insert({user_id: 2, offer_id: 3}),
+        knex('users_offers').insert({user_id: 3, offer_id: 3}),
+        knex('users_offers').insert({user_id: 3, offer_id: 2}),
+        knex('users_offers').insert({user_id: 4, offer_id: 1}),
+        knex('users_offers').insert({user_id: 5, offer_id: 1}),
+        knex('users_offers').insert({user_id: 6, offer_id: 3}),
+        knex('users_offers').insert({user_id: 6, offer_id: 2})
       ]);
     })
     .then(function() {
-        return knex('users_offers_seeks').del();
+        return knex('users_needs').del();
     })
     .then(function () {
       return Promise.all([
-        knex('users_offers_seeks').insert({user_id: 1, offer_seek_id: 1}),
-        knex('users_offers_seeks').insert({user_id: 2, offer_seek_id: 2}),
-        knex('users_offers_seeks').insert({user_id: 3, offer_seek_id: 3}),
-        knex('users_offers_seeks').insert({user_id: 4, offer_seek_id: 3}),
-        knex('users_offers_seeks').insert({user_id: 5, offer_seek_id: 2}),
-        knex('users_offers_seeks').insert({user_id: 6, offer_seek_id: 1}),
-        knex('users_offers_seeks').insert({user_id: 7, offer_seek_id: 1}),
-        knex('users_offers_seeks').insert({user_id: 8, offer_seek_id: 3}),
-        knex('users_offers_seeks').insert({user_id: 8, offer_seek_id: 2})
+        knex('users_needs').insert({user_id: 1, need_id: 1}),
+        knex('users_needs').insert({user_id: 2, need_id: 2}),
+        knex('users_needs').insert({user_id: 3, need_id: 3}),
+        knex('users_needs').insert({user_id: 4, need_id: 3}),
+        knex('users_needs').insert({user_id: 5, need_id: 2}),
+        knex('users_needs').insert({user_id: 6, need_id: 1}),
+        knex('users_needs').insert({user_id: 7, need_id: 1}),
+        knex('users_needs').insert({user_id: 8, need_id: 3}),
+        knex('users_needs').insert({user_id: 8, need_id: 2})
       ]);
     })
     .then(function() {

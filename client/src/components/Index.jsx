@@ -1,7 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import Resource from '../models/resource'
-import {Grid, Row, Col} from 'react-bootstrap'
+import {Grid} from 'react-bootstrap'
 
 class Index extends React.Component {
   constructor(props) {
@@ -23,7 +21,7 @@ class Index extends React.Component {
     return (
       <div>
         <Grid>
-          <div class="container-fluid">Welcome to the Index page!</div>
+          <div className="container-fluid">Welcome to the Index page!</div>
         </Grid>
       </div>
     )

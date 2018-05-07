@@ -7,6 +7,7 @@ import Navbar from './components/Navbar'
 import Index from './components/Index'
 import Users from './components/Users'
 import UserProfile from './components/UserProfile'
+import UserPreferences from './components/UserPreferences'
 import Messages from './components/Messages'
 import Login from './components/Login'
 import Footer from './components/Footer'
@@ -16,6 +17,7 @@ const App = (props) => (
   <Navbar/>
   <Grid>
     <Switch>
+      <Route path="/api/users/:id/preferences" component={UserPreferences} />
       <Route path="/api/users/:id" component={UserProfile} />
       <Route path="/api/users" component={Users} />
       <Route path="/api/messages" component={Messages} />

@@ -18,7 +18,6 @@ const server = axios.create({
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
-    //'Content-Type': 'application/vnd.api+json'
   }
 })
 
