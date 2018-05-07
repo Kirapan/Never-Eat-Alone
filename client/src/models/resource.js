@@ -9,11 +9,11 @@ your own sanity's sake). You'll need to create different modules if you have
 endpoints that behave differently.
 */
 
+
 const Resource = (endpoint) => {
 
   // We're extracting result.data and returning it on success to avoid
   function findUserProfile(id) {
-    console.log("inside findUserProfile");
     return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}`)
         .then((result) =>{
@@ -24,7 +24,7 @@ const Resource = (endpoint) => {
   }
 
   function saveUserProfile(id, data) {
-    return api.patch(`api/${endpoint}/${id}/update`, data)
+    return api.put(`api/${endpoint}/${id}/update`, data)
   }
 
   function findMessages(from_id, to_id) {
@@ -55,13 +55,58 @@ const Resource = (endpoint) => {
     })
   }
 
+  function findIdustries(){
+    return new Promise((resolve, reject)=>{
+      api.get('api/industries')
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
+  function findOffersNeeds(){
+    return new Promise((resolve, reject)=>{
+      api.get('api/offers_needs')
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
+  function findUserIndustries(id){
+    return new Promise((resolve, reject)=>{
+      api.get(`api/${endpoint}/${id}/industries`)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
+  function findUserNeeds(id){
+    return new Promise((resolve, reject)=>{
+      api.get(`api/${endpoint}/${id}/needs`)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
+  function findUserOffers(id){
+    return new Promise((resolve, reject)=>{
+      api.get(`api/${endpoint}/${id}/offers`)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
   return {
     findUserProfile,
     saveUserProfile,
     findMessages,
     findFavorites,
     addFavorites,
-    findMatches
+    findMatches,
+    findIdustries,
+    findOffersNeeds,
+    findUserIndustries,
+    findUserNeeds,
+    findUserOffers
   }
 
 }

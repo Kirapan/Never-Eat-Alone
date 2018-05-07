@@ -37,8 +37,8 @@ app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 
 // View engine setup (HTML views)
-// app.set('views', path.join(__dirname, 'views'))
-// app.set('view engine', 'hbs')
+ app.set('views', path.join(__dirname, 'views'))
+ app.set('view engine', 'ejs')
 
 
 // HTTP Request logging (disabled in test mode)
@@ -56,8 +56,11 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: false
 }));
+
+app.use(bodyParser.json())
+
 // Serve static content from /public
 app.use(express.static(path.join(__dirname, 'public')))
 

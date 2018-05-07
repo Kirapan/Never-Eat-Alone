@@ -1,7 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {Navbar, Nav, NavItem} from 'react-bootstrap'
-
 
 const Footer = (props) => (
 <footer class="page-footer">

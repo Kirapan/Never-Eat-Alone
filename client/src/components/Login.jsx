@@ -1,7 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import Resource from '../models/resource'
-import {Grid, Row, Col} from 'react-bootstrap'
+import {Grid} from 'react-bootstrap'
 
 class Login extends React.Component {
   constructor(props) {
