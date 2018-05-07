@@ -55,13 +55,35 @@ const Resource = (endpoint) => {
     })
   }
 
+  //send the login info to the server in json format
+  function login(loginInfo) {
+
+    console.log("in login ", loginInfo)
+    return new Promise((resolve, reject)=>{
+      api.post(`api/getToken`, loginInfo)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
+  function verifyToken(token) {
+    console.log("in verifyToken", {token});
+    return new Promise((resolve, reject) => {
+      api.post('api/verifyToken', {token})
+      .then((result) => resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
   return {
     findUserProfile,
     saveUserProfile,
     findMessages,
     findFavorites,
     addFavorites,
-    findMatches
+    findMatches,
+    login,
+    verifyToken
   }
 
 }

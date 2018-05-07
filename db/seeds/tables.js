@@ -15,21 +15,21 @@ exports.seed = function(knex, Promise) {
       })
     .then(function () {
       return Promise.all([
-        knex('users').insert({name: 'Alice', email: 'Alice@gmail.com', image: '', password: 'test', industry_id: 1,
+        knex('users').insert({name: 'Alice', email: 'Alice@gmail.com', image: '', password_digest: 'test', industry_id: 1,
           company: 'Google', location: '46 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Mark', email: 'Mark@gmail.com', image: '', password: 'test', industry_id: 1,
+        knex('users').insert({name: 'Mark', email: 'Mark@gmail.com', image: '', password_digest: 'test', industry_id: 1,
           company: 'Amazon', location: '50 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Paul', email: 'Paul@gmail.com', image: '', password: 'test', industry_id: 2,
+        knex('users').insert({name: 'Paul', email: 'Paul@gmail.com', image: '', password_digest: 'test', industry_id: 2,
           company: 'Scotiabank', location: '55 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Grace', email: 'Grace@gmail.com', image: '', password: 'test', industry_id: 2,
+        knex('users').insert({name: 'Grace', email: 'Grace@gmail.com', image: '', password_digest: 'test', industry_id: 2,
           company: 'TD', location: '10 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Tom', email: 'Tom@gmail.com', image: '', password: 'test', industry_id: 2,
+        knex('users').insert({name: 'Tom', email: 'Tom@gmail.com', image: '', password_digest: 'test', industry_id: 2,
           company: 'BMO', location: '100 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Christine', email: 'Christine@gmail.com', image: '', password: 'test', industry_id: 3,
+        knex('users').insert({name: 'Christine', email: 'Christine@gmail.com', image: '', password_digest: 'test', industry_id: 3,
           company: 'FUZE', location: '150 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Eva', email: 'Eva@gmail.com', image: '', password: 'test', industry_id: 3,
+        knex('users').insert({name: 'Eva', email: 'Eva@gmail.com', image: '', password_digest: 'test', industry_id: 3,
           company: 'Zync', location: '200 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Jack', email: 'Jack@gmail.com', image: '', password: 'test', industry_id: 3,
+        knex('users').insert({name: 'Jack', email: 'Jack@gmail.com', image: '', password_digest: 'test', industry_id: 3,
           company: 'Eighty-Eight', location: '250 Spadina Ave, Toronto, ON M5V 2H8'})
       ]);
     })

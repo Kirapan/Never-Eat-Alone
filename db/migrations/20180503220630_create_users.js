@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.string('name');
     table.string('email');
     table.string('image');
-    table.string('password');
+    table.string('password_digest').notNull();
     table.integer('industry_id').references('id').inTable('industries');
     table.string('company');
     table.string('location');
