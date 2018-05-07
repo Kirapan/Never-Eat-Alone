@@ -1,9 +1,7 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 import Resource from '../models/resource'
 import {Grid} from 'react-bootstrap'
 import {Tabs, Tab} from 'react-bootstrap-tabs';
-import jquery from 'jquery'
 
 const userData = Resource('users');
 
