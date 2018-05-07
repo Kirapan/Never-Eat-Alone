@@ -22,6 +22,25 @@ const usersRoutes = require("./routes/users");
 // Set environment
 app.set('env', process.env['APP_ENV'] || 'development')
 
+let corsOptions = {}
+if (app.settings.env === 'production') {
+  // Configuration in production mode should be per domain!
+  const corsWhitelist = ['http://example1.com', 'https://example2.com']
+  corsOptions = {
+    origin: (origin, callback) => {
+      if (corsWhitelist.indexOf(origin) !== -1) callback(null, true)
+      else callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
+
+// View engine setup (HTML views)
+// app.set('views', path.join(__dirname, 'views'))
+// app.set('view engine', 'hbs')
+
+
 // HTTP Request logging (disabled in test mode)
 if (app.settings.env !== 'test') {
   const loggerType = app.settings.env == 'production' ? 'common' : 'dev'
@@ -70,4 +89,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app
-
