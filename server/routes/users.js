@@ -69,19 +69,55 @@ module.exports = (knex) => {
 //          res.sendStatus(401).send({err: err});
 //        })
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   })
 
-   router.get("/", (req, res) => {
-     knex
-       .select("*")
-       .from("users")
-       .then((results) => {
-         res.json(results);
-       });
-   });
+  router.post("/signup", (req, res) => {
+    console.log("in signup", req.body.email);
+    //check if user does already exist in DB
+    knex
+      .select('id')
+      .from('users')
+      .where('email', req.body.email)
+      .then((result) => {
+        let user_id = result;
+        console.log("user", result, " and type ", result.typeof);
+        //user does already exist - redirext user to login
+        if (typeof result !== 'undefined' && result.length > 0) {
+          console.log("user_id ", result)
+          res.sendStatus(400);
+        } else { //user does not exist - create new user
+          console.log("user does not exist ", result)
+          knex('users')
+            .insert({name: req.body.firstname + ' ' + req.body.lastname,
+                     email: req.body.email,
+                     password_digest: req.body.password})
+            .then((result) => {
+              console.log("after insert new user", result);
+              res.sendStatus(200);
+            })
+            .catch((err) => {
+              console.log("error on insert");
+              console.log(err);
+            })
+        }
+      })
+      .catch((err) => {
+        console.log("error on select user");
+        console.error(err);
+      })
+  })
+
+  router.get("/", (req, res) => {
+    knex
+      .select("*")
+      .from("users")
+      .then((results) => {
+        res.json(results);
+      });
+  });
 
   function getUserProfile(id) {
     return knex
