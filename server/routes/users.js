@@ -7,7 +7,7 @@ const jwt     = require("jsonwebtoken");
 module.exports = (knex) => {
 
   router.post("/verifyToken", verifyToken, (req, res) => {
-    console.log("in server verify", req.body.token);
+    console.log("in server verify", req.headers.Authorization);
     jwt.verify(req.token, process.env.SECRETKEY, (err, authData) => {
       console.log("in verify in post");
       if (err){
@@ -57,6 +57,8 @@ module.exports = (knex) => {
           let payload = { id: result[0].id,
                           email: result[0].email};
           const token = jwt.sign(payload, process.env.SECRETKEY);
+          req.headers = {Authorization: "Bearer " + token};
+          console.log("in getToken", req.headers);
           res.send(token);
         }
 //        res.authenticate(req.boapp.use(express.staticdy.password).then(user => {
