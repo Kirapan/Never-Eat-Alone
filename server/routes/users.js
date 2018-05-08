@@ -50,11 +50,12 @@ module.exports = (knex) => {
       .select("*")
       .from("users")
       .where('email', req.body.email)
-      .then(result => {
+      .then((result) => {
         if (!result){
           res.sendStatus(400);
         } else{
-          const payload = { id: result.id};
+          let payload = { id: result[0].id,
+                          email: result[0].email};
           const token = jwt.sign(payload, process.env.SECRETKEY);
           res.send(token);
         }

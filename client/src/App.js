@@ -1,32 +1,9 @@
 import React from 'react'
-import {Route, Switch} from 'react-router-dom'
-import {Grid} from 'react-bootstrap'
 import './styles/css/main.css'
-
-import Navbar from './components/Navbar'
-import Index from './components/Index'
-import Users from './components/Users'
-import UserProfile from './components/UserProfile'
-import UserPreferences from './components/UserPreferences'
-import Messages from './components/Messages'
-import Login from './components/Login'
-import Footer from './components/Footer'
+import Parent from './components/Parent'
 
 const App = (props) => (
-  <div>
-  <Navbar/>
-  <Grid>
-    <Switch>
-      <Route path="/api/users/:id/preferences" component={UserPreferences} />
-      <Route path="/api/users/:id" component={UserProfile} />
-      <Route path="/api/users" component={Users} />
-      <Route path="/api/messages" component={Messages} />
-      <Route path="/api/login" component={Login} />
-      <Route path="/" component={Index} />
-    </Switch>
-  </Grid>
-  <Footer/>
-  </div>
+  <Parent/>
 )
 
 export default App

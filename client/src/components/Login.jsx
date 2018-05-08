@@ -1,7 +1,8 @@
-import React from 'react'
-import Resource from '../models/resource'
-import {Grid} from 'react-bootstrap'
+import React from 'react';
+import Resource from '../models/resource';
+import {Grid} from 'react-bootstrap';
 import {Tabs, Tab} from 'react-bootstrap-tabs';
+import Parent from './Parent';
 
 const userData = Resource('users');
 
@@ -19,17 +20,13 @@ class Login extends React.Component {
   }
 
   _updateEmail(event) {
-    //console.log("in handle submit", event.target.value);
     const state = this.state;
     this.setState(...state, {email: event.target.value});
-    //console.log("in handle", this.state.email);
   }
 
   _udpatePassword(event) {
-    //console.log("in handle submit", event.target.value);
     const state = this.state;
     this.setState(...state, {password: event.target.value});
-    //console.log("in handle", this.state.email);
   }
 
   _handleSubmit(event) {
@@ -44,15 +41,24 @@ class Login extends React.Component {
 
     userData.login(loginInfo)
     .then((result) => {
+      console.log("after login", result);
       userData.verifyToken(result)
-      .then((email) => {
-        console.log("after verifyToken", email);
+      .then((result) => {
         const state = this.state;
-        this.setState(...state, {email: email});
+        this.setState(...state, {email: result.authData.email});
+        this.props.doLogin(this.state.email);
+        this.props.history.push('/');
+      })
+      .catch((err) => {
+        console.log("verifyToken not valid");
       });
+    })
+    .catch((err) => {
+      console.log("login not succesful");
+
     });
-    console.log("in handle", this.state);
   }
+
 
   render() {
     return (

@@ -1,21 +1,37 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {Navbar, Nav, NavItem} from 'react-bootstrap'
+import Parent from './Parent';
 
 class TopNav extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       email: "",
-      password: ""
+      isLoggedOut: false
     }
   }
 
   componentWillMount() {
+    console.log("in will mount");
+  }
 
+  _logout() {
+    console.log("on logout");
+    const state = this.state;
+    this.props.doLogin(...state, {email: ""});
+    this.setState(...state, {email: '', isLoggedOut: false});
   }
 
   render() {
+    const isLoggedOut = this.state.isLoggedOut;
+    console.log("in render", isLoggedOut);
+    const button = this.props.value ?
+    (<span class="navbar-text my-2 my-lg-0">{this.props.value} | <Link to={this._logout}> Logout</Link></span>):
+    (<span class="navbar-text my-2 my-lg-0"><Link to='/api/login'>Login</Link> |
+      <Link to='/api/login'> Sign up</Link></span>);
+
+
     return(
       <Navbar>
         <Navbar.Header>
@@ -33,8 +49,7 @@ class TopNav extends React.Component {
             <Link to="/api/messages">Messages</Link>
           </NavItem>
         </Nav>
-        <span class="navbar-text my-2 my-lg-0">
-        <Link to='/api/login'>Login</Link> | <Link to='/api/logout'>Sign up</Link></span>
+        {button}
       </Navbar>
     )
   }
