@@ -27,6 +27,10 @@ const Resource = (endpoint) => {
     return api.put(`api/${endpoint}/${id}/update`, data)
   }
 
+  function saveUserPreferences(id, data) {
+    return api.put(`api/${endpoint}/${id}/updatePrefences`, data)
+  }
+
   function findMessages(from_id, to_id) {
     return new Promise((resolve, reject)=>{
       api.get(`api/${endpoint}/${from_id}/messages/${to_id}`)
@@ -115,6 +119,7 @@ const Resource = (endpoint) => {
   return {
     findUserProfile,
     saveUserProfile,
+    saveUserPreferences,
     findMessages,
     findFavorites,
     addFavorites,
@@ -127,7 +132,6 @@ const Resource = (endpoint) => {
     findUserNeeds,
     findUserOffers
   }
-
 }
 
 export default Resource

@@ -1,7 +1,11 @@
+/* eslint-disable no-undef */
+/* global google */
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Resource from '../models/resource'
 import { Grid, Row, Col } from 'react-bootstrap'
+import Geosuggest from 'react-geosuggest';
 
 
 const userData = Resource('users')
@@ -47,7 +51,7 @@ class userProfile extends React.Component {
     const newProfile = { ...this.state.profile, title: e.target.value }
     this.setState({ profile: newProfile })
   }
-  
+
   _handleImageChange = e => {
     const newProfile = { ...this.state.profile, image: e.target.value }
     this.setState({ profile: newProfile })
@@ -58,8 +62,9 @@ class userProfile extends React.Component {
     this.setState({ profile: newProfile })
   }
 
-  _handleLocationChange = e => {
-    const newProfile = { ...this.state.profile, location: e.target.value }
+  onSuggestSelect = suggest => {
+    if (!suggest) return
+    const newProfile = { ...this.state.profile, coordinates: suggest.location, location: suggest.description }
     this.setState({ profile: newProfile })
   }
 
@@ -95,7 +100,7 @@ class userProfile extends React.Component {
               </label>
               <label>
                 Image
-             <input value={this.state.profile.image} onChange={this._handleImageChange}/>
+             <input value={this.state.profile.image} onChange={this._handleImageChange} />
               </label>
               <label>
                 Industry
@@ -109,7 +114,13 @@ class userProfile extends React.Component {
               </label>
               <label>
                 Company Address
-          <input value={this.state.profile.location} name="location" onChange={this._handleLocationChange} />
+                <Geosuggest
+                  ref={el => this._geoSuggest = el}
+                  initialValue={this.state.profile.location}
+                  //onChange={this._handleLocationChange}
+                  onSuggestSelect={this.onSuggestSelect}
+                  location={new google.maps.LatLng(53.558572, 9.9278215)}
+                  radius="20" />
               </label>
               <input type="submit" value="Save and Continue" />
             </form>

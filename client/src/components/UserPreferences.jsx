@@ -11,8 +11,8 @@ class UserPreferences extends React.Component {
     this.state = {
       userId: (this.props.match.params.id || null),
       industries: [],
-      user_industries: [],
       offers_needs: [],
+      user_industries: [],
       offers: [],
       needs: []
     }
@@ -28,6 +28,7 @@ class UserPreferences extends React.Component {
 
     userData.findUserIndustries(this.state.userId)
       .then((result) => {
+
         this.setState({ user_industries: result })
       })
       .catch((errors) => this.setState({ errors: errors }))
@@ -51,24 +52,37 @@ class UserPreferences extends React.Component {
       .catch((errors) => this.setState({ errors: errors }))
   }
 
-  _handleSubmit(event) {
-    alert('submited')
+  _handleSubmit = event => {
     event.preventDefault();
+    let data = {
+      user_industries: this.state.user_industries,
+      offers: this.state.offers,
+      needs: this.state.needs
+    }
+    userData.saveUserPreferences(this.state.userId, data)
+      .then((result) => this.props.history.push(`/api/users/${this.state.userId}/preferences`))
+      .catch((errors) => this.setState({ errors: errors }))
   }
 
   _handleIndustryChange = e => {
     const newIndustry = e.target.value
-    this.setState({ user_industries: newIndustry })
+    let newArray = this.state.user_industries;
+    newArray[e.target.getAttribute('data-key')] = {title :newIndustry}
+    this.setState({ user_industries: newArray })
   }
 
   _handleNeedsChange = e => {
     const newNeeds = e.target.value
-    this.setState({ needs: newNeeds })
+    let newArray = this.state.needs;
+    newArray[e.target.getAttribute('data-key')] ={ title:newNeeds }
+    this.setState({ needs: newArray })
   }
 
   _handleOffersChange = e => {
     const newOffers = e.target.value
-    this.setState({ offers: newOffers })
+    let newArray = this.state.offers;
+    newArray[e.target.getAttribute('data-key')] ={title: newOffers}
+    this.setState({ offers: newArray })
   }
 
   render() {
@@ -96,20 +110,20 @@ class UserPreferences extends React.Component {
             <form onSubmit={this._handleSubmit}>
               <label>
                 Interested Industries
-          {this.state.user_industries.map(industry => {
-                  return (<select value={industry.title} name={industry.id} onChange={this._handleIndustryChange}>{industries}</select>)
+          {this.state.user_industries.map((industry, i) => {
+                  return (<select value={industry.title} data-key={i} onChange={this._handleIndustryChange}>{industries}</select>)
                 })}
               </label>
               <label>
                 What topics would you like to talk about?
-          {this.state.needs.map(need => {
-                  return (<select value={need.title} name={need.id} onChange={this._handleNeedsChange}>{offers_needs}</select>)
+          {this.state.needs.map((need, i) => {
+                  return (<select value={need.title} data-key={i} onChange={this._handleNeedsChange}>{offers_needs}</select>)
                 })}
               </label>
               <label>
                 What expertise could you offer?
-          {this.state.offers.map(offer => {
-                  return (<select value={offer.title} name={offer.id} onChange={this._handleOffersChange}>{offers_needs}</select>)
+          {this.state.offers.map((offer, i) => {
+                  return (<select value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
                 })}
               </label>
               <input type="submit" value="Submit" />

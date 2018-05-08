@@ -1,8 +1,8 @@
 "use strict";
 
 const express = require('express');
-const router  = express.Router();
-const jwt     = require("jsonwebtoken");
+const router = express.Router();
+const jwt = require("jsonwebtoken");
 
 module.exports = (knex) => {
 
@@ -10,38 +10,38 @@ module.exports = (knex) => {
     console.log("in server verify", req.body.token);
     jwt.verify(req.token, process.env.SECRETKEY, (err, authData) => {
       console.log("in verify in post");
-      if (err){
+      if (err) {
         console.log("in error");
         res.sendStatus(403);
-      } else{
-        res.send({authData});
+      } else {
+        res.send({ authData });
       }
     })
   })
 
   //extract the token from the header
-  function verifyToken (req, res, next){
+  function verifyToken(req, res, next) {
 
     //const bearerHeader = req.headers['authorization'];
 
-//    console.log("in verifyToken", bearerHeader);
-//    if (typeof bearerHeader !== 'undefined') {
-//      const bearer = bearerHeader.split(' ');
-//      const bearerToken = bearer[1];
-//      req.token = bearerToken;
-        req.token = req.body.token;
-        console.log("in verifyToken function", req.token);
-//      console.log("in if", req.token);
-        next();
-//    } else {
-//      //forbidden
-//      res.sendStatus(403);
-//    }
+    //    console.log("in verifyToken", bearerHeader);
+    //    if (typeof bearerHeader !== 'undefined') {
+    //      const bearer = bearerHeader.split(' ');
+    //      const bearerToken = bearer[1];
+    //      req.token = bearerToken;
+    req.token = req.body.token;
+    console.log("in verifyToken function", req.token);
+    //      console.log("in if", req.token);
+    next();
+    //    } else {
+    //      //forbidden
+    //      res.sendStatus(403);
+    //    }
   }
 
   router.post("/getToken", (req, res) => {
 
-    if (!req.body.email || !req.body.password){
+    if (!req.body.email || !req.body.password) {
       res.sendStatus(401).send("Fields not set");
     }
 
@@ -51,34 +51,34 @@ module.exports = (knex) => {
       .from("users")
       .where('email', req.body.email)
       .then(result => {
-        if (!result){
+        if (!result) {
           res.sendStatus(400);
-        } else{
-          const payload = { id: result.id};
+        } else {
+          const payload = { id: result.id };
           const token = jwt.sign(payload, process.env.SECRETKEY);
           res.send(token);
         }
-//        res.authenticate(req.boapp.use(express.staticdy.password).then(user => {
-//          //set expiration after secretKey, e.g. 'secreteKey', {expiresIn: '1d'},
-//          const token = jwt.sign({user}, process.env.SECRETKEY);
-//          res.json(token);
-//        }).catch(err => {
-//          res.sendStatus(401).send({err: err});
-//        })
+        //        res.authenticate(req.boapp.use(express.staticdy.password).then(user => {
+        //          //set expiration after secretKey, e.g. 'secreteKey', {expiresIn: '1d'},
+        //          const token = jwt.sign({user}, process.env.SECRETKEY);
+        //          res.json(token);
+        //        }).catch(err => {
+        //          res.sendStatus(401).send({err: err});
+        //        })
       })
       .catch(err => {
         console.error(err);
       });
   })
 
-   router.get("/", (req, res) => {
-     knex
-       .select("*")
-       .from("users")
-       .then((results) => {
-         res.json(results);
-       });
-   });
+  router.get("/", (req, res) => {
+    knex
+      .select("*")
+      .from("users")
+      .then((results) => {
+        res.json(results);
+      });
+  });
 
   function getUserProfile(id) {
     return knex
@@ -132,18 +132,46 @@ module.exports = (knex) => {
       })
   })
 
-  // function saveUserPreference(id, data) {
-  //   return knex('users')
-  //     .where('id', '=', id)
-  //     .update({
-  //       in: data.name,
-  //       image: data.image,
-  //       password: data.password,
-  //       industry_id: industry_id,
-  //       company: data.company,
-  //       location: data.location
-  //     })
-  // }
+  function findIndustryID(data) {
+    let newArray = data.user_industries.map(item => {
+      return item.title
+    })
+    console.log("neeeswwwwwwarray", newArray)
+    return knex('industries')
+      .where((builder) => {
+        builder.whereIn('title', newArray)
+      })
+  }
+
+  router.put('/users/:id/updatePrefences', (req, res) => {
+    console.log("req.bodyvodsfdsf", req.body)
+    knex('users_industries')
+      .where("user_id", req.params.id)
+      .del()
+      .then(() => {
+        findIndustryID(req.body)
+          .then((result) => {
+            let id = req.params.id
+            console.log("iamthefinalresult", result)
+            let array = result.map(item => {
+              return { user_id: id, industry_id: item.id }
+            })
+            knex('users_industries').insert(array)
+              .then(result => {
+                res.send("ok")
+              })
+              .catch((err) => {
+                res.send(err);
+              })
+          })
+          .catch((err) => {
+            res.send(err);
+          })
+      })
+      .catch((err) => {
+        res.send(err);
+      })
+  })
 
   function getMessages(from_id, to_id) {
     return knex
