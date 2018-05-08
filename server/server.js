@@ -1,25 +1,30 @@
 "use strict";
 require('dotenv').config();
 
-const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
-const express     = require('express');
-const cors        = require('cors');
-const path        = require('path');
-const logger      = require('morgan');
-const bodyParser  = require('body-parser');
-const sass        = require('node-sass-middleware');
-const app         = express();
+const PORT           = process.env.PORT || 8080;
+const ENV            = process.env.ENV || "development";
+const express        = require('express');
+const cors           = require('cors');
+const path           = require('path');
+const logger         = require('morgan');
+const bodyParser     = require('body-parser');
+const sass           = require('node-sass-middleware');
+const app            = express();
 
-const knexConfig  = require('./knexfile');
-const knex        = require('knex')(knexConfig[ENV]);
-const morgan      = require('morgan');
-const knexLogger  = require('knex-logger');
-//const bookshelf   = require('bookshelf');
-//const securePassword = require('bookshelf-secure-password');
-//const db          = bookshelf(knex);
-//db.plugin(securePassword);
+const knexConfig     = require('./knexfile');
+const knex           = require('knex')(knexConfig[ENV]);
+const morgan         = require('morgan');
+const knexLogger     = require('knex-logger');
+const bcrypt         = require('bcrypt');
 
+//const bookshelf      = require('bookshelf')(knex)
+//const securePassword = require('bookshelf-secure-password')
+//
+//bookshelf.plugin(securePassword)
+//const User = bookshelf.Model.extend({
+//  tableName: 'users',
+//  hasSecurePassword: true
+//
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
 

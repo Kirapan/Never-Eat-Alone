@@ -3,6 +3,7 @@
 const express = require('express');
 const router  = express.Router();
 const jwt     = require("jsonwebtoken");
+const bcrypt  = require('bcrypt');
 
 module.exports = (knex) => {
 
@@ -14,6 +15,7 @@ module.exports = (knex) => {
         console.log("in error");
         res.sendStatus(403);
       } else{
+        console.log("in verifyToken data ", authData);
         res.send({authData});
       }
     })
@@ -90,18 +92,23 @@ module.exports = (knex) => {
           res.sendStatus(400);
         } else { //user does not exist - create new user
           console.log("user does not exist ", result)
-          knex('users')
-            .insert({name: req.body.firstname + ' ' + req.body.lastname,
-                     email: req.body.email,
-                     password_digest: req.body.password})
-            .then((result) => {
-              console.log("after insert new user", result);
-              res.sendStatus(200);
-            })
-            .catch((err) => {
-              console.log("error on insert");
-              console.log(err);
-            })
+          let hashPassword = '';
+          bcrypt.hash(req.body.password, 10, function(err, hash) {
+            hashPassword =  hash;
+            console.log("inside hash", hashPassword);
+            knex('users')
+              .insert({name: req.body.firstname + ' ' + req.body.lastname,
+                       email: req.body.email,
+                       password_digest: hashPassword})
+              .then((result) => {
+                console.log("after insert new user", result);
+                res.sendStatus(200);
+              })
+              .catch((err) => {
+                console.log("error on insert");
+                console.log(err);
+              })
+          });
         }
       })
       .catch((err) => {
