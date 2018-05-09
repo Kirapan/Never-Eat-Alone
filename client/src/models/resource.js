@@ -55,7 +55,6 @@ const Resource = (endpoint) => {
     })
   }
 
-  //send the login info to the server in json format
   function login(loginInfo) {
     return new Promise((resolve, reject)=>{
       api.post(`api/getToken`, loginInfo)
@@ -112,9 +111,9 @@ const Resource = (endpoint) => {
     })
   }
 
-  function root(){
+  function signup(signupInfo) {
     return new Promise((resolve, reject)=>{
-      api.get(`api/`)
+      api.post(`api/signup`, signupInfo)
       .then((result)=> resolve(result.data))
       .catch((errors) => reject(errors))
     })
@@ -134,9 +133,8 @@ const Resource = (endpoint) => {
     findUserIndustries,
     findUserNeeds,
     findUserOffers,
-    root
+    signup
   }
-
 }
 
 export default Resource

@@ -8,29 +8,33 @@ import UserProfile from './UserProfile'
 import UserPreferences from './UserPreferences'
 import Messages from './Messages'
 import Login from './Login'
+import Signup from './Signup'
 import Footer from './Footer'
+import Map from './MapContainer'
 
 class Parent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      id: "",
       email: ""
     }
   }
 
   componentWillMount() {
-
   }
 
-  _doLogin = (emailInput) => {
+  //prop method for login, setting the email state
+  _doLogin = (input) => {
+    console.log("in parent", input);
     const state = this.state;
-    this.setState(...state, {email: emailInput});
+    this.setState(...state, {id: input.id, email: input.email});
   }
 
   render(){
     return(
       <div>
-      <Navbar value={this.state.email}/>
+      <Navbar id={this.state.id} email={this.state.email}/>
       <Grid>
         <Switch>
           <Route path="/api/users/:id/preferences" component={UserPreferences} />
@@ -40,6 +44,10 @@ class Parent extends React.Component {
           <Route exact path='/api/login' render={(props) => (
             <Login {...props} doLogin={this._doLogin} />
           )}/>
+          <Route exact path='/api/signup' render={(props) => (
+            <Signup {...props} doLogin={this._doLogin} />
+          )}/>
+          <Route path="/api/maps" component={Map} />
           <Route path="/" component={Index} />
         </Switch>
       </Grid>

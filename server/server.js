@@ -15,16 +15,7 @@ const knexConfig     = require('./knexfile');
 const knex           = require('knex')(knexConfig[ENV]);
 const morgan         = require('morgan');
 const knexLogger     = require('knex-logger');
-const bcrypt         = require('bcrypt');
 
-//const bookshelf      = require('bookshelf')(knex)
-//const securePassword = require('bookshelf-secure-password')
-//
-//bookshelf.plugin(securePassword)
-//const User = bookshelf.Model.extend({
-//  tableName: 'users',
-//  hasSecurePassword: true
-//
 // Seperated Routes for each Resource
 const usersRoutes = require('./routes/users');
 
