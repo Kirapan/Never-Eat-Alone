@@ -16,6 +16,7 @@ module.exports = (knex) => {
         console.log("in error");
         res.sendStatus(403);
       } else {
+        console.log("in else ", authData);
         res.send({ authData });
       }
     })
@@ -130,7 +131,7 @@ module.exports = (knex) => {
     return knex
       .select()
       .from('users')
-      .innerJoin('industries', 'users.industry_id', 'industries.id')
+      .leftJoin('industries', 'users.industry_id', 'industries.id')
       .where('users.id', '=', id)
 
     //select * from users u inner join industries i on u.industry_id = i.id where u.id = 1;
@@ -209,7 +210,7 @@ module.exports = (knex) => {
         findIndustryID(req.body.user_industries)
           .then((result) => {
             let id = req.params.id
-            
+
             let array = result.map(item => {
               return { user_id: id, industry_id: item.id }
             })
