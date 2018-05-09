@@ -10,7 +10,7 @@ import Messages from './Messages'
 import Login from './Login'
 import Signup from './Signup'
 import Footer from './Footer'
-import Map from './MapContainer'
+import Maps from './NewMap'
 
 class Parent extends React.Component {
   constructor(props) {
@@ -47,7 +47,7 @@ class Parent extends React.Component {
           <Route exact path='/api/signup' render={(props) => (
             <Signup {...props} doLogin={this._doLogin} />
           )}/>
-          <Route path="/api/maps" component={Map} />
+          <Route path="/api/maps" component={Maps} />
           <Route path="/" component={Index} />
         </Switch>
       </Grid>

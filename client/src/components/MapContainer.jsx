@@ -1,7 +1,8 @@
 import React from 'react';
-import MapsReact from 'google-maps-react';
+//import MapsReact from 'google-maps-react';
 import Maps from './Maps';
 import GoogleApiComponent from '../GoogleApiComponent';
+//import GoogleMapReact from 'google-maps-react';
 
 export class Container extends React.Component {
   render() {
@@ -13,7 +14,10 @@ export class Container extends React.Component {
       return <div>Loading...</div>
     }
     return (
-      <Maps google={this.props.google} />
+      <div style={style}>
+        <Maps google={this.props.google}
+          />
+      </div>
     )
   }
 }

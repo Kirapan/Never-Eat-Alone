@@ -60,7 +60,8 @@ class Signup extends React.Component {
         userData.verifyToken(result)
         .then((result) => {
           const state = this.state;
-          this.setState(...state, {email: result.authData.email});
+          this.setState(...state, {id: result.authData.id,
+                                   email: result.authData.email});
           this.props.doLogin(this.state);
           this.props.history.push('/');
         })
