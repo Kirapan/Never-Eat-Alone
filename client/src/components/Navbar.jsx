@@ -33,7 +33,7 @@ class TopNav extends React.Component {
             <Link to="/api/messages">Messages</Link>
           </NavItem>
         </Nav>
-        <span class="navbar-text my-2 my-lg-0">
+        <span className="navbar-text my-2 my-lg-0">
         <Link to='/api/login'>Login</Link> | <Link to='/api/logout'>Sign up</Link></span>
       </Navbar>
     )

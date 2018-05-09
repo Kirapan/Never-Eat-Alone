@@ -119,6 +119,7 @@ module.exports = (knex) => {
       .from('industries')
       .where('title', req.body.title)
       .then((result) => {
+        console.log("sotospeakwhat arethecoordinatelooklike", result)
         saveUserProfile(req.params.id, req.body, result[0].id)
           .then(() => {
             res.status(200).send('Success')
@@ -133,11 +134,20 @@ module.exports = (knex) => {
   })
 
   function findIndustryID(data) {
-    let newArray = data.user_industries.map(item => {
+    let newArray = data.map(item => {
       return item.title
     })
-    console.log("neeeswwwwwwarray", newArray)
     return knex('industries')
+      .where((builder) => {
+        builder.whereIn('title', newArray)
+      })
+  }
+
+  function findID(data) {
+    let newArray = data.map(item => {
+      return item.title
+    })
+    return knex('offers_needs')
       .where((builder) => {
         builder.whereIn('title', newArray)
       })
@@ -145,20 +155,73 @@ module.exports = (knex) => {
 
   router.put('/users/:id/updatePrefences', (req, res) => {
     console.log("req.bodyvodsfdsf", req.body)
+    //update the interested industries
     knex('users_industries')
       .where("user_id", req.params.id)
       .del()
       .then(() => {
-        findIndustryID(req.body)
+        findIndustryID(req.body.user_industries)
           .then((result) => {
             let id = req.params.id
-            console.log("iamthefinalresult", result)
+            
             let array = result.map(item => {
               return { user_id: id, industry_id: item.id }
             })
             knex('users_industries').insert(array)
-              .then(result => {
-                res.send("ok")
+              .then(() => {
+              })
+              .catch((err) => {
+                res.send(err);
+              })
+          })
+          .catch((err) => {
+            res.send(err);
+          })
+      })
+      .catch((err) => {
+        res.send(err);
+      })
+//update the offers
+    knex('users_offers')
+      .where("user_id", req.params.id)
+      .del()
+      .then(() => {
+        findID(req.body.offers)
+          .then((result) => {
+            let id = req.params.id
+            console.log("iamthefinalresult", result)
+            let array = result.map(item => {
+              return { user_id: id, offer_id: item.id }
+            })
+            console.log("offerrsssss", array)
+            knex('users_offers').insert(array)
+              .then(() => {
+              })
+              .catch((err) => {
+                res.send(err);
+              })
+          })
+          .catch((err) => {
+            res.send(err);
+          })
+      })
+      .catch((err) => {
+        console.log("users offerserrroooorr" )
+        res.send(err);
+      })
+//update the needs
+    knex('users_needs')
+      .where("user_id", req.params.id)
+      .del()
+      .then(() => {
+        findID(req.body.needs)
+          .then((result) => {
+            let id = req.params.id
+            let array = result.map(item => {
+              return { user_id: id, need_id: item.id }
+            })
+            knex('users_needs').insert(array)
+              .then(() => {
               })
               .catch((err) => {
                 res.send(err);

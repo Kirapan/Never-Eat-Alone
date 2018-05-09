@@ -60,7 +60,7 @@ class UserPreferences extends React.Component {
       needs: this.state.needs
     }
     userData.saveUserPreferences(this.state.userId, data)
-      .then((result) => this.props.history.push(`/api/users/${this.state.userId}/preferences`))
+      .then((result) => this.props.history.push(`/api/users/${this.state.userId}/matches`))
       .catch((errors) => this.setState({ errors: errors }))
   }
 
@@ -88,11 +88,11 @@ class UserPreferences extends React.Component {
   render() {
     const id = this.state.userId
     const industries = this.state.industries.map(industry => {
-      return (<option key={industry.id} value={industry.title}>{industry.title}</option>)
+      return (<option value={industry.title}>{industry.title}</option>)
     })
 
     const offers_needs = this.state.offers_needs.map(item => {
-      return (<option key={item.id} value={item.title}>{item.title}</option>)
+      return (<option value={item.title}>{item.title}</option>)
     })
 
     return (

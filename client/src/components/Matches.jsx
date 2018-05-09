@@ -4,32 +4,34 @@ import Resource from '../models/resource'
 
 const userData = Resource('users')
 
-class Messages extends React.Component {
+class Matches extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       userId: (this.props.match.params.id || null),
-      messages:[]
+      matches:[]
     }
   }
 
   componentWillMount() {
-    userData.findMessages(this.state.userId)
+    userData.findMatches(this.state.userId)
     .then((result) => {
-      this.setState({ messages: result })
+      this.setState({ matches: result })
     })
     .catch((errors) => this.setState({ errors: errors }))
   }
+
+  _handleFavorites
 
   render() {
     return (
       <div>
         <Grid>
-          Welcome to your messages!
+          Welcome to your matches!
         </Grid>
       </div>
     )
   }
 }
 
-export default Messages
+export default Matches

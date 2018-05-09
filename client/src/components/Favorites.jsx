@@ -4,19 +4,19 @@ import Resource from '../models/resource'
 
 const userData = Resource('users')
 
-class Messages extends React.Component {
+class Favorites extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       userId: (this.props.match.params.id || null),
-      messages:[]
+      favorites:[]
     }
   }
 
   componentWillMount() {
-    userData.findMessages(this.state.userId)
+    userData.findFavorites(this.state.userId)
     .then((result) => {
-      this.setState({ messages: result })
+      this.setState({ favorites: result })
     })
     .catch((errors) => this.setState({ errors: errors }))
   }
@@ -25,7 +25,7 @@ class Messages extends React.Component {
     return (
       <div>
         <Grid>
-          Welcome to your messages!
+          Welcome to your favorites!
         </Grid>
       </div>
     )

@@ -5,8 +5,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Resource from '../models/resource'
 import { Grid, Row, Col } from 'react-bootstrap'
-import Geosuggest from 'react-geosuggest';
-
+import Geosuggest from 'react-geosuggest'
 
 const userData = Resource('users')
 
@@ -16,7 +15,9 @@ class userProfile extends React.Component {
     this.state = {
       userId: (this.props.match.params.id || null),
       profile: {},
-      industries: []
+      industries: [],
+      file: '',
+      imagePreviewUrl: ''
     }
   }
 
@@ -52,10 +53,10 @@ class userProfile extends React.Component {
     this.setState({ profile: newProfile })
   }
 
-  _handleImageChange = e => {
-    const newProfile = { ...this.state.profile, image: e.target.value }
-    this.setState({ profile: newProfile })
-  }
+  // _handleImageSubmit = (e) => {
+  //   const newProfile = { ...this.state.profile, image: this.state.imagePreviewUrl, file: this.state.file }
+  //   this.setState({ profile: newProfile })
+  // }
 
   _handleCompanyChange = e => {
     const newProfile = { ...this.state.profile, company: e.target.value }
@@ -68,11 +69,35 @@ class userProfile extends React.Component {
     this.setState({ profile: newProfile })
   }
 
+  _handleImageChange = e => {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = (evt) => {
+      localStorage.setItem("img", reader.result)
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+
+    reader.readAsDataURL(file)
+  }
+
   render() {
     const id = this.state.userId
     const industries = this.state.industries.map(industry => {
       return (<option key={industry.id} value={industry.title}>{industry.title}</option>)
     })
+
+    let { imagePreviewUrl } = this.state;
+    imagePreviewUrl = localStorage.getItem("img")
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl} alt='' height="100" width="100"/>);
+    }
+
     return (
       <div>
         <Grid>
@@ -99,8 +124,13 @@ class userProfile extends React.Component {
              <input type="password" value={this.state.profile.password} />
               </label>
               <label>
+                <div>
                 Image
-             <input value={this.state.profile.image} onChange={this._handleImageChange} />
+                    <input type="file" onChange={this._handleImageChange} />
+                    {/* <button type="button" onClick={this._handleImageSubmit}>Upload Image</button> */}
+                  {$imagePreview}
+                  <img src={this.state.profile.image} alt='' height="100" width="100" />
+                </div>
               </label>
               <label>
                 Industry
@@ -117,7 +147,6 @@ class userProfile extends React.Component {
                 <Geosuggest
                   ref={el => this._geoSuggest = el}
                   initialValue={this.state.profile.location}
-                  //onChange={this._handleLocationChange}
                   onSuggestSelect={this.onSuggestSelect}
                   location={new google.maps.LatLng(53.558572, 9.9278215)}
                   radius="20" />
