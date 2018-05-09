@@ -62,12 +62,11 @@ const Resource = (endpoint) => {
     })
   }
 
-  //send the login info to the server in json format
   function login(loginInfo) {
-
-    console.log("in login ", loginInfo)
     return new Promise((resolve, reject)=>{
       api.post(`api/getToken`, loginInfo)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
     })
   }
 
@@ -119,6 +118,14 @@ const Resource = (endpoint) => {
     })
   }
 
+  function signup(signupInfo) {
+    return new Promise((resolve, reject)=>{
+      api.post(`api/signup`, signupInfo)
+      .then((result)=> resolve(result.data))
+      .catch((errors) => reject(errors))
+    })
+  }
+
   return {
     findUserProfile,
     saveUserProfile,
@@ -134,7 +141,8 @@ const Resource = (endpoint) => {
     findOffersNeeds,
     findUserIndustries,
     findUserNeeds,
-    findUserOffers
+    findUserOffers,
+    signup
   }
 }
 

@@ -1,13 +1,15 @@
 "use strict";
 
 const express = require('express');
-const router = express.Router();
-const jwt = require("jsonwebtoken");
+
+const router  = express.Router();
+const jwt     = require("jsonwebtoken");
+const bcrypt  = require('bcrypt');
 
 module.exports = (knex) => {
 
   router.post("/verifyToken", verifyToken, (req, res) => {
-    console.log("in server verify", req.body.token);
+    console.log("in server verify", req.headers.Authorization);
     jwt.verify(req.token, process.env.SECRETKEY, (err, authData) => {
       console.log("in verify in post");
       if (err) {
@@ -50,12 +52,15 @@ module.exports = (knex) => {
       .select("*")
       .from("users")
       .where('email', req.body.email)
-      .then(result => {
-        if (!result) {
+      .then((result) => {
+        if (!result){
           res.sendStatus(400);
-        } else {
-          const payload = { id: result.id };
+        } else{
+          let payload = { id: result[0].id,
+                          email: result[0].email};
           const token = jwt.sign(payload, process.env.SECRETKEY);
+          req.headers = {Authorization: "Bearer " + token};
+          console.log("in getToken", req.headers);
           res.send(token);
         }
         //        res.authenticate(req.boapp.use(express.staticdy.password).then(user => {
@@ -66,9 +71,50 @@ module.exports = (knex) => {
         //          res.sendStatus(401).send({err: err});
         //        })
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
+  })
+
+  router.post("/signup", (req, res) => {
+    console.log("in signup", req.body.email);
+    //check if user does already exist in DB
+    knex
+      .select('id')
+      .from('users')
+      .where('email', req.body.email)
+      .then((result) => {
+        let user_id = result;
+        console.log("user", result, " and type ", result.typeof);
+        //user does already exist - redirext user to login
+        if (typeof result !== 'undefined' && result.length > 0) {
+          console.log("user_id ", result)
+          res.sendStatus(400);
+        } else { //user does not exist - create new user
+          console.log("user does not exist ", result)
+          let hashPassword = '';
+          bcrypt.hash(req.body.password, 10, function(err, hash) {
+            hashPassword =  hash;
+            console.log("inside hash", hashPassword);
+            knex('users')
+              .insert({name: req.body.firstname + ' ' + req.body.lastname,
+                       email: req.body.email,
+                       password_digest: hashPassword})
+              .then((result) => {
+                console.log("after insert new user", result);
+                res.sendStatus(200);
+              })
+              .catch((err) => {
+                console.log("error on insert");
+                console.log(err);
+              })
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("error on select user");
+        console.error(err);
+      })
   })
 
   router.get("/", (req, res) => {
