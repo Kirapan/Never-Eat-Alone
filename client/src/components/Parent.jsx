@@ -1,6 +1,6 @@
 import React from 'react'
-import {Route, Switch} from 'react-router-dom'
-import {Grid} from 'react-bootstrap'
+import { Route, Switch } from 'react-router-dom'
+import { Grid } from 'react-bootstrap'
 import Navbar from './Navbar'
 import Index from './Index'
 import Users from './Users'
@@ -28,32 +28,34 @@ class Parent extends React.Component {
   _doLogin = (input) => {
     console.log("in parent", input);
     const state = this.state;
-    this.setState(...state, {id: input.id, email: input.email});
+    this.setState(...state, { id: input.id, email: input.email });
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
-      <Navbar id={this.state.id} email={this.state.email}/>
-      <Grid>
-        <Switch>
-          <Route path="/api/users/:id/preferences" component={UserPreferences} />
-          <Route path="/api/users/:id" component={UserProfile} />
-          <Route path="/api/users" component={Users} />
-          <Route path="/api/messages" component={Messages} />
-          <Route exact path='/api/login' render={(props) => (
-            <Login {...props} doLogin={this._doLogin} />
-          )}/>
-          <Route exact path='/api/signup' render={(props) => (
-            <Signup {...props} doLogin={this._doLogin} />
-          )}/>
-          <Route path="/api/maps" component={Map} />
-          <Route path="/" component={Index} />
-        </Switch>
-      </Grid>
-      <Footer/>
+        <Navbar id={this.state.id} email={this.state.email} />
+        <Grid>
+          <Switch>
+            <Route path="/api/users/:id/preferences" component={UserPreferences} />
+            <Route path="/api/users/:id" component={UserProfile} />
+            <Route path="/api/users" render={(props) => (
+              <Users {...props} />)} />
+            <Route path="/api/messages/:id/" render={(props) => (
+              <Messages {...props} />)} />
+            <Route exact path='/api/login' render={(props) => (
+              <Login {...props} doLogin={this._doLogin} />
+            )} />
+            <Route exact path='/api/signup' render={(props) => (
+              <Signup {...props} doLogin={this._doLogin} />
+            )} />
+            <Route path="/api/maps" component={Map} />
+            <Route path="/" component={Index} />
+          </Switch>
+        </Grid>
+        <Footer />
       </div>
-      )
+    )
   }
 }
 

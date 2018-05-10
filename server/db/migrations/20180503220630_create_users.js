@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
     table.string('password_digest').notNull();
     table.integer('industry_id').references('id').inTable('industries');
     table.string('company');
+    table.string('address');
     table.string('location');
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());

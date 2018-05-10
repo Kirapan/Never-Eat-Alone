@@ -1,10 +1,9 @@
 "use strict";
 
 const express = require('express');
-
 const router  = express.Router();
 const jwt     = require("jsonwebtoken");
-const bcrypt  = require('bcrypt');
+//const bcrypt  = require('bcrypt');
 
 module.exports = (knex) => {
 
@@ -92,14 +91,14 @@ module.exports = (knex) => {
           res.sendStatus(400);
         } else { //user does not exist - create new user
           console.log("user does not exist ", result)
-          let hashPassword = '';
-          bcrypt.hash(req.body.password, 10, function(err, hash) {
-            hashPassword =  hash;
-            console.log("inside hash", hashPassword);
+           //let hashPassword = '';
+          // bcrypt.hash(req.body.password, 10, function(err, hash) {
+          //   hashPassword =  hash;
+          //   console.log("inside hash", hashPassword);
             knex('users')
               .insert({name: req.body.firstname + ' ' + req.body.lastname,
                        email: req.body.email,
-                       password_digest: hashPassword})
+                       password_digest: req.body.password})
               .then((result) => {
                 console.log("after insert new user", result);
                 res.sendStatus(200);
@@ -108,7 +107,7 @@ module.exports = (knex) => {
                 console.log("error on insert");
                 console.log(err);
               })
-          });
+          // });
         }
       })
       .catch((err) => {
@@ -117,7 +116,7 @@ module.exports = (knex) => {
       })
   })
 
-  router.get("/", (req, res) => {
+  router.get("/users", (req, res) => {
     knex
       .select("*")
       .from("users")
@@ -139,6 +138,7 @@ module.exports = (knex) => {
   router.get('/users/:id', (req, res) => {
     getUserProfile(req.params.id)
       .then((results) => {
+        console.log("i am how result lokk like", results)
         res.json(results[0]);
       })
       .catch((err) => {
@@ -147,6 +147,7 @@ module.exports = (knex) => {
   })
 
   function saveUserProfile(id, data, industry_id) {
+       
     return knex('users')
       .where('id', '=', id)
       .update({
@@ -165,7 +166,6 @@ module.exports = (knex) => {
       .from('industries')
       .where('title', req.body.title)
       .then((result) => {
-        console.log("sotospeakwhat arethecoordinatelooklike", result)
         saveUserProfile(req.params.id, req.body, result[0].id)
           .then(() => {
             res.status(200).send('Success')
@@ -282,20 +282,20 @@ module.exports = (knex) => {
       })
   })
 
-  function getMessages(from_id, to_id) {
+  function getMessages(id) {
     return knex
       .select()
       .from('messages')
       .where({
-        from_user_id: from_id,
-        to_user_id: to_id
+        to_user_id: id
       })
   }
 
-  router.get('/users/:from_id/messages/:to_id', (req, res) => {
-    getMessages(req.params.from_id, req.params.to_id)
+  router.get('/messages/:id', (req, res) => {
+    getMessages(req.params.id)
       .then((messages) => {
-        res.json(messages.data[0]);
+        console.log("iam messagessssss", messages)
+        res.json(messages);
       })
       .catch((err) => {
         res.send(err);

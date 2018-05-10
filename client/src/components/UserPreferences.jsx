@@ -123,7 +123,7 @@ class UserPreferences extends React.Component {
               <label>
                 What expertise could you offer?
           {this.state.offers.map((offer, i) => {
-                  return (<select value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
+                return (<select value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
                 })}
               </label>
               <input type="submit" value="Submit" />

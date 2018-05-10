@@ -63,27 +63,32 @@ class userProfile extends React.Component {
     this.setState({ profile: newProfile })
   }
 
+  // _handleImageUrl= e => {
+  //   const newProfile = { ...this.state.profile, image: e.target.value }
+  //   this.setState({ profile: newProfile })
+  // }
+
   onSuggestSelect = suggest => {
     if (!suggest) return
-    const newProfile = { ...this.state.profile, coordinates: suggest.location, location: suggest.description }
+    const newProfile = { ...this.state.profile, location: suggest.location, address: suggest.description }
     this.setState({ profile: newProfile })
   }
 
-  _handleImageChange = e => {
-    e.preventDefault();
-    let reader = new FileReader();
-    let file = e.target.files[0];
+  // _handleImageChange = e => {
+  //   e.preventDefault();
+  //   let reader = new FileReader();
+  //   let file = e.target.files[0];
 
-    reader.onloadend = (evt) => {
-      localStorage.setItem("img", reader.result)
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
-      });
-    }
+  //   reader.onloadend = (evt) => {
+  //     //localStorage.setItem("img", reader.result)
+  //     this.setState({
+  //       file: file,
+  //       imagePreviewUrl: reader.result
+  //     });
+  //   }
 
-    reader.readAsDataURL(file)
-  }
+  //   reader.readAsDataURL(file)
+  // }
 
   render() {
     const id = this.state.userId
@@ -91,12 +96,12 @@ class userProfile extends React.Component {
       return (<option key={industry.id} value={industry.title}>{industry.title}</option>)
     })
 
-    let { imagePreviewUrl } = this.state;
-    imagePreviewUrl = localStorage.getItem("img")
-    let $imagePreview = null;
-    if (imagePreviewUrl) {
-      $imagePreview = (<img src={imagePreviewUrl} alt='' height="100" width="100"/>);
-    }
+    // let { imagePreviewUrl } = this.state;
+    // //imagePreviewUrl = localStorage.getItem("img")
+    // let $imagePreview = null;
+    // if (imagePreviewUrl) {
+    //   $imagePreview = (<img src={imagePreviewUrl} alt='' height="100" width="100" />);
+    // }
 
     return (
       <div>
@@ -125,10 +130,11 @@ class userProfile extends React.Component {
               </label>
               <label>
                 <div>
-                Image
-                    <input type="file" onChange={this._handleImageChange} />
-                    {/* <button type="button" onClick={this._handleImageSubmit}>Upload Image</button> */}
-                  {$imagePreview}
+                  Image
+                {/* <input value={this.state.profile.image} placeholder="Copy paste your image url here" onChange={this._handleImageUrl}/> */}
+                  {/* <input type="file" onChange={this._handleImageChange} /> */}
+                  {/* <button type="button" onClick={this._handleImageSubmit}>Upload Image</button> */}
+                  {/* {$imagePreview} */}
                   <img src={this.state.profile.image} alt='' height="100" width="100" />
                 </div>
               </label>
