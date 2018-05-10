@@ -49,7 +49,7 @@ class Parent extends React.Component {
             <Route exact path='/api/signup' render={(props) => (
               <Signup {...props} doLogin={this._doLogin} />
             )} />
-            <Route path="/api/maps" component={Map} />
+            <Route path="/api/maps" component={Maps} />
             <Route path="/" component={Index} />
           </Switch>
         </Grid>
