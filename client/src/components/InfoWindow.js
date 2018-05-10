@@ -9,38 +9,34 @@ import {
 } from "react-google-maps";
 
 class InfoWindows extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isOpen: ''
+    }
+  }
+  componentWillMount() {
+    console.log("infor window mount", this.props.open);
+    const state = this.state;
+    this.setState(...state, {isOpen: this.props.open});
+  }
 
+  _onCloseclick(){
+    console.log("in info window Toggle", this.state.isOpen);
+    this.props.onClose();
+  }
 
   render() {
-    console.log("in infoWindows render");
-    const location = {
-      lat: 43.65,
-      lng: -79.38
-    }
-
-    const marker = [
-      {
-        location: {
-          lat: 43.65,
-          lng: -79.38
-        }
-      },
-      {
-        location: {
-          lat: 43.66,
-          lng: -79.39
-        }
-      }
-    ]
+    console.log("in infoWindows render", this.props);
 
     return (
-      <InfoWindow>
+      <InfoWindow onCloseClick={this._onCloseclick.bind(this)}>
         <div>
-        <img src="https://www.google.de/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F64%2FBruce_Willis_by_Gage_Skidmore_2.jpg%2F220px-Bruce_Willis_by_Gage_Skidmore_2.jpg&imgrefurl=https%3A%2F%2Fde.wikipedia.org%2Fwiki%2FBruce_Willis&docid=nzIKiPy6kIH4gM&tbnid=UT2CyidrStm_RM%3A&vet=10ahUKEwjRhKaigfraAhVEneAKHfvUCHcQMwgsKAUwBQ..i&w=220&h=272&bih=810&biw=1535&q=bruce%20willis&ved=0ahUKEwjRhKaigfraAhVEneAKHfvUCHcQMwgsKAUwBQ&iact=mrc&uact=8g"/>
-        <p>Michael Rychly</p>
-        <p>IT</p>
-        <p>Looking for: Career advice</p>
-        <p>Offering: React programming skills</p>
+        <img src={this.props.info.img}/>
+        <p>{this.props.info.name}</p>
+        <p>{this.props.info.job}</p>
+        <p>Looking for: {this.props.info.search}</p>
+        <p>Offering: {this.props.info.offer}</p>
         </div>
       </InfoWindow>
     );
