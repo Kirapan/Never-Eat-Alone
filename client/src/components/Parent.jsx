@@ -10,7 +10,7 @@ import Messages from './Messages'
 import Login from './Login'
 import Signup from './Signup'
 import Footer from './Footer'
-import Maps from './NewMap'
+import Maps from './Map'
 
 class Parent extends React.Component {
   constructor(props) {
