@@ -1,3 +1,20 @@
+const faker          = require('faker');
+
+function ten(){
+  return parseInt(Math.random()*10)+1
+}
+function hundred(){
+  return parseInt(Math.random()*100)+1
+}
+
+function lat() {
+  return Number(43.6 + Math.random()/10).toFixed(6)
+}
+
+function lng() {
+  return Number(-79.3 - Math.random()/10).toFixed(6)
+}
+
 exports.seed = function(knex, Promise) {
   return knex('industries').del()
     .then(function() {
@@ -5,33 +22,36 @@ exports.seed = function(knex, Promise) {
       })
     .then(function () {
       return Promise.all([
-        knex('industries').insert({title: 'IT'}),
         knex('industries').insert({title: 'Finance'}),
-        knex('industries').insert({title: 'Marketing'})
-      ]);
+        knex('industries').insert({title: 'IT'}),
+        knex('industries').insert({title: 'Marketing'}),
+        knex('industries').insert({title: 'Retail'}),
+        knex('industries').insert({title: 'Logistics'}),
+        knex('industries').insert({title: 'Legal'}),
+        knex('industries').insert({title: 'Health Care'}),
+        knex('industries').insert({title: 'Others'}),
+        knex('industries').insert({title: 'Education'}),
+        knex('industries').insert({title: 'Arts and Performance'})
+      ])
     })
     .then(function() {
         return knex('users').del();
       })
     .then(function () {
-      return Promise.all([
-        knex('users').insert({name: 'Alice', email: 'Alice@gmail.com', image: '', password_digest: 'test', industry_id: 1,
-          company: 'Google', location: '46 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Mark', email: 'Mark@gmail.com', image: '', password_digest: 'test', industry_id: 1,
-          company: 'Amazon', location: '50 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Paul', email: 'Paul@gmail.com', image: '', password_digest: 'test', industry_id: 2,
-          company: 'Scotiabank', location: '55 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Grace', email: 'Grace@gmail.com', image: '', password_digest: 'test', industry_id: 2,
-          company: 'TD', location: '10 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Tom', email: 'Tom@gmail.com', image: '', password_digest: 'test', industry_id: 2,
-          company: 'BMO', location: '100 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Christine', email: 'Christine@gmail.com', image: '', password_digest: 'test', industry_id: 3,
-          company: 'FUZE', location: '150 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Eva', email: 'Eva@gmail.com', image: '', password_digest: 'test', industry_id: 3,
-          company: 'Zync', location: '200 Spadina Ave, Toronto, ON M5V 2H8'}),
-        knex('users').insert({name: 'Jack', email: 'Jack@gmail.com', image: '', password_digest: 'test', industry_id: 3,
-          company: 'Eighty-Eight', location: '250 Spadina Ave, Toronto, ON M5V 2H8'})
-      ]);
+      const users = [] 
+      for (let i=0; i < 100; i++) {
+        users.push({
+          name: faker.name.findName(),
+          email: faker.internet.email(),
+          image: faker.image.avatar(),
+          password_digest: 'test',
+          industry_id: ten(),
+          company: faker.company.companyName(),
+          address: faker.address.streetAddress(),
+          location: {lat:lat(), lng:lng()}
+        })
+      }
+      return knex('users').insert(users)
     })
     .then(function() {
         return knex('offers_needs').del();
@@ -39,83 +59,87 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       return Promise.all([
         knex('offers_needs').insert({title: 'Career advice'}),
-        knex('offers_needs').insert({title: 'Coaching'}),
-        knex('offers_needs').insert({title: 'Industry advice'})
-      ]);
+        knex('offers_needs').insert({title: 'Skill coaching'}),
+        knex('offers_needs').insert({title: 'Industry insights'}),
+        knex('offers_needs').insert({title: 'Referral'}),
+        knex('offers_needs').insert({title: 'Mentoring'}),
+        knex('offers_needs').insert({title: 'Company overview'}),
+        knex('offers_needs').insert({title: 'General inquires'}),
+        knex('offers_needs').insert({title: 'Networking'}),
+        knex('offers_needs').insert({title: 'Business cooperation'}),
+        knex('offers_needs').insert({title: 'Interview tips'})
+      ])
     })
     .then(function() {
         return knex('messages').del();
       })
     .then(function () {
-      return Promise.all([
-        knex('messages').insert({content: "Hello there!", from_user_id: 1, to_user_id: 2, read: false }),
-        knex('messages').insert({content: "How are you?", from_user_id: 2, to_user_id: 1, read: false }),
-        knex('messages').insert({content: "Great idea!", from_user_id: 3, to_user_id: 2, read: false })
-      ]);
+      const messages = [] 
+      for (let i=1; i < 51; i++) {
+        messages.push({
+          content: faker.hacker.phrase(),
+          from_user_id: ten(),
+          to_user_id: hundred(),
+          read: faker.random.boolean()
+        })
+      }
+      return knex('messages').insert(messages)
     })
     .then(function() {
         return knex('users_offers').del();
       })
     .then(function () {
-      return Promise.all([
-        knex('users_offers').insert({user_id: 1, offer_id: 1}),
-        knex('users_offers').insert({user_id: 1, offer_id: 2}),
-        knex('users_offers').insert({user_id: 2, offer_id: 3}),
-        knex('users_offers').insert({user_id: 3, offer_id: 3}),
-        knex('users_offers').insert({user_id: 3, offer_id: 2}),
-        knex('users_offers').insert({user_id: 4, offer_id: 1}),
-        knex('users_offers').insert({user_id: 5, offer_id: 1}),
-        knex('users_offers').insert({user_id: 6, offer_id: 3}),
-        knex('users_offers').insert({user_id: 6, offer_id: 2})
-      ]);
+      const offers = [] 
+      for (let i=1; i < 101; i++) {
+        for (let j=0; j<3; j++){
+          offers.push({
+            user_id: i,
+            offer_id: ten(),
+          })
+        }
+      }
+      return knex('users_offers').insert(offers)
     })
     .then(function() {
         return knex('users_needs').del();
     })
     .then(function () {
-      return Promise.all([
-        knex('users_needs').insert({user_id: 1, need_id: 1}),
-        knex('users_needs').insert({user_id: 2, need_id: 2}),
-        knex('users_needs').insert({user_id: 3, need_id: 3}),
-        knex('users_needs').insert({user_id: 4, need_id: 3}),
-        knex('users_needs').insert({user_id: 5, need_id: 2}),
-        knex('users_needs').insert({user_id: 6, need_id: 1}),
-        knex('users_needs').insert({user_id: 7, need_id: 1}),
-        knex('users_needs').insert({user_id: 8, need_id: 3}),
-        knex('users_needs').insert({user_id: 8, need_id: 2})
-      ]);
+      const needs = [] 
+      for (let i=1; i < 101; i++) {
+        for (let j=0; j<3; j++){
+          needs.push({
+            user_id: i,
+            need_id: ten(),
+          })
+        }
+      }
+      return knex('users_needs').insert(needs)
     })
     .then(function() {
         return knex('users_industries').del();
       })
     .then(function () {
-      return Promise.all([
-        knex('users_industries').insert({user_id: 1, industry_id: 1}),
-        knex('users_industries').insert({user_id: 2, industry_id: 2}),
-        knex('users_industries').insert({user_id: 3, industry_id: 3}),
-        knex('users_industries').insert({user_id: 4, industry_id: 3}),
-        knex('users_industries').insert({user_id: 4, industry_id: 2}),
-        knex('users_industries').insert({user_id: 6, industry_id: 1}),
-        knex('users_industries').insert({user_id: 7, industry_id: 1}),
-        knex('users_industries').insert({user_id: 7, industry_id: 3}),
-        knex('users_industries').insert({user_id: 8, industry_id: 2})
-      ]);
+      const users_industries = [] 
+      for (let i=1; i < 101; i++) {
+        users_industries.push({
+          user_id: i,
+          industry_id: ten()
+        })
+      }
+      return knex('users_industries').insert(users_industries)
     })
     .then(function() {
         return knex('favorites').del();
       })
     .then(function () {
-      return Promise.all([
-        knex('favorites').insert({favoritor_id: 1, favoritee_id: 2}),
-        knex('favorites').insert({favoritor_id: 1, favoritee_id: 7}),
-        knex('favorites').insert({favoritor_id: 2, favoritee_id: 6}),
-        knex('favorites').insert({favoritor_id: 3, favoritee_id: 1}),
-        knex('favorites').insert({favoritor_id: 4, favoritee_id: 2}),
-        knex('favorites').insert({favoritor_id: 5, favoritee_id: 3}),
-        knex('favorites').insert({favoritor_id: 6, favoritee_id: 4}),
-        knex('favorites').insert({favoritor_id: 6, favoritee_id: 5}),
-        knex('favorites').insert({favoritor_id: 8, favoritee_id: 6})
-      ]);
+      const favorites = [] 
+      for (let i=1; i < 101; i++) {
+        favorites.push({
+          favoritor_id: i,
+          favoritee_id: hundred()
+        })
+      }
+      return knex('favorites').insert(favorites)
     });
 };
 
@@ -143,3 +167,16 @@ exports.down = function(knex, Promise) {
     return knex.schema.dropTableIfExists('users');
   });
 };
+
+
+
+// Drop table favorites;  
+// Drop table messages;  
+// Drop table migrations ;
+// Drop table migrations_lock;
+// Drop table users_industries ;
+// Drop table users_needs;
+// Drop table offers_needs ;
+// Drop table users_offers;
+// Drop table users;
+// Drop table industries ;

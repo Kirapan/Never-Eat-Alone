@@ -13,6 +13,16 @@ endpoints that behave differently.
 const Resource = (endpoint) => {
 
   // We're extracting result.data and returning it on success to avoid
+  function findAll () {
+    return new Promise((resolve, reject) => {
+      api.get(`api/${endpoint}`)
+        .then((result) =>{
+          resolve(result.data)
+        })
+        .catch((errors) => reject(errors))
+    })
+  }
+
   function findUserProfile(id) {
     return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}`)
@@ -31,9 +41,9 @@ const Resource = (endpoint) => {
     return api.put(`api/${endpoint}/${id}/updatePrefences`, data)
   }
 
-  function findMessages(from_id, to_id) {
+  function findMessages(id) {
     return new Promise((resolve, reject)=>{
-      api.get(`api/${endpoint}/${from_id}/messages/${to_id}`)
+      api.get(`api/messages/${id}`)
       .then((result)=> resolve(result.data))
       .catch((errors) => reject(errors))
     })
@@ -127,6 +137,7 @@ const Resource = (endpoint) => {
   }
 
   return {
+    findAll,
     findUserProfile,
     saveUserProfile,
     saveUserPreferences,
