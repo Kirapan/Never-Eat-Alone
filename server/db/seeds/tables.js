@@ -38,7 +38,7 @@ exports.seed = function(knex, Promise) {
         return knex('users').del();
       })
     .then(function () {
-      const users = [] 
+      const users = []
       for (let i=0; i < 100; i++) {
         users.push({
           name: faker.name.findName(),
@@ -48,7 +48,8 @@ exports.seed = function(knex, Promise) {
           industry_id: ten(),
           company: faker.company.companyName(),
           address: faker.address.streetAddress(),
-          location: {lat:lat(), lng:lng()}
+          lat: lat(),
+          lng: lng()
         })
       }
       return knex('users').insert(users)
@@ -74,7 +75,7 @@ exports.seed = function(knex, Promise) {
         return knex('messages').del();
       })
     .then(function () {
-      const messages = [] 
+      const messages = []
       for (let i=1; i < 51; i++) {
         messages.push({
           content: faker.hacker.phrase(),
@@ -89,7 +90,7 @@ exports.seed = function(knex, Promise) {
         return knex('users_offers').del();
       })
     .then(function () {
-      const offers = [] 
+      const offers = []
       for (let i=1; i < 101; i++) {
         for (let j=0; j<3; j++){
           offers.push({
@@ -104,7 +105,7 @@ exports.seed = function(knex, Promise) {
         return knex('users_needs').del();
     })
     .then(function () {
-      const needs = [] 
+      const needs = []
       for (let i=1; i < 101; i++) {
         for (let j=0; j<3; j++){
           needs.push({
@@ -119,7 +120,7 @@ exports.seed = function(knex, Promise) {
         return knex('users_industries').del();
       })
     .then(function () {
-      const users_industries = [] 
+      const users_industries = []
       for (let i=1; i < 101; i++) {
         users_industries.push({
           user_id: i,
@@ -132,7 +133,7 @@ exports.seed = function(knex, Promise) {
         return knex('favorites').del();
       })
     .then(function () {
-      const favorites = [] 
+      const favorites = []
       for (let i=1; i < 101; i++) {
         favorites.push({
           favoritor_id: i,
@@ -170,8 +171,8 @@ exports.down = function(knex, Promise) {
 
 
 
-// Drop table favorites;  
-// Drop table messages;  
+// Drop table favorites;
+// Drop table messages;
 // Drop table migrations ;
 // Drop table migrations_lock;
 // Drop table users_industries ;

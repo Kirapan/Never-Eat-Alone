@@ -11,7 +11,6 @@ class TopNav extends React.Component {
   }
 
   componentWillMount() {
-    console.log("in will mount", this.props);
   }
 
   _logout() {
@@ -41,6 +40,9 @@ class TopNav extends React.Component {
           </NavItem>
           <NavItem eventKey={2}>
             <Link to="/api/messages">Messages</Link>
+          </NavItem>
+          <NavItem eventKey={2}>
+            <Link to="/api/maps">Map</Link>
           </NavItem>
         </Nav>
         {button}

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Resource from '../models/resource'
 import {
   GoogleMapLoader,
   withScriptjs,
@@ -8,56 +9,93 @@ import {
   Marker,
   InfoWindow
 } from "react-google-maps";
-import Markers from './Marker'
+import SearchBox from 'react-google-maps/lib/components/places/SearchBox'
+import Markers from './Marker';
+
+const userData = Resource('users');
+const _ = require("lodash");
+
 
 class MyMapComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      markers: [],
+      lists: [],
+      industries: [],
+      offers_needs: [],
       currentLocation: {
         lat: '',
         lng: ''
-      }
+      },
+      bounds: null,
+
     }
-    const markers = [
-      {position:
-        { lat: 43.65, lng: -79.38 },
-       position:
-        { lat: 43.64, lng: -79.40 }
-      }
-    ]
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.google !== this.props.google) {
+      console.log("did update ...")
       this.loadMap();
     }
     if (prevState.currentLocation !== this.state.currentLocation) {
+      console.log("did update recenter???");
       this.recenterMap();
     }
   }
 
+  componentWillMount(){
+    userData.findAll()
+      .then((result) => {
+        console.log("findAll", result)
+        this.setState({
+          lists: result,
+          errors: null
+        })
+        //move all marker relevant info into array and to state
+        let allMarkers = []
+        result.map((resultMarker) => {
+          allMarkers.push({
+            info: {
+              id:      resultMarker.id,
+              name:    resultMarker.name,
+              image:   resultMarker.image,
+              company: resultMarker.company
+            },
+            location:  {
+              lat: resultMarker.lat,
+              lng: resultMarker.lng
+            }
+          })
+          const state = this.state;
+          this.setState(...state, {markers: allMarkers});
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+      })
+      .catch((errors) => this.setState({ errors: errors }))
+  }
+
   componentDidMount(){
-    console.log("componentDidMount", this.props.center);
+    console.log("componentDidMount");
     if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((pos) => {
-                const coords = pos.coords;
-                this.setState({
-                    currentLocation: {
-                        lat: coords.latitude,
-                        lng: coords.longitude
-                    }
-                })
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const coords = pos.coords;
+            this.setState({
+                currentLocation: {
+                    lat: coords.latitude,
+                    lng: coords.longitude
+                }
             })
-        }
-    this.loadMap();
+        })
+    }
   }
 
   loadMap() {
-    console.log("in load")
+    console.log("in load");
   }
 
   recenterMap() {
+    console.log("in recenter");
     const map = this.map;
     const curr = this.state.currentLocation;
   }
@@ -76,13 +114,36 @@ class MyMapComponent extends React.Component {
     })
   }
 
+  handleSearchBoxMounted(searchBox) {
+    this._searchBox = searchBox;
+    console.log('handleSearchBoxMounted')
+  }
+
+  handlePlacesChanged() {
+    const places = this._searchBox.getPlaces();
+
+    // Add a marker for each place returned from search bar
+    const markers = places.map(place => ({
+      position: place.geometry.location,
+    }));
+
+    // Set markers; set map center to first search result
+    const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
+    console.log('handlePlacesChanged')
+    this.setState({
+      center: mapCenter
+      //,      markers,
+    });
+  }
+
 render(){
   const marker = [
       {
         info: {
+          id: 1,
           name: 'Michael',
-          img: 'https://www.google.de/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F64%2FBruce_Willis_by_Gage_Skidmore_2.jpg%2F220px-Bruce_Willis_by_Gage_Skidmore_2.jpg&imgrefurl=https%3A%2F%2Fde.wikipedia.org%2Fwiki%2FBruce_Willis&docid=nzIKiPy6kIH4gM&tbnid=UT2CyidrStm_RM%3A&vet=10ahUKEwjRhKaigfraAhVEneAKHfvUCHcQMwgsKAUwBQ..i&w=220&h=272&bih=810&biw=1535&q=bruce%20willis&ved=0ahUKEwjRhKaigfraAhVEneAKHfvUCHcQMwgsKAUwBQ&iact=mrc&uact=8g',
-          job: 'Programmer',
+          image: 'https://s3.amazonaws.com/uifaces/faces/twitter/peterlandt/128.jpg',
+          company: 'Programmer',
           search: 'IT',
           offer: 'Finance'
         },
@@ -93,9 +154,10 @@ render(){
       },
       {
         info: {
+          id: 2,
           name: 'Xiaoqi',
-          img: 'https://www.google.de/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F64%2FBruce_Willis_by_Gage_Skidmore_2.jpg%2F220px-Bruce_Willis_by_Gage_Skidmore_2.jpg&imgrefurl=https%3A%2F%2Fde.wikipedia.org%2Fwiki%2FBruce_Willis&docid=nzIKiPy6kIH4gM&tbnid=UT2CyidrStm_RM%3A&vet=10ahUKEwjRhKaigfraAhVEneAKHfvUCHcQMwgsKAUwBQ..i&w=220&h=272&bih=810&biw=1535&q=bruce%20willis&ved=0ahUKEwjRhKaigfraAhVEneAKHfvUCHcQMwgsKAUwBQ&iact=mrc&uact=8g',
-          job: 'CEO Never Lunch Alone',
+          image: 'https://s3.amazonaws.com/uifaces/faces/twitter/peterlandt/128.jpg',
+          company: 'CEO Never Lunch Alone',
           search: 'Finance',
           offer: 'IT'
         },
@@ -106,13 +168,36 @@ render(){
       }
     ]
 
-
-
   const GoogleMapExample = withGoogleMap(props => (
     <GoogleMap
-      defaultCenter = { this.state.currentLocation }
+      defaultCenter = {{lat: parseFloat(this.state.currentLocation.lat),
+                        lng: parseFloat(this.state.currentLocation.lng)}}
       defaultZoom = { 13 }
     >
+    <SearchBox
+      onSearchBoxMounted={this.handleSearchBoxMounted}
+      bounds={this.state.bounds}
+      onPlacesChanged={this.handlePlacesChanged}
+      controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
+    >
+      <input
+        type="text"
+        placeholder="Customized your placeholder"
+        style={{
+          boxSizing: `border-box`,
+          border: `1px solid transparent`,
+          width: `240px`,
+          height: `32px`,
+          marginTop: `27px`,
+          padding: `0 12px`,
+          borderRadius: `3px`,
+          boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+          fontSize: `14px`,
+          outline: `none`,
+          textOverflow: `ellipses`
+        }}
+      />
+    </SearchBox>
     {marker.map((marker, index)=> {
       return (
         <Markers

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react';
 import {Grid} from 'react-bootstrap'
 
 class Index extends React.Component {

@@ -17,8 +17,10 @@ class Markers extends Component {
     }
   }
 
+  componentWillMount(){
+    //console.log("in marker", this.props.data.location);
+  }
   handleToggle = () => {
-    console.log("toggle marker");
     if (this.state.isOpen){
       this.setState({
         isOpen: false
@@ -28,14 +30,11 @@ class Markers extends Component {
         isOpen: true
       });
     }
-    console.log("in handleToggle", this.state.isOpen);
   }
 
   render() {
-    console.log("in marker render", this.state.isOpen);
-
-    return (
-      <Marker position={this.props.data.location}
+    return (<Marker position={{lat: parseFloat(this.props.data.location.lat),
+                        lng: parseFloat(this.props.data.location.lng)}}
               onClick={this.handleToggle}
       >
       {this.state.isOpen && <InfoWindows info={this.props.data.info} open={this.state.isOpen} onClose={this.handleToggle}/>}
