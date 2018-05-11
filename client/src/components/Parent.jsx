@@ -40,9 +40,9 @@ class Parent extends React.Component {
             <Route path="/api/users/:id/preferences" component={UserPreferences} />
             <Route path="/api/users/:id" component={UserProfile} />
             <Route path="/api/users" render={(props) => (
-              <Users {...props} />)} />
+              <Users {...props} id={this.state.id} email={this.state.email}/>)}  />
             <Route path="/api/messages/:id/" render={(props) => (
-              <Messages {...props} />)} />
+              <Messages {...props} id={this.state.id} email={this.state.email} />)} />
             <Route exact path='/api/login' render={(props) => (
               <Login {...props} doLogin={this._doLogin} />
             )} />
