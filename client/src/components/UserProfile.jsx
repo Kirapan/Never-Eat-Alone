@@ -70,7 +70,8 @@ class userProfile extends React.Component {
 
   onSuggestSelect = suggest => {
     if (!suggest) return
-    const newProfile = { ...this.state.profile, location: suggest.location, address: suggest.description }
+    console.log("i am suggest", suggest)
+    const newProfile = { ...this.state.profile, lat: suggest.location.lat, lng: suggest.location.lng, address: suggest.description }
     this.setState({ profile: newProfile })
   }
 
@@ -116,19 +117,7 @@ class userProfile extends React.Component {
           </Row>
           <Row className="profile-content">
             <form onSubmit={this._handleSubmit}>
-              <label>
-                Name
-             <input type="text" value={this.state.profile.name} name="name" onChange={this._handleNameChange} />
-              </label>
-              <label>
-                Email
-             <input value={this.state.profile.email} disabled={true} />
-              </label>
-              <label>
-                Password
-             <input type="password" value={this.state.profile.password} />
-              </label>
-              <label>
+            <label>
                 <div>
                   Image
                 {/* <input value={this.state.profile.image} placeholder="Copy paste your image url here" onChange={this._handleImageUrl}/> */}
@@ -138,6 +127,18 @@ class userProfile extends React.Component {
                   <img src={this.state.profile.image} alt='' height="100" width="100" />
                 </div>
               </label>
+              <label>
+                Name
+             <input type="text" value={this.state.profile.name} name="name" onChange={this._handleNameChange} />
+              </label>
+              <label>
+                Email
+             <input value={this.state.profile.email} disabled={true} />
+              </label>
+              {/* <label>
+                Password
+             <input type="password" value={this.state.profile.password} />
+              </label> */}
               <label>
                 Industry
           <select value={this.state.profile.title} name="industry" onChange={this._handleIndustryChange} >
@@ -154,7 +155,7 @@ class userProfile extends React.Component {
                   ref={el => this._geoSuggest = el}
                   initialValue={this.state.profile.location}
                   onSuggestSelect={this.onSuggestSelect}
-                  location={new google.maps.LatLng(53.558572, 9.9278215)}
+                  location={new google.maps.LatLng(43.6, -79.3)}
                   radius="20" />
               </label>
               <input type="submit" value="Save and Continue" />

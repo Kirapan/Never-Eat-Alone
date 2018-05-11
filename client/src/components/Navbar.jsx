@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
 
 class TopNav extends React.Component {
@@ -25,6 +25,11 @@ class TopNav extends React.Component {
     (<span className="navbar-text my-2 my-lg-0"><Link to={'/api/users/' + this.props.id}>{this.props.email}</Link> | <Link to='/api/login'> Logout</Link></span>):
     (<span className="navbar-text my-2 my-lg-0"><Link to='/api/login'>Login</Link> |
       <Link to='/api/signup'> Sign up</Link></span>);
+
+    const message = this.props.email ?
+    (<Link to={"/api/messages/"+ this.props.id}>Messages</Link>) :
+    (<Link to="/api/users">Messages</Link>)
+
     return(
       <Navbar>
         <Navbar.Header>
@@ -39,7 +44,7 @@ class TopNav extends React.Component {
             <Link to="/api/users">Find a lunch partner</Link>
           </NavItem>
           <NavItem eventKey={2}>
-            <Link to="/api/messages">Messages</Link>
+            {message}
           </NavItem>
           <NavItem eventKey={2}>
             <Link to="/api/maps">Map</Link>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid,Popover, Label } from 'react-bootstrap'
+import { Grid,Popover, Label, Image, Button } from 'react-bootstrap'
 import Resource from '../models/resource'
 
 const userData = Resource('users')
@@ -16,24 +16,29 @@ class Messages extends React.Component {
   componentWillMount() {
     userData.findMessages(this.state.userId)
       .then((result) => {
-        console.log("iamdthehrekrheresult,",result)
         this.setState({ messages: result })
       })
       .catch((errors) => this.setState({ errors: errors }))
   }
 
   render() {
-
-    const messageList = this.state.messages.map((msg, idx) => {
-      return (<div style={{ height: 120 }}>
+    const sortedList = this.state.messages.sort((a, b)=> {
+      return b.created_at- a.created_at
+    })
+    const inline = { borderTop: '1px solid #dadce0'}
+    const messageList = sortedList.map((msg, idx) => {
+      return (<div>
+      <Image src={msg.image} alt={msg.name} style={{margin: 30, width: 128 }} rounded/>
         <Popover
           id={'popover-basic-' + idx}
           placement="right"
-          positionLeft={200}
-          positionTop={50}
-          title="ok"//change to sendername
+          positionLeft={300}
+          positionTop={90+160*idx}
+          title={msg.name}
           >
-          {msg.content}
+          <p >{msg.content}</p><br style={inline}/>
+          <small >{msg.created_at}           </small>
+          <Button bsStyle="warning">Reply</Button>
         </Popover>
       </div>);
   })

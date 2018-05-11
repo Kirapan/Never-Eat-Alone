@@ -11,7 +11,8 @@ class Users extends React.Component {
     this.state = {
       lists: [],
       industries: [],
-      offers_needs: []
+      offers_needs: [],
+      favorites:[]
     }
   }
 
@@ -36,15 +37,22 @@ class Users extends React.Component {
         this.setState({ offers_needs: result })
       })
       .catch((errors) => this.setState({ errors: errors }))
+
+      userData.findFavorites(this.props.id)
+      .then((result) => {
+        this.setState({ favorites: result })
+      })
+      .catch((errors) => this.setState({ errors: errors }))
+
   }
 
   render() {
 
     const displayImage = this.state.lists.map((list, idx) => {
-      return (<Col xs={6} md={4}>
-        <Thumbnail src={'https://loremflickr.com/320/240/people?random=' + idx} alt="242x200">
+      return (<Col xs={3} md={4}>
+        <Thumbnail src={list.image} alt="242x200" >
           <h3>{list.name}</h3>
-          <p>{list.company}</p>
+          <p>{list.title}</p>
           <p>
             <Button bsStyle="primary">Like</Button>
             <Button bsStyle="default">Invite</Button>
@@ -53,7 +61,7 @@ class Users extends React.Component {
       </Col>)
     })
 
-    if (this.state.id === undefined) {
+    if (!this.props.email) {
       return (<Row>
         <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
       </Row>)
@@ -92,6 +100,7 @@ class Users extends React.Component {
             </DropdownButton>
           </ButtonToolbar>
         </Row>
+        <br/>
         <Row>
           {displayImage}
         </Row>
