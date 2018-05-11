@@ -153,11 +153,11 @@ module.exports = (knex) => {
       .where('id', '=', id)
       .update({
         name: data.name,
-        image: data.image,
-        password: data.password,
         industry_id: industry_id,
         company: data.company,
-        location: data.location
+        address: data.location,
+        lat: data.lat,
+        lng: data.lng
       })
   }
 
@@ -287,6 +287,7 @@ module.exports = (knex) => {
     return knex
       .select()
       .from('messages')
+      .innerJoin('users', 'users.id','messages.from_user_id' )
       .where({
         to_user_id: id
       })
@@ -295,7 +296,6 @@ module.exports = (knex) => {
   router.get('/messages/:id', (req, res) => {
     getMessages(req.params.id)
       .then((messages) => {
-        console.log("iam messagessssss", messages)
         res.json(messages);
       })
       .catch((err) => {
@@ -318,7 +318,7 @@ module.exports = (knex) => {
 
   function favoritePage(id) {
     return knex
-      .select()
+      .select("favoritee_id")
       .from('favorites')
       .where('favoritor_id', '=', id)
   }

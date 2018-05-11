@@ -48,7 +48,8 @@ exports.seed = function(knex, Promise) {
           industry_id: ten(),
           company: faker.company.companyName(),
           address: faker.address.streetAddress(),
-          location: {lat:lat(), lng:lng()}
+          lat:lat(),
+          lng:lng()
         })
       }
       return knex('users').insert(users)
