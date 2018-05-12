@@ -1,8 +1,8 @@
 "use strict";
 
 const express = require('express');
-const router  = express.Router();
-const jwt     = require("jsonwebtoken");
+const router = express.Router();
+const jwt = require("jsonwebtoken");
 //const bcrypt  = require('bcrypt');
 
 module.exports = (knex) => {
@@ -16,7 +16,9 @@ module.exports = (knex) => {
         res.sendStatus(403);
       } else {
         console.log("in else ", authData);
-        res.send({ authData });
+        res.send({
+          authData
+        });
       }
     })
   })
@@ -53,13 +55,17 @@ module.exports = (knex) => {
       .from("users")
       .where('email', req.body.email)
       .then((result) => {
-        if (!result){
+        if (!result) {
           res.sendStatus(400);
-        } else{
-          let payload = { id: result[0].id,
-                          email: result[0].email};
+        } else {
+          let payload = {
+            id: result[0].id,
+            email: result[0].email
+          };
           const token = jwt.sign(payload, process.env.SECRETKEY);
-          req.headers = {Authorization: "Bearer " + token};
+          req.headers = {
+            Authorization: "Bearer " + token
+          };
           console.log("in getToken", req.headers);
           res.send(token);
         }
@@ -92,22 +98,24 @@ module.exports = (knex) => {
           res.sendStatus(400);
         } else { //user does not exist - create new user
           console.log("user does not exist ", result)
-           //let hashPassword = '';
+          //let hashPassword = '';
           // bcrypt.hash(req.body.password, 10, function(err, hash) {
           //   hashPassword =  hash;
           //   console.log("inside hash", hashPassword);
-            knex('users')
-              .insert({name: req.body.firstname + ' ' + req.body.lastname,
-                       email: req.body.email,
-                       password_digest: req.body.password})
-              .then((result) => {
-                console.log("after insert new user", result);
-                res.sendStatus(200);
-              })
-              .catch((err) => {
-                console.log("error on insert");
-                console.log(err);
-              })
+          knex('users')
+            .insert({
+              name: req.body.firstname + ' ' + req.body.lastname,
+              email: req.body.email,
+              password_digest: req.body.password
+            })
+            .then((result) => {
+              console.log("after insert new user", result);
+              res.sendStatus(200);
+            })
+            .catch((err) => {
+              console.log("error on insert");
+              console.log(err);
+            })
           // });
         }
       })
@@ -118,10 +126,14 @@ module.exports = (knex) => {
   })
 
   router.get("/users", (req, res) => {
-    knex
-      .select("*")
-      .from("users")
+    knex("users")
+      .leftJoin('users_offers', "users.id", "users_offers.user_id")
+      .leftJoin('industries', 'users.industry_id', 'industries.id')
+      .leftJoin('offers_needs', "users_offers.offer_id", "offers_needs.id")
+      .select("users.*", 'industries.title as industry',knex.raw('ARRAY_AGG(offers_needs.title) as offers'))
+      .groupBy('users.id','industries.title')
       .then((results) => {
+        console.log("i am resultssss", results)
         res.json(results);
       });
   });
@@ -148,7 +160,7 @@ module.exports = (knex) => {
   })
 
   function saveUserProfile(id, data, industry_id) {
-       
+
     return knex('users')
       .where('id', '=', id)
       .update({
@@ -212,11 +224,13 @@ module.exports = (knex) => {
             let id = req.params.id
 
             let array = result.map(item => {
-              return { user_id: id, industry_id: item.id }
+              return {
+                user_id: id,
+                industry_id: item.id
+              }
             })
             knex('users_industries').insert(array)
-              .then(() => {
-              })
+              .then(() => {})
               .catch((err) => {
                 res.send(err);
               })
@@ -228,7 +242,7 @@ module.exports = (knex) => {
       .catch((err) => {
         res.send(err);
       })
-//update the offers
+    //update the offers
     knex('users_offers')
       .where("user_id", req.params.id)
       .del()
@@ -238,12 +252,14 @@ module.exports = (knex) => {
             let id = req.params.id
             console.log("iamthefinalresult", result)
             let array = result.map(item => {
-              return { user_id: id, offer_id: item.id }
+              return {
+                user_id: id,
+                offer_id: item.id
+              }
             })
             console.log("offerrsssss", array)
             knex('users_offers').insert(array)
-              .then(() => {
-              })
+              .then(() => {})
               .catch((err) => {
                 res.send(err);
               })
@@ -253,10 +269,10 @@ module.exports = (knex) => {
           })
       })
       .catch((err) => {
-        console.log("users offerserrroooorr" )
+        console.log("users offerserrroooorr")
         res.send(err);
       })
-//update the needs
+    //update the needs
     knex('users_needs')
       .where("user_id", req.params.id)
       .del()
@@ -265,11 +281,13 @@ module.exports = (knex) => {
           .then((result) => {
             let id = req.params.id
             let array = result.map(item => {
-              return { user_id: id, need_id: item.id }
+              return {
+                user_id: id,
+                need_id: item.id
+              }
             })
             knex('users_needs').insert(array)
-              .then(() => {
-              })
+              .then(() => {})
               .catch((err) => {
                 res.send(err);
               })
@@ -287,7 +305,7 @@ module.exports = (knex) => {
     return knex
       .select()
       .from('messages')
-      .innerJoin('users', 'users.id','messages.from_user_id' )
+      .innerJoin('users', 'users.id', 'messages.from_user_id')
       .where({
         to_user_id: id
       })
