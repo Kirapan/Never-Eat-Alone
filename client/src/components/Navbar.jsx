@@ -14,15 +14,15 @@ class TopNav extends React.Component {
   }
 
   _logout() {
-    console.log("on logout");
     const state = this.state;
-    this.props.doLogin(...state, {email: ''});
+    //this.props.doLogin(...state, {email: ''});
     this.setState(...state, {email: ''});
+    this.props.logout();
   }
 
   render() {
     const button = this.props.email ?
-    (<span className="navbar-text my-2 my-lg-0"><Link to={'/api/users/' + this.props.id}>{this.props.email}</Link> | <Link to='/api/login'> Logout</Link></span>):
+    (<span className="navbar-text my-2 my-lg-0"><Link to={'/api/users/' + this.props.id}>{this.props.email}</Link> | <Link to='/' onClick={this._logout}> Logout</Link></span>):
     (<span className="navbar-text my-2 my-lg-0"><Link to='/api/login'>Login</Link> |
       <Link to='/api/signup'> Sign up</Link></span>);
 
