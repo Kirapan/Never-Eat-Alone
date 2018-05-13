@@ -39,7 +39,7 @@ class Parent extends React.Component {
 
   render() {
     return (<div>
-        <Navbar id={this.state.id} email={this.state.email} logout={this._logout}/>
+        <Navbar id={this.state.id} email={this.state.email} logout={this._logout.bind(this)}/>
         <Grid className='grid'>
           <Switch>
             <Route path='/api/users/:id/preferences' component={UserPreferences} />

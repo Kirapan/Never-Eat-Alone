@@ -13,7 +13,8 @@ class TopNav extends React.Component {
   componentWillMount() {
   }
 
-  _logout() {
+  _logout(e) {
+    e.preventDefault();
     const state = this.state;
     //this.props.doLogin(...state, {email: ''});
     this.setState(...state, {email: ''});
@@ -22,7 +23,7 @@ class TopNav extends React.Component {
 
   render() {
     const button = this.props.email ?
-    (<span className="navbar-text my-2 my-lg-0"><Link to={'/api/users/' + this.props.id}>{this.props.email}</Link> | <Link to='/' onClick={this._logout}> Logout</Link></span>):
+    (<span className="navbar-text my-2 my-lg-0"><Link to={'/api/users/' + this.props.id}>{this.props.email}</Link> | <Link to='/' onClick={this._logout.bind(this)}> Logout</Link></span>):
     (<span className="navbar-text my-2 my-lg-0"><Link to='/api/login'>Login</Link> |
       <Link to='/api/signup'> Sign up</Link></span>);
 
