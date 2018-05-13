@@ -143,9 +143,6 @@ class MyMapComponent extends React.Component {
 
     // Set markers; set map center to first search result
     const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
-    console.log('handlePlacesChanged', mapCenter.lat)
-    console.log('handlePlacesChanged', mapCenter.lng)
-    console.log('handlePlacesChanged', this.state)
     const state = this.state;
 
     this.setState(...state, {currentLocation: {
@@ -244,7 +241,7 @@ render(){
   return(
     <div>
       <GoogleMapExample
-        containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
+        containerElement={ <div style={{ height: `650px`, width: '500px' }} /> }
         mapElement={ <div style={{ height: `100%` }} /> }
       />
     </div>
