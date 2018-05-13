@@ -28,7 +28,7 @@ class TopNav extends React.Component {
       <Link to='/api/signup'> Sign up</Link></span>);
 
     const message = this.props.email ?
-    (<Link to={"/api/messages/"+ this.props.id}>Messages</Link>) :
+    (<Link to={"/api/users/"+ this.props.id + "/messages"}>Messages</Link>) :
     (<Link to="/api/users">Messages</Link>)
 
     return(

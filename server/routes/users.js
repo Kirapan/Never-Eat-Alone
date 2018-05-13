@@ -301,6 +301,28 @@ module.exports = (knex) => {
       })
   })
 
+  function sendMessages(from_id, to_id, content) {
+    return knex('messages')
+    .insert({
+      content: content,
+      from_user_id: from_id,
+      to_user_id: to_id,
+      read: false
+    })
+  }
+
+  router.put('/users/:from_id/messages/:to_id', (req, res) => {
+    console.log("i am the content", req.body)
+    sendMessages(req.params.from_id, req.params.to_id, req.body.content)
+      .then((messages) => {
+        console.log("ok")
+        res.json(messages);
+      })
+      .catch((err) => {
+        res.send(err);
+      })
+  })
+
   function getMessages(id) {
     return knex
       .select()
@@ -311,7 +333,7 @@ module.exports = (knex) => {
       })
   }
 
-  router.get('/messages/:id', (req, res) => {
+  router.get('/users/:id/messages', (req, res) => {
     getMessages(req.params.id)
       .then((messages) => {
         res.json(messages);
@@ -320,6 +342,8 @@ module.exports = (knex) => {
         res.send(err);
       })
   })
+
+
 
   function matching(id) {
     return "i am working on it!!!!Machine Learning!!!"
@@ -344,7 +368,8 @@ module.exports = (knex) => {
   router.get('/users/:id/favorites', (req, res) => {
     favoritePage(req.params.id)
       .then((favorites) => {
-        res.json(favorites.data[0]);
+        console.log("ia m favorites hahhaah", favorites)
+        res.json(favorites);
       })
       .catch((err) => {
         res.send(err);
