@@ -28,6 +28,8 @@ app.set('env', process.env['APP_ENV'] || 'development')
  app.set('view engine', 'ejs')
 
 
+
+
 // HTTP Request logging (disabled in test mode)
 if (app.settings.env !== 'test') {
   const loggerType = app.settings.env == 'production' ? 'common' : 'dev'

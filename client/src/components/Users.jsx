@@ -1,6 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Switch, Route} from 'react-router-dom'
 import Resource from '../models/resource'
+import Messagebox from './Messagebox'
 import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button } from 'react-bootstrap'
 
 const userData = Resource('users')
@@ -110,7 +111,7 @@ class Users extends React.Component {
         return (list.offers[0] === off || list.offers[1] === off || list.offers[2] === off)
       })
     } else {
-      newList =this.state.lists
+      newList = this.state.lists
     }
     this.setState({
       backup: newList
@@ -148,6 +149,32 @@ class Users extends React.Component {
     });
   }
 
+  _handleLike = (e) => {
+    console.log("klike")
+    let id = e.target.getAttribute('data-key')
+    if (this.state.favorites.indexOf(id) < 0) {
+      userData.addFavorites(this.props.id, id)
+        .then((result) => {
+          let fav_array = this.state.favorites.push(id)
+          this.setState({favorites: fav_array })
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+    } else {
+      userData.deleteFavorites(this.props.id, id)
+        .then((result) => {
+          let index = this.state.favorites.indexOf(id)
+          let array = this.state.favorites
+          let fav_array = array.splice(index, 1)
+          this.setState({favorites: fav_array })
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+    }
+  }
+
+  _handleInvite = () => {
+    console.log("message")
+  }
+
   render() {
 
     const displayImage = this.state.scrollData.map((scroll, idx) => {
@@ -156,8 +183,10 @@ class Users extends React.Component {
           <h5><strong>{scroll.name}</strong></h5>
           <h6>Industry: {scroll.industry}</h6>
           <h6>Offers: {scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
-          <Button bsStyle="primary">Like</Button>
-          <Button bsStyle="default">Invite</Button>
+          {this.state.favorites.indexOf(scroll.id) < 0 ?
+            (<Button bsStyle="primary" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
+            (<Button bsStyle="danger" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>)}
+          <Link to={`/api/users/${this.props.id}/messages/${scroll.id}`}><Button bsStyle="default">Invite</Button></Link>
         </Thumbnail>
       </Col>)
     })
@@ -172,7 +201,7 @@ class Users extends React.Component {
           <ButtonToolbar>
             <DropdownButton
               bsStyle='primary'
-              title={this.state.filter.industry? this.state.filter.industry : "industry"}
+              title={this.state.filter.industry ? this.state.filter.industry : "industry"}
               id='dropdown-basic-industry'
             >
               {this.state.industries.map((industry, idx) => {
@@ -183,7 +212,7 @@ class Users extends React.Component {
 
             <DropdownButton
               bsStyle='warning'
-              title={this.state.filter.offer? this.state.filter.offer :'Offers'}
+              title={this.state.filter.offer ? this.state.filter.offer : 'Offers'}
               id='dropdown-basic-offers'
             >
               {this.state.offers_needs.map((item, idx) => {
@@ -212,6 +241,10 @@ class Users extends React.Component {
             <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
             <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
         </Row>
+        <Switch>
+          <Route path='/api/users/:id/messages/:to_id' render={(props) => (
+              <Messagebox {...props} messages={this.state.messages} />)}/>
+        </Switch>
       </Grid>)
     }
   }
