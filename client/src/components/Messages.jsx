@@ -38,7 +38,7 @@ class Messages extends React.Component {
           >
           <p >{msg.content}</p><br style={inline}/>
           <small >{msg.created_at}           </small>
-          <Button bsStyle="warning">Reply</Button>
+          <Button bsStyle="warning" onClick>Reply</Button>
         </Popover>
       </div>);
   })
