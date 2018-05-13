@@ -60,7 +60,7 @@ const Resource = (endpoint) => {
   function addFavorites(from_id, to_id) {
     return api.put(`api/${endpoint}/${from_id}/favorites/${to_id}`)
   }
-  
+
   function deleteFavorites(from_id, to_id) {
     return api.delete(`api/${endpoint}/${from_id}/favorites/${to_id}`)
   }

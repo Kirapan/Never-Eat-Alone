@@ -7,18 +7,19 @@ import {
   withGoogleMap,
   GoogleMap,
   Marker,
-  InfoWindow
+  InfoWindow,
+  LatLngBounds
 } from "react-google-maps";
-import SearchBox from 'react-google-maps/lib/components/places/SearchBox'
+import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
 import Markers from './Marker';
 
 const userData = Resource('users');
 const _ = require("lodash");
-
+let _searchBox;
 
 class MyMapComponent extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       markers: [],
       lists: [],
@@ -28,12 +29,12 @@ class MyMapComponent extends React.Component {
         lat: '',
         lng: ''
       },
-      bounds: null,
-
+      bounds: null
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log("did update", this.props.personClicked)
     if (prevProps.google !== this.props.google) {
       console.log("did update ...")
       this.loadMap();
@@ -41,42 +42,43 @@ class MyMapComponent extends React.Component {
     if (prevState.currentLocation !== this.state.currentLocation) {
       console.log("did update recenter???");
       this.recenterMap();
-    }
+    }LatLngBounds
   }
 
   componentWillMount(){
-    userData.findAll()
-      .then((result) => {
-        console.log("findAll", result)
-        this.setState({
-          lists: result,
-          errors: null
-        })
-        //move all marker relevant info into array and to state
-        let allMarkers = []
-        result.map((resultMarker) => {
-          allMarkers.push({
-            info: {
-              id:      resultMarker.id,
-              name:    resultMarker.name,
-              image:   resultMarker.image,
-              company: resultMarker.company
-            },
-            location:  {
-              lat: resultMarker.lat,
-              lng: resultMarker.lng
-            }
-          })
-          const state = this.state;
-          this.setState(...state, {markers: allMarkers});
-        })
-        .catch((errors) => this.setState({ errors: errors }))
-      })
-      .catch((errors) => this.setState({ errors: errors }))
+    console.log("will mount", this.props.personClicked)
+//    userData.findAll()
+//      .then((result) => {
+//        this.setState({
+//          lists: result,
+//          errors: null
+//        })
+//        //move all marker relevant info into array and to state
+//        let allMarkers = []
+//        result.map((resultMarker) => {
+//          allMarkers.push({
+//            info: {
+//              id:      resultMarker.id,
+//              name:    resultMarker.name,
+//              image:   resultMarker.image,
+//              company: resultMarker.company
+//            },
+//            location:  {
+//              lat: resultMarker.lat,
+//              lng: resultMarker.lng
+//            }
+//          })
+//          const state = this.state;
+//          this.setState(...state, {markers: allMarkers});
+//        })
+//        .catch((errors) => this.setState({ errors: errors }))
+//      })
+//      .catch((errors) => this.setState({ errors: errors }))
   }
 
   componentDidMount(){
-    console.log("componentDidMount");
+    console.log("did mount", this.props.personClicked)
+
     if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((pos) => {
             const coords = pos.coords;
@@ -114,26 +116,42 @@ class MyMapComponent extends React.Component {
     })
   }
 
+  handleBoundsChanged() {
+    console.log("handleBoundsChanged");
+     this.setState({
+       //bounds: this._map.getBounds(),
+       center: this.state.center
+     });
+   }
+
   handleSearchBoxMounted(searchBox) {
-    this._searchBox = searchBox;
-    console.log('handleSearchBoxMounted')
+    console.log('handleSearchBoxMounted', searchBox);
+    _searchBox = searchBox;
   }
 
-  handlePlacesChanged() {
-    const places = this._searchBox.getPlaces();
+  handlePlacesChanged(){
+    console.log("handlePlacesChanged");
+    const places = _searchBox.getPlaces();
 
     // Add a marker for each place returned from search bar
     const markers = places.map(place => ({
-      position: place.geometry.location,
+      position: {
+        lat: place.geometry.viewport.b.b,
+        lng: place.geometry.viewport.f.f
+      }
     }));
 
     // Set markers; set map center to first search result
     const mapCenter = markers.length > 0 ? markers[0].position : this.state.center;
-    console.log('handlePlacesChanged')
-    this.setState({
-      center: mapCenter
-      //,      markers,
-    });
+    console.log('handlePlacesChanged', mapCenter.lat)
+    console.log('handlePlacesChanged', mapCenter.lng)
+    console.log('handlePlacesChanged', this.state)
+    const state = this.state;
+
+    this.setState(...state, {currentLocation: {
+                              lat: mapCenter.lat,
+                              lng: mapCenter.lng}
+                            });
   }
 
 render(){
@@ -168,21 +186,33 @@ render(){
       }
     ]
 
+
+  const personMarker =
+   <Markers
+       key={this.props.personClicked.id}
+       data={this.props.personClicked}
+       title="Click to zoom"
+       icon={'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|00688b'}
+     />
+
   const GoogleMapExample = withGoogleMap(props => (
     <GoogleMap
       defaultCenter = {{lat: parseFloat(this.state.currentLocation.lat),
                         lng: parseFloat(this.state.currentLocation.lng)}}
-      defaultZoom = { 13 }
+      defaultZoom = { 11 }
+      onBoundsChanged={this.state.bounds}
+      onCenterChanged={this.currentLocation}
     >
+    <div>
     <SearchBox
-      onSearchBoxMounted={this.handleSearchBoxMounted}
+      ref={this.handleSearchBoxMounted}
       bounds={this.state.bounds}
-      onPlacesChanged={this.handlePlacesChanged}
+      onPlacesChanged={this.handlePlacesChanged.bind(this)}
       controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
     >
       <input
         type="text"
-        placeholder="Customized your placeholder"
+        placeholder="Please enter"
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
@@ -198,15 +228,17 @@ render(){
         }}
       />
     </SearchBox>
-    {marker.map((marker, index)=> {
-      return (
-        <Markers
-          key={index}
-          data={marker}
-          title="Click to zoom"
-        />
-      )
-    })}
+    {this.props.marker.map((marker, index)=> {
+     return (
+       <Markers
+         key={index}
+         data={marker}
+         title="Click to zoom"
+         icon={'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000'}
+       />)
+     })}
+    {personMarker}
+    </div>
     </GoogleMap>
   ));
   return(

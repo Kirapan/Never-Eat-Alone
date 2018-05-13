@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Resource from '../models/resource'
 import { Grid, Row, Col, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button } from 'react-bootstrap'
+import Maps from './Map';
 
 const userData = Resource('users')
 

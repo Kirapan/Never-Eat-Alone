@@ -17,9 +17,18 @@ class Markers extends Component {
     }
   }
 
-  componentWillMount(){
-    //console.log("in marker", this.props.data.location);
+  componentDidUpdate(){
+    console.log("in componentDidUpdate marker");
   }
+
+  componentDidMount(){
+    console.log("in componentDidMount marker");
+  }
+
+  componentWillMount(){
+    console.log("in componentWillMount marker");
+  }
+
   handleToggle = () => {
     if (this.state.isOpen){
       this.setState({
@@ -33,11 +42,12 @@ class Markers extends Component {
   }
 
   render() {
-    return (<Marker position={{lat: parseFloat(this.props.data.location.lat),
-                        lng: parseFloat(this.props.data.location.lng)}}
+    return (<Marker position={{lat: parseFloat(this.props.data.lat),
+                        lng: parseFloat(this.props.data.lng)}}
               onClick={this.handleToggle}
+              icon={this.props.icon}
       >
-      {this.state.isOpen && <InfoWindows info={this.props.data.info} open={this.state.isOpen} onClose={this.handleToggle}/>}
+      {this.state.isOpen && <InfoWindows info={this.props.data} open={this.state.isOpen} onClose={this.handleToggle}/>}
       </Marker>
     );
   }

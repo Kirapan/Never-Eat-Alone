@@ -7,7 +7,7 @@ const jwt     = require("jsonwebtoken");
 
 module.exports = (knex) => {
 
-  router.post("/verifyToken", verifyToken, (req, res) => {
+  router.post('/verifyToken', verifyToken, (req, res) => {
     console.log("in server verify", req.headers.Authorization);
     jwt.verify(req.token, process.env.SECRETKEY, (err, authData) => {
       console.log("in verify in post");
@@ -121,6 +121,7 @@ module.exports = (knex) => {
     knex
       .select("*")
       .from("users")
+      .where('id', '<', 11)
       .then((results) => {
         res.json(results);
       });
@@ -148,7 +149,7 @@ module.exports = (knex) => {
   })
 
   function saveUserProfile(id, data, industry_id) {
-       
+
     return knex('users')
       .where('id', '=', id)
       .update({

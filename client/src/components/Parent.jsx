@@ -1,16 +1,17 @@
-import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-import { Grid } from 'react-bootstrap'
-import Navbar from './Navbar'
-import Index from './Index'
-import Users from './Users'
-import UserProfile from './UserProfile'
-import UserPreferences from './UserPreferences'
-import Messages from './Messages'
-import Login from './Login'
-import Signup from './Signup'
-import Footer from './Footer'
-import Maps from './Map'
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { Grid } from 'react-bootstrap';
+import Navbar from './Navbar';
+import Index from './Index';
+import Users from './Users';
+import UserProfile from './UserProfile';
+import UserPreferences from './UserPreferences';
+import Messages from './Messages';
+import Login from './Login';
+import Signup from './Signup';
+import Footer from './Footer';
+import Maps from './Map';
+import UsersWithMaps from './UsersWithMaps';
 
 class Parent extends React.Component {
   constructor(props) {
@@ -32,16 +33,15 @@ class Parent extends React.Component {
   }
 
   render() {
-    return (
-      <div>
+    return (<div>
         <Navbar id={this.state.id} email={this.state.email} />
-        <Grid>
+        <Grid className='grid'>
           <Switch>
-            <Route path="/api/users/:id/preferences" component={UserPreferences} />
-            <Route path="/api/users/:id" component={UserProfile} />
-            <Route path="/api/users" render={(props) => (
+            <Route path='/api/users/:id/preferences' component={UserPreferences} />
+            <Route path='/api/users/:id' component={UserProfile} />
+            <Route path='/api/users' render={(props) => (
               <Users {...props} id={this.state.id} email={this.state.email}/>)}  />
-            <Route path="/api/messages/:id/" render={(props) => (
+            <Route path='/api/messages/:id/' render={(props) => (
               <Messages {...props} id={this.state.id} email={this.state.email} />)} />
             <Route exact path='/api/login' render={(props) => (
               <Login {...props} doLogin={this._doLogin} />
@@ -49,8 +49,10 @@ class Parent extends React.Component {
             <Route exact path='/api/signup' render={(props) => (
               <Signup {...props} doLogin={this._doLogin} />
             )} />
-            <Route path="/api/maps" component={Maps} />
-            <Route path="/" component={Index} />
+            <Route exact path='/api/maps' render={(props) => (
+              <UsersWithMaps {...props} id={this.state.id} email={this.state.email}/>
+              )} />
+            <Route path='/' component={Index} />
           </Switch>
         </Grid>
         <Footer />
@@ -58,5 +60,4 @@ class Parent extends React.Component {
     )
   }
 }
-
 export default Parent;
