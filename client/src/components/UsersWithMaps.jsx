@@ -153,12 +153,16 @@ export class UsersWithMaps extends Component {
     const displayImage = this.state.scrollData.map((scroll, idx) => {
       //console.log("in Thumbnail", list);
       return (<Col xs={3} md={6}>
-        <Thumbnail src={scroll.image} alt="242x200" id={scroll.id} onClick={this._onClick.bind(this, scroll)}>
+        <Thumbnail className='usersThumb' src={scroll.image} alt="242x200" id={scroll.id} onClick={this._onClick.bind(this, scroll)}>
+          <div className='caption'>
           <h5><strong>{scroll.name}</strong></h5>
           <h6>Industry: {scroll.industry}</h6>
           <h6>Offers: {scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
+          </div>
+          <div className='captionButtons'>
           <Button bsStyle="primary">Like</Button>
           <Button bsStyle="default">Invite</Button>
+          </div>
         </Thumbnail>
       </Col>)
     })
@@ -170,7 +174,7 @@ export class UsersWithMaps extends Component {
     //} else {
     return (
       <Grid>
-        <Row top="xs">
+        <Row top="xs" className='usersLeft'>
         <Col xs={12} md={6}>
           <Row>
             <ButtonToolbar>
@@ -218,10 +222,7 @@ export class UsersWithMaps extends Component {
         </Row>
         </Col>
         <Col xs={12} md={6}>
-          <br/>
-          <br/>
-          <br/>
-          <Row>
+          <Row className='usersRight'>
             <Map marker={this.state.scrollData} personClicked={this.state.personClicked} zoom={12}/>
           </Row>
         </Col>

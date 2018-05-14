@@ -141,7 +141,7 @@ class userProfile extends React.Component {
               </label> */}
               <label>
                 Industry
-          <select value={this.state.profile.title} name="industry" onChange={this._handleIndustryChange} >
+          <select value={this.state.profile.title} name="Industry" onChange={this._handleIndustryChange} >
                   {industries}
                 </select>
               </label>

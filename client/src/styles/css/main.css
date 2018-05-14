@@ -1,7 +1,17 @@
 html, body {
   height: 100%
 }
+/*Navbar */
+.navbar {
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+}
 
+.navbar-text {
+  float: right;
+}
+/*Footer */
 .page-footer {
   position: relative;
   right: 0;
@@ -12,11 +22,7 @@ html, body {
   background-color: #efefef;
   text-align: center;
 }
-
-.navbar-text {
-  float: right;
-}
-
+/*Login and Signup */
 .login {
   display: flex;
 }
@@ -29,4 +35,25 @@ html, body {
 
 .submitButton {
   margin: 15px;
+}
+/*UsersWithMaps left and right column */
+.usersRight {
+  position: fixed;
+}
+
+.usersLeft {
+  margin-top: 60px;
+}
+
+.thumbnail .caption {
+    height: 110px;
+}
+
+.usersThumb {
+  width: 210px;
+  height: 290px;
+}
+
+.btn-primary {
+  margin-right: 5px;
 }
