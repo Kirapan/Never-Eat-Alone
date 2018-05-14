@@ -47,8 +47,11 @@ class TopNav extends React.Component {
           <NavItem eventKey={2}>
             {message}
           </NavItem>
-          <NavItem eventKey={2}>
-            <Link to="/api/maps">Map</Link>
+          <NavItem eventKey={4}>
+            <Link to={'/api/users/' + this.props.id + '/favorites'}>Favorites</Link>
+          </NavItem>
+          <NavItem eventKey={3}>
+            <Link to="/api/users/">Map</Link>
           </NavItem>
         </Nav>
         {button}

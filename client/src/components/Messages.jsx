@@ -37,15 +37,20 @@ class Messages extends React.Component {
           positionLeft={300}
           positionTop={90 + 160 * idx}
           title={msg.name}
-          style={{zIndex: 8}}
+          style={{ zIndex: 8 }}
         >
           <p >{msg.content}</p><br style={inline} />
           <small >{msg.created_at}           </small>
-          <Link to={`/api/users/${this.state.userId}/messages/${msg.from_user_id}`}><Button bsStyle="warning">Reply</Button></Link>
+          <Link to={{
+            pathname: `/api/users/${this.state.userId}/messages/${msg.from_user_id}`,
+            state: { modal: true }
+          }
+          }>
+            <Button bsStyle="warning">Reply</Button></Link>
         </Popover>
         <Switch>
           <Route path='/api/users/:id/messages/:to_id' render={(props) => (
-              <Messagebox {...props} messages={this.state.messages} />)}/>
+            <Messagebox {...props} messages={this.state.messages} />)} />
         </Switch>
       </div>);
     })

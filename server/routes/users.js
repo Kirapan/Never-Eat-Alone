@@ -130,10 +130,9 @@ module.exports = (knex) => {
       .leftJoin('users_offers', "users.id", "users_offers.user_id")
       .leftJoin('industries', 'users.industry_id', 'industries.id')
       .leftJoin('offers_needs', "users_offers.offer_id", "offers_needs.id")
-      .select("users.*", 'industries.title as industry',knex.raw('ARRAY_AGG(offers_needs.title) as offers'))
-      .groupBy('users.id','industries.title')
+      .select("users.*", 'industries.title as industry', knex.raw('ARRAY_AGG(offers_needs.title) as offers'))
+      .groupBy('users.id', 'industries.title')
       .then((results) => {
-        console.log("i am resultssss", results)
         res.json(results);
       });
   });
@@ -144,8 +143,6 @@ module.exports = (knex) => {
       .from('users')
       .leftJoin('industries', 'users.industry_id', 'industries.id')
       .where('users.id', '=', id)
-
-    //select * from users u inner join industries i on u.industry_id = i.id where u.id = 1;
   }
 
   router.get('/users/:id', (req, res) => {
@@ -303,12 +300,12 @@ module.exports = (knex) => {
 
   function sendMessages(from_id, to_id, content) {
     return knex('messages')
-    .insert({
-      content: content,
-      from_user_id: from_id,
-      to_user_id: to_id,
-      read: false
-    })
+      .insert({
+        content: content,
+        from_user_id: from_id,
+        to_user_id: to_id,
+        read: false
+      })
   }
 
   router.put('/users/:from_id/messages/:to_id', (req, res) => {
@@ -369,7 +366,11 @@ module.exports = (knex) => {
     favoritePage(req.params.id)
       .then((favorites) => {
         console.log("ia m favorites hahhaah", favorites)
-        res.json(favorites);
+        let result = [];
+        favorites.forEach(item => {
+          result.push(item.favoritee_id)
+        });
+        res.json(result);
       })
       .catch((err) => {
         res.send(err);
@@ -384,8 +385,27 @@ module.exports = (knex) => {
       })
   }
 
-  router.post('/users/:from_id/favorites/:to_id', (req, res) => {
+  router.put('/users/:from_id/favorites/:to_id', (req, res) => {
     favoriteUser(req.params.from_id, req.params.to_id)
+      .then((results) => {
+        res.json(results);
+      })
+      .catch((err) => {
+        res.send(err);
+      })
+  })
+
+  function deleteFavorite(from_id, to_id) {
+    return knex
+      .select()
+      .from('favorites')
+      .where('favoritor_id', '=', from_id)
+      .andWhere('favoritee_id', '=', to_id)
+      .del()
+  }
+
+  router.delete('/users/:from_id/favorites/:to_id', (req, res) => {
+    deleteFavorite(req.params.from_id, req.params.to_id)
       .then((results) => {
         res.json(results);
       })
