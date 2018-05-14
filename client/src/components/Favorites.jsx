@@ -3,7 +3,7 @@ import { Link, Switch, Route } from 'react-router-dom'
 import Resource from '../models/resource'
 import Maps from './Map';
 import Messagebox2 from './Messagebox2'
-import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 const userData = Resource('users')
 
@@ -11,7 +11,7 @@ class Favorites extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      id:(this.props.match.params.id || null),
+      id: (this.props.match.params.id || null),
       lists: [],
       favorites: [],
       liked: false
@@ -22,10 +22,9 @@ class Favorites extends React.Component {
     userData.findAll()
       .then((result) => {
         console.log("find alllllll???", result)
-        this.setState({
-          lists: result,
-          errors: null
-        })
+        const state = this.state;
+        this.setState(...state, { lists: result })
+        console.log("iam listtttttt", this.state.lists)
       })
       .catch((errors) => this.setState({ errors: errors }))
 
@@ -76,7 +75,7 @@ class Favorites extends React.Component {
         console.log("ok")
       })
       .catch((errors) => this.setState({ errors: errors }))
-      this.toggleModal()
+    this.toggleModal()
   }
 
   _handleChange = (e) => {
@@ -90,7 +89,7 @@ class Favorites extends React.Component {
       return this.state.favorites.includes(list.id)
     })
 
-    const displayImage = this.state.newList.map((prof, idx) => {
+    const displayImage = newList.map((prof, idx) => {
       return (<Col xs={3} md={3}>
         <Thumbnail src={prof.image} alt="242x200" >
           <h5><strong>{prof.name}</strong></h5>
@@ -102,22 +101,22 @@ class Favorites extends React.Component {
           <Button bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
         </Thumbnail>
         <Modal show={this.state.isOpen}
-            onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
-            <Modal.Header closeButton>
-              <Modal.Title>Reply to {prof.name}</Modal.Title>
-            </Modal.Header>
-              <Modal.Body>
-                <FormGroup controlId="formControlsTextarea">
-                  <ControlLabel>Message:</ControlLabel>
-                  <FormControl data-key={prof.id} componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
-                </FormGroup>
-              </Modal.Body>
+          onHide={this.toggleModal.bind(this)} style={{ zIndex: 1200 }}>
+          <Modal.Header closeButton>
+            <Modal.Title>Reply to {prof.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <FormGroup controlId="formControlsTextarea">
+              <ControlLabel>Message:</ControlLabel>
+              <FormControl data-key={prof.id} componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
+            </FormGroup>
+          </Modal.Body>
 
-              <Modal.Footer>
-                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
-              </Modal.Footer>
-        
-          </Modal>
+          <Modal.Footer>
+            <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
+          </Modal.Footer>
+
+        </Modal>
 
       </Col >)
     })
@@ -128,34 +127,6 @@ class Favorites extends React.Component {
       </Row>)
     } else {
       return (<Grid>
-        <Row>
-          <ButtonToolbar>
-            <DropdownButton
-              bsStyle='primary'
-              title={this.state.filter.industry ? this.state.filter.industry : "industry"}
-              id='dropdown-basic-industry'
-            >
-              {this.state.industries.map((industry, idx) => {
-                return <MenuItem eventKey={industry.title} onSelect={this._handleIndustrySelect.bind(this)}>{industry.title}</MenuItem>
-              })}
-              <MenuItem eventKey="" onSelect={this._handleIndustrySelect.bind(this)}>All</MenuItem>
-            </DropdownButton>
-
-            <DropdownButton
-              bsStyle='warning'
-              title={this.state.filter.offer ? this.state.filter.offer : 'Offers'}
-              id='dropdown-basic-offers'
-            >
-              {this.state.offers_needs.map((item, idx) => {
-                return <MenuItem eventKey={item.title} onSelect={this._handleOfferSelect.bind(this)}>{item.title}</MenuItem>
-              })}
-              <MenuItem eventKey="" onSelect={this._handleOfferSelect.bind(this)}>All</MenuItem>
-            </DropdownButton>
-
-            {/* {this.state.liked? (<Button bsStyle='danger' onClick={this._handleLiked.bind(this)}>Liked</Button>):(<Button bsStyle='info' onClick={this._handleLiked.bind(this)}>Liked</Button>)} */}
-          </ButtonToolbar>
-        </Row>
-        <br />
         <Row>
           {displayImage}
         </Row>
