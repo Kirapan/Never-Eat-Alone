@@ -38,34 +38,24 @@ class Login extends React.Component {
       password: this.state.password
     }
 
-    const test = "test"
-
-    userData.saveMessage(test)
+    userData.login(loginInfo)
     .then((result) => {
-      console.log("great", result);
+      console.log("after login", result);
+      userData.verifyToken(result)
+      .then((result) => {
+        const state = this.state;
+        this.setState(...state, {id: result.authData.id,
+                                 email: result.authData.email});
+        this.props.doLogin(this.state);
+        this.props.history.push('/');
+      })
+      .catch((err) => {
+        console.log("verifyToken not valid");
+      });
     })
     .catch((err) => {
-      console.log(err);
-    })
-
-//    userData.login(loginInfo)
-//    .then((result) => {
-//      console.log("after login", result);
-//      userData.verifyToken(result)
-//      .then((result) => {
-//        const state = this.state;
-//        this.setState(...state, {id: result.authData.id,
-//                                 email: result.authData.email});
-//        this.props.doLogin(this.state);
-//        this.props.history.push('/');
-//      })
-//      .catch((err) => {
-//        console.log("verifyToken not valid");
-//      });
-//    })
-//    .catch((err) => {
-//      console.log("login not succesful");
-//    });
+      console.log("login not succesful");
+    });
   }
 
   render() {
