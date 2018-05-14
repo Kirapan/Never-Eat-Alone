@@ -6,13 +6,17 @@ import Index from './Index';
 import Users from './Users';
 import UserProfile from './UserProfile';
 import UserPreferences from './UserPreferences';
+import Messagebox from './Messagebox'
 import Messages from './Messages';
 import Login from './Login';
 import Signup from './Signup';
 import Footer from './Footer';
 import Maps from './Map';
+import Favorites from './Favorites'
 import UsersWithMaps from './UsersWithMaps';
 import Restaurant from './Restaurant';
+import Resource from '../models/resource'
+const userData = Resource('users')
 
 class Parent extends React.Component {
   constructor(props) {
@@ -35,7 +39,7 @@ class Parent extends React.Component {
 
   _logout() {
     const state = this.state;
-    this.setState(...state, {id: '', email: ''});
+    this.setState(...state, { id: '', email: '', message: [] });
   }
 
   render() {
@@ -43,22 +47,23 @@ class Parent extends React.Component {
         <Navbar id={this.state.id} email={this.state.email} logout={this._logout.bind(this)}/>
         <Grid className='grid'>
           <Switch>
-            <Route path='/api/restaurant' component={Restaurant} />
             <Route path='/api/users/:id/preferences' component={UserPreferences} />
+            <Route path='/api/users/:id/messages' render={(props) => (
+              <Messages {...props} id={this.state.id} email={this.state.email} />)} />
+            <Route path='api/users/:id/favorites' render={(props) => (
+              <Favorites {...props} id={this.state.id} email={this.state.email} />)} />
             <Route path='/api/users/:id' component={UserProfile} />
             <Route path='/api/users' render={(props) => (
               <Users {...props} id={this.state.id} email={this.state.email}/>)}  />
             <Route path='/api/messages/:id/' render={(props) => (
               <Messages {...props} id={this.state.id} email={this.state.email} />)} />
             <Route exact path='/api/login' render={(props) => (
-              <Login {...props} doLogin={this._doLogin} />
-            )} />
+              <Login {...props} doLogin={this._doLogin} /> )} />
             <Route exact path='/api/signup' render={(props) => (
-              <Signup {...props} doLogin={this._doLogin} />
-            )} />
+              <Signup {...props} doLogin={this._doLogin} /> )} />
             <Route exact path='/api/maps' render={(props) => (
-              <UsersWithMaps {...props} id={this.state.id} email={this.state.email}/>
-            )} />
+              <UsersWithMaps {...props} id={this.state.id} email={this.state.email}/> )} />
+            <Route path='/api/restaurant' component={Restaurant} />
             <Route path='/' component={Index} />
           </Switch>
         </Grid>

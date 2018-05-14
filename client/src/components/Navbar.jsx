@@ -16,7 +16,6 @@ class TopNav extends React.Component {
   _logout(e) {
     e.preventDefault();
     const state = this.state;
-    //this.props.doLogin(...state, {email: ''});
     this.setState(...state, {email: ''});
     this.props.logout();
   }
@@ -28,7 +27,7 @@ class TopNav extends React.Component {
       <Link to='/api/signup'> Sign up</Link></span>);
 
     const message = this.props.email ?
-    (<Link to={"/api/messages/"+ this.props.id}>Messages</Link>) :
+    (<Link to={"/api/users/"+ this.props.id + "/messages"}>Messages</Link>) :
     (<Link to="/api/users">Messages</Link>)
 
     return(
@@ -52,6 +51,9 @@ class TopNav extends React.Component {
           </NavItem>
           <NavItem eventKey={4}>
             <Link to='/api/restaurant'>Restaurant</Link>
+          </NavItem>
+          <NavItem eventKey={5}>
+            <Link to={'/api/users/' + this.props.id + '/favorites'}>Favorites</Link>
           </NavItem>
         </Nav>
         {button}

@@ -1,6 +1,8 @@
 import React from 'react'
-import { Grid,Popover, Label, Image, Button } from 'react-bootstrap'
+import { Grid, Popover, Label, Image, Button } from 'react-bootstrap'
+import { Link, Switch, Route } from 'react-router-dom'
 import Resource from '../models/resource'
+import Messagebox from './Messagebox'
 
 const userData = Resource('users')
 
@@ -22,27 +24,37 @@ class Messages extends React.Component {
   }
 
   render() {
-    const sortedList = this.state.messages.sort((a, b)=> {
-      return b.created_at- a.created_at
+    const sortedList = this.state.messages.sort((a, b) => {
+      return b.created_at - a.created_at
     })
-    const inline = { borderTop: '1px solid #dadce0'}
+    const inline = { borderTop: '1px solid #dadce0' }
     const messageList = sortedList.map((msg, idx) => {
       return (<div>
-      <Image src={msg.image} alt={msg.name} style={{margin: 30, width: 128 }} rounded/>
+        <Image src={msg.image} alt={msg.name} style={{ margin: 30, width: 128 }} rounded />
         <Popover
           id={'popover-basic-' + idx}
           placement="right"
           positionLeft={300}
-          positionTop={90+160*idx}
+          positionTop={90 + 160 * idx}
           title={msg.name}
-          >
-          <p >{msg.content}</p><br style={inline}/>
+          style={{ zIndex: 8 }}
+        >
+          <p >{msg.content}</p><br style={inline} />
           <small >{msg.created_at}           </small>
-          <Button bsStyle="warning" onClick>Reply</Button>
+          <Link to={{
+            pathname: `/api/users/${this.state.userId}/messages/${msg.from_user_id}`,
+            state: { modal: true }
+          }
+          }>
+            <Button bsStyle="warning">Reply</Button></Link>
         </Popover>
+        <Switch>
+          <Route path='/api/users/:id/messages/:to_id' render={(props) => (
+            <Messagebox {...props} messages={this.state.messages} />)} />
+        </Switch>
       </div>);
-  })
-  return(
+    })
+    return (
       <div>
         {messageList}
       </div >

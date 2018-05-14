@@ -13,10 +13,10 @@ endpoints that behave differently.
 const Resource = (endpoint) => {
 
   // We're extracting result.data and returning it on success to avoid
-  function findAll () {
+  function findAll() {
     return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}`)
-        .then((result) =>{
+        .then((result) => {
           resolve(result.data)
         })
         .catch((errors) => reject(errors))
@@ -26,7 +26,7 @@ const Resource = (endpoint) => {
   function findUserProfile(id) {
     return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}`)
-        .then((result) =>{
+        .then((result) => {
           resolve(result.data)
         })
         .catch((errors) => reject(errors))
@@ -42,18 +42,24 @@ const Resource = (endpoint) => {
   }
 
   function findMessages(id) {
-    return new Promise((resolve, reject)=>{
-      api.get(`api/messages/${id}`)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+    return new Promise((resolve, reject) => {
+      api.get(`api/${endpoint}/${id}/messages`)
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
+  function sendMessages(from_id, to_id, content) {
+    console.log("io am hereerererein rotuers", content)
+    let data = {content: content}
+    return api.put(`api/${endpoint}/${from_id}/messages/${to_id}`,data)
+  }
+
   function findFavorites(id) {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}/favorites`)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
@@ -66,74 +72,78 @@ const Resource = (endpoint) => {
   }
 
   function findMatches(id) {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}/matches`)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
   function login(loginInfo) {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       api.post(`api/getToken`, loginInfo)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
-  function findIdustries(){
-    return new Promise((resolve, reject)=>{
+  function findIdustries() {
+    return new Promise((resolve, reject) => {
       api.get('api/industries')
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
-  function findOffersNeeds(){
-    return new Promise((resolve, reject)=>{
+  function findOffersNeeds() {
+    return new Promise((resolve, reject) => {
       api.get('api/offers_needs')
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
   function verifyToken(token) {
-    console.log("in verifyToken", {token});
+    console.log("in verifyToken", {
+      token
+    });
     return new Promise((resolve, reject) => {
-      api.post('api/verifyToken', {token})
-      .then((result) => resolve(result.data))
+      api.post('api/verifyToken', {
+          token
+        })
+        .then((result) => resolve(result.data))
     })
   }
 
-  function findUserIndustries(id){
-    return new Promise((resolve, reject)=>{
+  function findUserIndustries(id) {
+    return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}/industries`)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
-  function findUserNeeds(id){
-    return new Promise((resolve, reject)=>{
+  function findUserNeeds(id) {
+    return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}/needs`)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
-  function findUserOffers(id){
-    return new Promise((resolve, reject)=>{
+  function findUserOffers(id) {
+    return new Promise((resolve, reject) => {
       api.get(`api/${endpoint}/${id}/offers`)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
   function signup(signupInfo) {
-    return new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject) => {
       api.post(`api/signup`, signupInfo)
-      .then((result)=> resolve(result.data))
-      .catch((errors) => reject(errors))
+        .then((result) => resolve(result.data))
+        .catch((errors) => reject(errors))
     })
   }
 
@@ -143,6 +153,7 @@ const Resource = (endpoint) => {
     saveUserProfile,
     saveUserPreferences,
     findMessages,
+    sendMessages,
     findFavorites,
     addFavorites,
     deleteFavorites,

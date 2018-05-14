@@ -1,8 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Switch, Route } from 'react-router-dom'
 import Resource from '../models/resource'
 import Maps from './Map';
-import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button } from 'react-bootstrap'
+import Messagebox2 from './Messagebox2'
+import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 const userData = Resource('users')
 
@@ -21,7 +22,11 @@ class Users extends React.Component {
         industry: "",
         offer: ""
       },
-      loadMore: true
+      loadMore: true,
+      isOpen: false,
+      content: "",
+      to_user: "",
+      liked: false
     }
   }
 
@@ -111,7 +116,7 @@ class Users extends React.Component {
         return (list.offers[0] === off || list.offers[1] === off || list.offers[2] === off)
       })
     } else {
-      newList =this.state.lists
+      newList = this.state.lists
     }
     this.setState({
       backup: newList
@@ -149,6 +154,67 @@ class Users extends React.Component {
     });
   }
 
+  _handleLike = (e) => {
+    console.log("klike")
+    let id = e.target.getAttribute('data-key')
+    id = parseInt(id)
+    if (this.state.favorites.indexOf(id) < 0) {
+      userData.addFavorites(this.props.id, id)
+        .then((result) => {
+          console.log("i am in adddddddd")
+          let fav_array = this.state.favorites
+          fav_array.push(id)
+          this.setState({ favorites: fav_array })
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+    } else {
+      userData.deleteFavorites(this.props.id, id)
+        .then((result) => {
+          console.log("i am herer")
+          let index = this.state.favorites.indexOf(id)
+          let fav_array = this.state.favorites
+          fav_array.splice(index, 1)
+          this.setState({ favorites: fav_array })
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+    }
+  }
+
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  _handleSubmit = (e) => {
+    userData.sendMessages(this.props.id, this.state.to_user, this.state.content)
+      .then(() => {
+        console.log("ok")
+      })
+      .catch((errors) => this.setState({ errors: errors }))
+      this.toggleModal()
+  }
+
+  _handleChange = (e) => {
+    let to_user = e.target.getAttribute('data-key')
+    to_user = parseInt(to_user)
+    this.setState({ content: e.target.value, to_user: to_user })
+  }
+
+  // _handleLiked = (e) => {
+  //   let newList = []
+  //   newList = this.state.lists.filter((item)=> {
+  //     return this.state.favorites.includes(item.id)
+  //   })
+  //   this.setState({
+  //     backup: newList,
+  //     liked: !this.state.liked
+  //   }, () => {
+  //     let data = this.state.backup.slice(0, 20)
+  //     this.setState({ scrollData: data })
+  //   });
+  // }
+
   render() {
 
     const displayImage = this.state.scrollData.map((scroll, idx) => {
@@ -157,10 +223,30 @@ class Users extends React.Component {
           <h5><strong>{scroll.name}</strong></h5>
           <h6>Industry: {scroll.industry}</h6>
           <h6>Offers: {scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
-          <Button bsStyle="primary">Like</Button>
-          <Button bsStyle="default">Invite</Button>
+          {this.state.favorites.indexOf(scroll.id) < 0 ?
+            (<Button bsStyle="primary" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
+            (<Button bsStyle="danger" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
+          <Button bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
         </Thumbnail>
-      </Col>)
+        <Modal show={this.state.isOpen}
+            onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Reply to {scroll.name}</Modal.Title>
+            </Modal.Header>
+              <Modal.Body>
+                <FormGroup controlId="formControlsTextarea">
+                  <ControlLabel>Message:</ControlLabel>
+                  <FormControl data-key={scroll.id} componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
+                </FormGroup>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
+              </Modal.Footer>
+        
+          </Modal>
+
+      </Col >)
     })
 
     if (!this.props.email) {
@@ -173,7 +259,7 @@ class Users extends React.Component {
           <ButtonToolbar>
             <DropdownButton
               bsStyle='primary'
-              title={this.state.filter.industry? this.state.filter.industry : "industry"}
+              title={this.state.filter.industry ? this.state.filter.industry : "industry"}
               id='dropdown-basic-industry'
             >
               {this.state.industries.map((industry, idx) => {
@@ -184,7 +270,7 @@ class Users extends React.Component {
 
             <DropdownButton
               bsStyle='warning'
-              title={this.state.filter.offer? this.state.filter.offer :'Offers'}
+              title={this.state.filter.offer ? this.state.filter.offer : 'Offers'}
               id='dropdown-basic-offers'
             >
               {this.state.offers_needs.map((item, idx) => {
@@ -193,15 +279,7 @@ class Users extends React.Component {
               <MenuItem eventKey="" onSelect={this._handleOfferSelect.bind(this)}>All</MenuItem>
             </DropdownButton>
 
-            {/* <DropdownButton
-              bsStyle='info'
-              title='Location'
-              id='dropdown-basic-location'
-            >
-              <MenuItem eventKey="idx">Less than 2km</MenuItem>
-              <MenuItem eventKey="idx">Less than 5km</MenuItem>
-              <MenuItem eventKey="idx">More than 5km</MenuItem>
-            </DropdownButton> */}
+            {/* {this.state.liked? (<Button bsStyle='danger' onClick={this._handleLiked.bind(this)}>Liked</Button>):(<Button bsStyle='info' onClick={this._handleLiked.bind(this)}>Liked</Button>)} */}
           </ButtonToolbar>
         </Row>
         <br />
@@ -213,6 +291,9 @@ class Users extends React.Component {
             <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
             <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
         </Row>
+
+
+
       </Grid>)
     }
   }
