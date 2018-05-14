@@ -4,11 +4,12 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom'
 import Resource from '../models/resource'
 import Users from './Users';
+import Messagebox2 from './Messagebox2';
 import Map from './Map';
 
 const userData = Resource('users')
 
-export class UsersWithMaps extends Component {
+class UsersWithMaps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +25,10 @@ export class UsersWithMaps extends Component {
         offer: ""
       },
       loadMore: true,
+      isOpen: false,
+      content: '',
+      to_user: '',
+      liked: false,
       personClicked: ''
     }
   }
@@ -134,12 +139,51 @@ export class UsersWithMaps extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log("componentDidUpdate");
+_handleLike = (e) => {
+    console.log("klike")
+    let id = e.target.getAttribute('data-key')
+    id = parseInt(id)
+    if (this.state.favorites.indexOf(id) < 0) {
+      userData.addFavorites(this.props.id, id)
+        .then((result) => {
+          console.log("i am in adddddddd")
+          let fav_array = this.state.favorites
+          fav_array.push(id)
+          this.setState({ favorites: fav_array })
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+    } else {
+      userData.deleteFavorites(this.props.id, id)
+        .then((result) => {
+          console.log("i am herer")
+          let index = this.state.favorites.indexOf(id)
+          let fav_array = this.state.favorites
+          fav_array.splice(index, 1)
+          this.setState({ favorites: fav_array })
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+    }
   }
 
-  componentDidMount() {
-    console.log("componentDidMount");
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  _handleSubmit = (e) => {
+    userData.sendMessages(this.props.id, this.state.to_user, this.state.content)
+      .then(() => {
+        console.log("ok")
+      })
+      .catch((errors) => this.setState({ errors: errors }))
+      this.toggleModal()
+  }
+
+  _handleChange = (e) => {
+    let to_user = e.target.getAttribute('data-key')
+    to_user = parseInt(to_user)
+    this.setState({ content: e.target.value, to_user: to_user })
   }
 
   _onClick(personClicked){
@@ -150,86 +194,23 @@ export class UsersWithMaps extends Component {
   }
 
   render() {
-    const displayImage = this.state.scrollData.map((scroll, idx) => {
-      //console.log("in Thumbnail", list);
-      return (<Col xs={3} md={6}>
-        <Thumbnail className='usersThumb' src={scroll.image} alt="242x200" id={scroll.id} onClick={this._onClick.bind(this, scroll)}>
-          <div className='caption'>
-          <h5><strong>{scroll.name}</strong></h5>
-          <h6>Industry: {scroll.industry}</h6>
-          <h6>Offers: {scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
-          </div>
-          <div className='captionButtons'>
-          <Button bsStyle="primary">Like</Button>
-          <Button bsStyle="default">Invite</Button>
-          </div>
-        </Thumbnail>
-      </Col>)
-    })
-
-    //if (!this.props.email) {
-    //  return (<Row>
-    //    <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
-    //  </Row>)
-    //} else {
-    return (
-      <Grid>
-        <Row top="xs" className='usersLeft'>
-        <Col xs={12} md={6}>
-          <Row>
-            <ButtonToolbar>
-            <DropdownButton
-              bsStyle='primary'
-              title={this.state.filter.industry? this.state.filter.industry : "industry"}
-              id='dropdown-basic-industry'
-            >
-              {this.state.industries.map((industry, idx) => {
-                return <MenuItem eventKey={industry.title} onSelect={this._handleIndustrySelect.bind(this)}>{industry.title}</MenuItem>
-              })}
-              <MenuItem eventKey="" onSelect={this._handleIndustrySelect.bind(this)}>All</MenuItem>
-            </DropdownButton>
-
-            <DropdownButton
-              bsStyle='warning'
-              title={this.state.filter.offer? this.state.filter.offer :'Offers'}
-              id='dropdown-basic-offers'
-            >
-              {this.state.offers_needs.map((item, idx) => {
-                return <MenuItem eventKey={item.title} onSelect={this._handleOfferSelect.bind(this)}>{item.title}</MenuItem>
-              })}
-              <MenuItem eventKey="" onSelect={this._handleOfferSelect.bind(this)}>All</MenuItem>
-            </DropdownButton>
-
-            {/* <DropdownButton
-              bsStyle='info'
-              title='Location'
-              id='dropdown-basic-location'
-            >
-              <MenuItem eventKey="idx">Less than 2km</MenuItem>
-              <MenuItem eventKey="idx">Less than 5km</MenuItem>
-              <MenuItem eventKey="idx">More than 5km</MenuItem>
-            </DropdownButton> */}
-          </ButtonToolbar>
-          </Row>
-          <br/>
-          <Row>
-            {displayImage}
-          </Row>
-          <Row>
-          {this.state.loadMore ?
-            <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
-            <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
-        </Row>
+    if (!this.props.email) {
+      return (<Row>
+        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
+      </Row>)
+    } else {
+    return (<Grid className='usersWithMapsGrid'>
+      <Row className='usersWithMapsRow'>
+        <Col xs={12} md={6} className='usersWithMapsCol'>
+          <Users className='usersWithMapsElement' id={this.props.id} email={this.props.email} person={this._onClick.bind(this)}/>
         </Col>
-        <Col xs={12} md={6}>
-          <Row className='usersRight'>
-            <Map marker={this.state.scrollData} personClicked={this.state.personClicked} zoom={12}/>
-          </Row>
+        <Col xs={12} md={6} className='usersWithMapsCol'>
+          <Map className='usersWithMapsElement' marker={this.state.scrollData} personClicked={this.state.personClicked} zoom={12}/>
         </Col>
       </Row>
       </Grid>
     )
-  //}
+  }
   }
 }
 

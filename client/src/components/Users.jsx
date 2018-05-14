@@ -26,7 +26,8 @@ class Users extends React.Component {
       isOpen: false,
       content: "",
       to_user: "",
-      liked: false
+      liked: false,
+      personClicked: ''
     }
   }
 
@@ -201,6 +202,14 @@ class Users extends React.Component {
     this.setState({ content: e.target.value, to_user: to_user })
   }
 
+  _onClick(personClicked){
+    console.log("clicked the Thumbnail", personClicked);
+    const state = this.state;
+    this.setState(...state, {personClicked: personClicked})
+    console.log("state ", this.state);
+    this.props.person(this.state.personClicked);
+  }
+
   // _handleLiked = (e) => {
   //   let newList = []
   //   newList = this.state.lists.filter((item)=> {
@@ -219,7 +228,7 @@ class Users extends React.Component {
 
     const displayImage = this.state.scrollData.map((scroll, idx) => {
       return (<Col xs={3} md={3}>
-        <Thumbnail src={scroll.image} alt="242x200" >
+        <Thumbnail className='usersThumb' src={scroll.image} alt="242x200" onClick={this._onClick.bind(this, scroll)}>
           <h5><strong>{scroll.name}</strong></h5>
           <h6>Industry: {scroll.industry}</h6>
           <h6>Offers: {scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
@@ -243,19 +252,19 @@ class Users extends React.Component {
               <Modal.Footer>
                 <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
               </Modal.Footer>
-        
+
           </Modal>
 
       </Col >)
     })
 
-    if (!this.props.email) {
-      return (<Row>
-        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
-      </Row>)
-    } else {
-      return (<Grid>
-        <Row>
+//    if (!this.props.email) {
+//      return (<Row>
+//        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
+//      </Row>)
+//    } else {
+      return (<Grid className='usersGrid'>
+        <Row className='usersDropRow'>
           <ButtonToolbar>
             <DropdownButton
               bsStyle='primary'
@@ -282,20 +291,16 @@ class Users extends React.Component {
             {/* {this.state.liked? (<Button bsStyle='danger' onClick={this._handleLiked.bind(this)}>Liked</Button>):(<Button bsStyle='info' onClick={this._handleLiked.bind(this)}>Liked</Button>)} */}
           </ButtonToolbar>
         </Row>
-        <br />
-        <Row>
+        <Row className='usersImageRow'>
           {displayImage}
         </Row>
-        <Row>
+        <Row className='usersLoadRow'>
           {this.state.loadMore ?
             <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
             <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
         </Row>
-
-
-
-      </Grid>)
-    }
+        </Grid>)
+    //}
   }
 }
 

@@ -229,7 +229,7 @@ render(){
   return(
     <div>
       <GoogleMapExample
-        containerElement={ <div style={{ height: `83vh`, width: '47vw' }} /> }
+        containerElement={ <div style={{ height: '83vh', width: '47vw', position: 'fixed' }} /> }
         mapElement={ <div style={{ height: `100%` }} /> }
       />
     </div>

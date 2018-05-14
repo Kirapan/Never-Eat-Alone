@@ -41,7 +41,7 @@ class TopNav extends React.Component {
         </Navbar.Header>
         <Nav>
           <NavItem eventKey={1}>
-            <Link to='/api/users'>Find a lunch partner</Link>
+            <Link to='/api/maps'>Find a lunch partner</Link>
           </NavItem>
           <NavItem eventKey={2}>
             {message}
@@ -50,10 +50,10 @@ class TopNav extends React.Component {
             <Link to='/api/maps'>Map</Link>
           </NavItem>
           <NavItem eventKey={4}>
-            <Link to='/api/restaurant'>Restaurant</Link>
+            <Link to={'/api/users/' + this.props.id + '/favorites'}>Favorites</Link>
           </NavItem>
           <NavItem eventKey={5}>
-            <Link to={'/api/users/' + this.props.id + '/favorites'}>Favorites</Link>
+            <Link to='/api/restaurant'>Restaurant</Link>
           </NavItem>
         </Nav>
         {button}

@@ -1,6 +1,9 @@
 html, body {
   height: 100%
 }
+.container {
+  width: 100%;
+}
 /*Navbar */
 .navbar {
   width: 100%;
@@ -38,10 +41,8 @@ html, body {
 /*UsersWithMaps left and right column */
 .usersRight {
   position: fixed;
-}
-
-.usersLeft {
-  margin-top: 60px;
+  height: '83vh';
+  width: '47vw';
 }
 
 .thumbnail .caption {
@@ -53,6 +54,6 @@ html, body {
   height: 290px;
 }
 
-.btn-primary {
-  margin-right: 5px;
+.btn-toolbar {
+  margin: 5px;
 }
