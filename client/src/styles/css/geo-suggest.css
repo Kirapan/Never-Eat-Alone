@@ -1,0 +1,42 @@
+.geosuggest {
+  margin: 0;
+  padding: 0;
+}
+
+.geosuggest__item--active {
+  background: #3f88c5;
+  color: #fff;
+}
+
+.geosuggest__suggests-wrapper {
+  position: absolute;
+  margin-left: 0;
+}
+
+.geosuggest__suggests {
+  padding: 0;
+  box-sizing: border-box;
+  box-shadow: 0.4rem 0.4rem 0.4rem #e5e5e5;
+  background: transparent;
+  border-top: 0.1rem solid #e5e5e5;
+  border-bottom: 0.1rem solid #e5e5e5;
+  border-left: 0.1rem solid #e5e5e5;
+  border-right: 0.1rem solid #e5e5e5;
+  border-radius: 0;
+  outline: 0;
+  background-color: #fafafa;
+}
+
+.geosuggest__item {
+  list-style-type: none;
+  font-size: 1.4rem;
+  line-height: 1.4rem;
+  padding: 0.8rem 1.6rem 0.8rem 1.6rem;
+  margin-left: 0;
+}
+
+.geosuggest__suggests--hidden {
+  max-height: 0;
+  overflow: hidden;
+  border-width: 0;
+}

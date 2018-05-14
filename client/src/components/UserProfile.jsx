@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import Resource from '../models/resource'
 import { Grid, Row, Col } from 'react-bootstrap'
 import Geosuggest from 'react-geosuggest'
+import '../styles/css/geo-suggest.css'
 
 const userData = Resource('users')
 
@@ -38,9 +39,13 @@ class userProfile extends React.Component {
 
   _handleSubmit = e => {
     e.preventDefault();
-    userData.saveUserProfile(this.state.userId, this.state.profile)
-      .then((result) => this.props.history.push(`/api/users/${this.state.userId}/preferences`))
-      .catch((errors) => this.setState({ errors: errors }))
+    if (!this.state.profile.address || !this.state.profile.company) {
+      alert('Company Name and/or Company Address is required!')
+    } else {
+      userData.saveUserProfile(this.state.userId, this.state.profile)
+        .then((result) => this.props.history.push(`/api/users/${this.state.userId}/preferences`))
+        .catch((errors) => this.setState({ errors: errors }))
+    }
   }
 
   _handleNameChange = e => {
@@ -73,6 +78,7 @@ class userProfile extends React.Component {
     console.log("i am suggest", suggest)
     const newProfile = { ...this.state.profile, lat: suggest.location.lat, lng: suggest.location.lng, address: suggest.description }
     this.setState({ profile: newProfile })
+    suggest = ""
   }
 
   // _handleImageChange = e => {
@@ -153,7 +159,7 @@ class userProfile extends React.Component {
                 Company Address
                 <Geosuggest
                   ref={el => this._geoSuggest = el}
-                  initialValue={this.state.profile.location}
+                  initialValue={this.state.profile.address}
                   onSuggestSelect={this.onSuggestSelect}
                   location={new google.maps.LatLng(43.6, -79.3)}
                   radius="20" />

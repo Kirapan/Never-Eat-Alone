@@ -5,7 +5,7 @@ import Resource from '../models/resource'
 
 const userData = Resource('users')
 
-class Messagebox extends React.Component {
+class Messagebox2 extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -70,4 +70,4 @@ class Messagebox extends React.Component {
   }
 }
 
-export default Messagebox
+export default Messagebox2
