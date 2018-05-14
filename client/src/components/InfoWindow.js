@@ -19,6 +19,7 @@ class InfoWindows extends Component {
       toMessage: false
     }
   }
+
   componentWillMount() {
     const state = this.state;
     this.setState(...state, {isOpen: this.props.open});
@@ -29,15 +30,17 @@ class InfoWindows extends Component {
   }
 
   _onlick(){
-    console.log("to user")
     const state = this.state;
     this.setState(...state, {toUser: true});
   }
 
   _sendMessage(){
-    console.log("messages");
     const state = this.state;
     this.setState(...state, {toMessage: true});
+  }
+
+  _navigate(){
+    window.open(this.props.info.shortUrl);
   }
 
   render() {
@@ -49,14 +52,24 @@ class InfoWindows extends Component {
       return <Redirect to={'messages/'+  this.props.info.id} />
     }
 
-    return (
-      <InfoWindow onCloseClick={this._onCloseclick.bind(this)}>
+    const content = this.props.info.image ? (
         <div>
-          <img src={this.props.info.image} onClick={this._onlick.bind(this)}/>
+          <img src={this.props.info.image}/>
           <p>{this.props.info.name}</p>
           <p>Company: {this.props.info.company}</p>
           <Button onClick={this._sendMessage.bind(this)}>Send message</Button>
         </div>
+    ) : (
+        <div>
+          <img src="{this.props.info.bestPhoto.prefix}{this.props.info.bestPhoto.suffix}" onClick={this._onlick.bind(this)}/>
+          <p>{this.props.info.name}</p>
+          <p>{this.props.info.location.formattedAddress[0]} </p>
+          <Button onClick={this._navigate.bind(this)}>Go to website</Button>
+        </div>
+    )
+
+    return (<InfoWindow onCloseClick={this._onCloseclick.bind(this)}>
+        {content}
       </InfoWindow>
     );
   }

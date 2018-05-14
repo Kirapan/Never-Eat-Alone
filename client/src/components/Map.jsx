@@ -29,7 +29,8 @@ class MyMapComponent extends React.Component {
         lat: '',
         lng: ''
       },
-      bounds: null
+      bounds: null,
+      zoom: ''
     }
   }
 
@@ -46,34 +47,8 @@ class MyMapComponent extends React.Component {
   }
 
   componentWillMount(){
-    console.log("will mount", this.props.personClicked)
-//    userData.findAll()
-//      .then((result) => {
-//        this.setState({
-//          lists: result,
-//          errors: null
-//        })
-//        //move all marker relevant info into array and to state
-//        let allMarkers = []
-//        result.map((resultMarker) => {
-//          allMarkers.push({
-//            info: {
-//              id:      resultMarker.id,
-//              name:    resultMarker.name,
-//              image:   resultMarker.image,
-//              company: resultMarker.company
-//            },
-//            location:  {
-//              lat: resultMarker.lat,
-//              lng: resultMarker.lng
-//            }
-//          })
-//          const state = this.state;
-//          this.setState(...state, {markers: allMarkers});
-//        })
-//        .catch((errors) => this.setState({ errors: errors }))
-//      })
-//      .catch((errors) => this.setState({ errors: errors }))
+    console.log("will mount", this.props.personClicked);
+
   }
 
   componentDidMount(){
@@ -183,7 +158,28 @@ render(){
       }
     ]
 
+  //depending on whether markers are for restaurants or users different data structure
+  const markers = this.props.restaurant ? (this.props.venues.info.map((marker, index)=> {
+     return (
+       <Markers
+         key={index}
+         data={marker}
+         location={marker.location}
+         title="Click to zoom"
+         icon={'https://maps.google.com/mapfiles/kml/shapes/dining_maps.png'}
+       />)
+     })) : (
+    this.props.marker.map((marker, index)=> {
+     return (
+       <Markers
+         key={index}
+         data={marker}
+         title="Click to zoom"
+         icon={'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000'}
+       />)
+     }))
 
+  //personal marker when user clicks on one user from the entire list
   const personMarker =
    <Markers
        key={this.props.personClicked.id}
@@ -196,7 +192,7 @@ render(){
     <GoogleMap
       defaultCenter = {{lat: parseFloat(this.state.currentLocation.lat),
                         lng: parseFloat(this.state.currentLocation.lng)}}
-      defaultZoom = { 11 }
+      defaultZoom = {this.props.zoom}
       onBoundsChanged={this.state.bounds}
       onCenterChanged={this.currentLocation}
     >
@@ -225,15 +221,7 @@ render(){
         }}
       />
     </SearchBox>
-    {this.props.marker.map((marker, index)=> {
-     return (
-       <Markers
-         key={index}
-         data={marker}
-         title="Click to zoom"
-         icon={'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000'}
-       />)
-     })}
+    {markers}
     {personMarker}
     </div>
     </GoogleMap>

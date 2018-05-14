@@ -222,7 +222,7 @@ export class UsersWithMaps extends Component {
           <br/>
           <br/>
           <Row>
-            <Map marker={this.state.scrollData} personClicked={this.state.personClicked}/>
+            <Map marker={this.state.scrollData} personClicked={this.state.personClicked} zoom={12}/>
           </Row>
         </Col>
       </Row>

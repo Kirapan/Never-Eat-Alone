@@ -7,6 +7,10 @@ const jwt = require("jsonwebtoken");
 
 module.exports = (knex) => {
 
+  router.put('/saveMessage', (req, res) => {
+    console.log("on server saveMessage");
+  })
+
   router.post('/verifyToken', verifyToken, (req, res) => {
     console.log("in server verify", req.headers.Authorization);
     jwt.verify(req.token, process.env.SECRETKEY, (err, authData) => {

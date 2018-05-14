@@ -42,13 +42,16 @@ class TopNav extends React.Component {
         </Navbar.Header>
         <Nav>
           <NavItem eventKey={1}>
-            <Link to="/api/users">Find a lunch partner</Link>
+            <Link to='/api/users'>Find a lunch partner</Link>
           </NavItem>
           <NavItem eventKey={2}>
             {message}
           </NavItem>
-          <NavItem eventKey={2}>
-            <Link to="/api/maps">Map</Link>
+          <NavItem eventKey={3}>
+            <Link to='/api/maps'>Map</Link>
+          </NavItem>
+          <NavItem eventKey={4}>
+            <Link to='/api/restaurant'>Restaurant</Link>
           </NavItem>
         </Nav>
         {button}

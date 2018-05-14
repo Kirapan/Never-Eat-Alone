@@ -12,6 +12,11 @@ endpoints that behave differently.
 
 const Resource = (endpoint) => {
 
+  function saveMessage(data) {
+    console.log("in saveMessage");
+    return api.put(`api/saveMessage`, data);
+  }
+
   // We're extracting result.data and returning it on success to avoid
   function findAll () {
     return new Promise((resolve, reject) => {
@@ -154,7 +159,8 @@ const Resource = (endpoint) => {
     findUserIndustries,
     findUserNeeds,
     findUserOffers,
-    signup
+    signup,
+    saveMessage
   }
 }
 

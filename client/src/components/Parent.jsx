@@ -12,6 +12,7 @@ import Signup from './Signup';
 import Footer from './Footer';
 import Maps from './Map';
 import UsersWithMaps from './UsersWithMaps';
+import Restaurant from './Restaurant';
 
 class Parent extends React.Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class Parent extends React.Component {
         <Navbar id={this.state.id} email={this.state.email} logout={this._logout.bind(this)}/>
         <Grid className='grid'>
           <Switch>
+            <Route path='/api/restaurant' component={Restaurant} />
             <Route path='/api/users/:id/preferences' component={UserPreferences} />
             <Route path='/api/users/:id' component={UserProfile} />
             <Route path='/api/users' render={(props) => (
@@ -56,7 +58,7 @@ class Parent extends React.Component {
             )} />
             <Route exact path='/api/maps' render={(props) => (
               <UsersWithMaps {...props} id={this.state.id} email={this.state.email}/>
-              )} />
+            )} />
             <Route path='/' component={Index} />
           </Switch>
         </Grid>

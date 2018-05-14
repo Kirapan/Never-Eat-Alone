@@ -13,7 +13,11 @@ class Markers extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: false
+      isOpen: false,
+      location: {
+        lat: '',
+        lng: ''
+      }
     }
   }
 
@@ -26,7 +30,14 @@ class Markers extends Component {
   }
 
   componentWillMount(){
-    console.log("in componentWillMount marker");
+    //location for restaurants
+    if (this.props.location){
+      this.setState({location: {lat: this.props.location.lat,
+                                lng: this.props.location.lng}})
+    } else{//location for people
+      this.setState({location: {lat: this.props.data.lat,
+                                lng: this.props.data.lng}})
+    }
   }
 
   handleToggle = () => {
@@ -42,12 +53,14 @@ class Markers extends Component {
   }
 
   render() {
-    return (<Marker position={{lat: parseFloat(this.props.data.lat),
-                        lng: parseFloat(this.props.data.lng)}}
-              onClick={this.handleToggle}
-              icon={this.props.icon}
+
+    return (<Marker position={{lat: parseFloat(this.state.location.lat),
+                              lng: parseFloat(this.state.location.lng)}}
+                    onClick={this.handleToggle}
+                    icon={this.props.icon}
       >
-      {this.state.isOpen && <InfoWindows info={this.props.data} open={this.state.isOpen} onClose={this.handleToggle}/>}
+      {this.state.isOpen && <InfoWindows info={this.props.data}
+        open={this.state.isOpen} onClose={this.handleToggle} />}
       </Marker>
     );
   }
