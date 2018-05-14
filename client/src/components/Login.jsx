@@ -1,6 +1,6 @@
 import React from 'react';
 import Resource from '../models/resource';
-import {Grid} from 'react-bootstrap';
+import {Grid, Button} from 'react-bootstrap';
 
 const userData = Resource('users');
 
@@ -59,23 +59,20 @@ class Login extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <Grid>
-          <form onSubmit={this._handleSubmit.bind(this)}>
-            <div class="formgroup">
-              <label>E-mail: </label>
-              <input id="email" type="email" class="form-control"
-               onChange={this._updateEmail.bind(this)}/>
-            </div>
-            <div class="formgroup">
-              <label>Password: </label>
-              <input id="password" type="password" class="form-control"
-               onChange={this._udpatePassword.bind(this)}/>
-            </div>
-            <input type="submit" value="Submit"/>
-          </form>
-        </Grid>
+    return (<div className="login">
+        <form onSubmit={this._handleSubmit.bind(this)} className="submit">
+          <div class="formgroup">
+            <label>E-mail: </label>
+            <input id="email" type="email" class="form-control"
+             onChange={this._updateEmail.bind(this)}/>
+          </div>
+          <div class="formgroup">
+            <label>Password: </label>
+            <input id="password" type="password" class="form-control"
+             onChange={this._udpatePassword.bind(this)}/>
+            <Button type="submit" className="submitButton" onClick={this._handleSubmit.bind(this)} bsStyle="info">Submit</Button>
+          </div>
+        </form>
       </div>
     )
   }

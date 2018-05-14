@@ -16,3 +16,17 @@ html, body {
 .navbar-text {
   float: right;
 }
+
+.login {
+  display: flex;
+}
+
+.submit {
+  margin: auto;
+  height: 400px;
+  width: 400px;
+}
+
+.submitButton {
+  margin: 15px;
+}
