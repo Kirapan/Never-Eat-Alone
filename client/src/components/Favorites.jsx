@@ -121,10 +121,10 @@ class Favorites extends React.Component {
       </Col >)
     })
 
-    if (!this.props.email) {
-      return (<Row className='usersWithMapsRow'>
-        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
-      </Row>)
+//    if (!this.props.email) {
+//      return (<Row className='usersWithMapsRow'>
+//        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
+//      </Row>)
       return (<Grid>
         <Row className='usersWithMapsRow'>
           {displayImage}
@@ -136,7 +136,7 @@ class Favorites extends React.Component {
         </Row>
         </Grid>)
     }
-  }
+  //}
 }
 
 export default Favorites
