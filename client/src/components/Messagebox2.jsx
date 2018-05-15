@@ -41,7 +41,7 @@ class Messagebox extends React.Component {
 
   render() {
     if (this.state.redirect) return <Redirect to={this.state.redirect} />
-   
+
     const name = this.props.to_user
     return (
       <div>
@@ -62,7 +62,7 @@ class Messagebox extends React.Component {
               <Modal.Footer>
                 <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
               </Modal.Footer>
-        
+
           </Modal>}
 
       </div>

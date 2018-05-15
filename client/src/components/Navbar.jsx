@@ -26,10 +26,22 @@ class TopNav extends React.Component {
     (<span className="navbar-text my-2 my-lg-0"><Link to='/api/login'>Login</Link> |
       <Link to='/api/signup'> Sign up</Link></span>);
 
-    const message = this.props.email ?
-    (<Link to={"/api/users/"+ this.props.id + "/messages"}>Messages</Link>) :
-    (<Link to="/api/users">Messages</Link>)
+    //const message = this.props.email ?
+    //(<Link to={"/api/users/"+ this.props.id + "/messages"}>Messages</Link>) :
+    //(<Link to="/api/users">Messages</Link>)
 
+    if (!this.props.email) {
+      return (<Navbar>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <Link to='/'>
+              Never Lunch Alone
+            </Link>
+          </Navbar.Brand>
+        </Navbar.Header>
+        {button}
+      </Navbar>)
+    } else {
     return(
       <Navbar>
         <Navbar.Header>
@@ -44,21 +56,16 @@ class TopNav extends React.Component {
             <Link to='/api/maps'>Find a lunch partner</Link>
           </NavItem>
           <NavItem eventKey={2}>
-            {message}
-          </NavItem>
-          <NavItem eventKey={3}>
-            <Link to='/api/maps'>Map</Link>
+            <Link to={"/api/users/"+ this.props.id + "/messages"}>Messages</Link>
           </NavItem>
           <NavItem eventKey={4}>
             <Link to={'/api/users/' + this.props.id + '/favorites'}>Favorites</Link>
-          </NavItem>
-          <NavItem eventKey={5}>
-            <Link to='/api/restaurant'>Restaurant</Link>
           </NavItem>
         </Nav>
         {button}
       </Navbar>
     )
+  }
   }
 }
 

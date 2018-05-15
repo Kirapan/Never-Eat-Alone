@@ -4,8 +4,10 @@ html, body {
 .container {
   width: 100%;
 }
+
 /*Navbar */
 .navbar {
+  position: fixed;
   width: 100%;
   z-index: 1;
 }
@@ -27,6 +29,7 @@ html, body {
 /*Login and Signup */
 .login {
   display: flex;
+  margin-top: 80px;
 }
 
 .submit {
@@ -37,23 +40,4 @@ html, body {
 
 .submitButton {
   margin: 15px;
-}
-/*UsersWithMaps left and right column */
-.usersRight {
-  position: fixed;
-  height: '83vh';
-  width: '47vw';
-}
-
-.thumbnail .caption {
-    height: 110px;
-}
-
-.usersThumb {
-  width: 210px;
-  height: 290px;
-}
-
-.btn-toolbar {
-  margin: 5px;
 }

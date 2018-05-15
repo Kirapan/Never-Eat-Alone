@@ -9,6 +9,7 @@ import {
   Marker,
   InfoWindow
 } from "react-google-maps";
+const faker = require('faker');
 
 class InfoWindows extends Component {
   constructor(props){
@@ -21,6 +22,8 @@ class InfoWindows extends Component {
   }
 
   componentWillMount() {
+    let food = faker.image.food()
+    console.log("in infoWindow ", food);
     const state = this.state;
     this.setState(...state, {isOpen: this.props.open});
   }
@@ -52,16 +55,16 @@ class InfoWindows extends Component {
       return <Redirect to={'messages/'+  this.props.info.id} />
     }
 
-    const content = this.props.info.image ? (
+    const content = this.props.info.image ? (//infoWindow for people
         <div>
-          <img src={this.props.info.image}/>
+          <img src="https://picsum.photos/100/100/?image=883"/>
           <p>{this.props.info.name}</p>
           <p>Company: {this.props.info.company}</p>
           <Button onClick={this._sendMessage.bind(this)}>Send message</Button>
         </div>
-    ) : (
+    ) : (//infoWindow for restaurants
         <div>
-          <img src="{this.props.info.bestPhoto.prefix}{this.props.info.bestPhoto.suffix}" onClick={this._onlick.bind(this)}/>
+
           <p>{this.props.info.name}</p>
           <p>{this.props.info.location.formattedAddress[0]} </p>
           <Button onClick={this._navigate.bind(this)}>Go to website</Button>

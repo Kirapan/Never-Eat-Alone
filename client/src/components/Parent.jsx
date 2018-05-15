@@ -50,7 +50,7 @@ class Parent extends React.Component {
             <Route path='/api/users/:id/preferences' component={UserPreferences} />
             <Route path='/api/users/:id/messages' render={(props) => (
               <Messages {...props} id={this.state.id} email={this.state.email} />)} />
-            <Route path='api/users/:id/favorites' render={(props) => (
+            <Route path='/api/users/:id/favorites' render={(props) => (
               <Favorites {...props} id={this.state.id} email={this.state.email} />)} />
             <Route path='/api/users/:id' component={UserProfile} />
             <Route path='/api/users' render={(props) => (
@@ -64,10 +64,10 @@ class Parent extends React.Component {
             <Route exact path='/api/maps' render={(props) => (
               <UsersWithMaps {...props} id={this.state.id} email={this.state.email}/> )} />
             <Route path='/api/restaurant' component={Restaurant} />
+            <Route path='/api/about' component={Footer} />
             <Route path='/' component={Index} />
           </Switch>
         </Grid>
-        <Footer />
       </div>
     )
   }

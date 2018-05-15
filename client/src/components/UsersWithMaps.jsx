@@ -195,7 +195,7 @@ _handleLike = (e) => {
 
   render() {
     if (!this.props.email) {
-      return (<Row>
+      return (<Row className='usersWithMapsRow'>
         <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
       </Row>)
     } else {

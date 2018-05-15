@@ -1,0 +1,18 @@
+.thumbnail .caption {
+    height: 110px;
+}
+
+.usersThumb {
+  width: 210px;
+  height: 290px;
+  margin: 5px;
+}
+
+.btn-toolbar {
+  margin: 5px;
+}
+
+.usersWithMapsRow {
+  margin-top: 80px;
+  margin-left: 5px;
+}

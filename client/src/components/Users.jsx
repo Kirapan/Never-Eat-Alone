@@ -227,7 +227,7 @@ class Users extends React.Component {
   render() {
 
     const displayImage = this.state.scrollData.map((scroll, idx) => {
-      return (<Col xs={3} md={3}>
+      return (<Col xs={4} md={4}>
         <Thumbnail className='usersThumb' src={scroll.image} alt="242x200" onClick={this._onClick.bind(this, scroll)}>
           <h5><strong>{scroll.name}</strong></h5>
           <h6>Industry: {scroll.industry}</h6>
@@ -268,7 +268,7 @@ class Users extends React.Component {
           <ButtonToolbar>
             <DropdownButton
               bsStyle='primary'
-              title={this.state.filter.industry ? this.state.filter.industry : "industry"}
+              title={this.state.filter.industry ? this.state.filter.industry : "Industry"}
               id='dropdown-basic-industry'
             >
               {this.state.industries.map((industry, idx) => {

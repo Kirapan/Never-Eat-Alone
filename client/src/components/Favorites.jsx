@@ -122,23 +122,20 @@ class Favorites extends React.Component {
     })
 
     if (!this.props.email) {
-      return (<Row>
+      return (<Row className='usersWithMapsRow'>
         <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
       </Row>)
     } else {
       return (<Grid>
-        <Row>
+        <Row className='usersWithMapsRow'>
           {displayImage}
         </Row>
-        <Row>
+        <Row className='usersWithMapsRow'>
           {this.state.loadMore ?
             <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
             <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
         </Row>
-
-
-
-      </Grid>)
+        </Grid>)
     }
   }
 }

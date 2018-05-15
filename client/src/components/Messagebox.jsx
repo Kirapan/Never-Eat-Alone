@@ -1,7 +1,8 @@
-import React from 'react'
-import { Modal, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
-import { Redirect } from 'react-router-dom'
-import Resource from '../models/resource'
+import React from 'react';
+import { Modal, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import Resource from '../models/resource';
+import Restaurant from './Restaurant';
 
 const userData = Resource('users')
 
@@ -60,9 +61,9 @@ class Messagebox extends React.Component {
               </Modal.Body>
 
               <Modal.Footer>
-                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
+                <Button onClick={this._handleSubmit.bind(this)}>Send test</Button>
               </Modal.Footer>
-        
+              <Restaurant />
           </Modal>}
 
       </div>
