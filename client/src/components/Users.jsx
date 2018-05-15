@@ -67,7 +67,7 @@ class Users extends React.Component {
   }
 
   initData = () => {
-    let data = this.state.backup.slice(0, 20)
+    let data = this.state.backup.slice(0, 21)
     this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
     })
@@ -85,7 +85,7 @@ class Users extends React.Component {
     if (checkMore === length) {
       this.setState({ loadMore: false })
     } else {
-      let data = this.state.backup.slice(length, 20 + length)
+      let data = this.state.backup.slice(length, 21 + length)
       let newData = this.state.scrollData.concat(data)
       this.setState({ scrollData: newData }, () => {
       this.props.currentSelection(this.state.scrollData);
@@ -127,7 +127,7 @@ class Users extends React.Component {
     this.setState({
       backup: newList
     }, () => {
-      let data = this.state.backup.slice(0, 20)
+      let data = this.state.backup.slice(0, 21)
       this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
       })
@@ -157,7 +157,7 @@ class Users extends React.Component {
     this.setState({
       backup: newList
     }, () => {
-      let data = this.state.backup.slice(0, 20)
+      let data = this.state.backup.slice(0, 21)
       this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
       })
@@ -236,7 +236,7 @@ class Users extends React.Component {
   //     backup: newList,
   //     liked: !this.state.liked
   //   }, () => {
-  //     let data = this.state.backup.slice(0, 20)
+  //     let data = this.state.backup.slice(0, 21)
   //     this.setState({ scrollData: data })
   //   });
   // }
@@ -245,7 +245,7 @@ class Users extends React.Component {
 
     const displayImage = this.state.scrollData.map((scroll, idx) => {
       return (<Col xs={4} md={4}>
-        <Thumbnail className='usersThumb' src={scroll.image} alt="242x200" onClick={this._onClick.bind(this, scroll)}>
+        <Thumbnail className='usersThumb' src={scroll.image} alt="242x210" onClick={this._onClick.bind(this, scroll)}>
           <h5><strong>{scroll.name}</strong></h5>
           <h6>Industry: {scroll.industry}</h6>
           <h6>Offers: {scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
@@ -292,7 +292,7 @@ class Users extends React.Component {
           {displayImage}
         </Row>
         <Modal show={this.state.isOpen} bsSize="lg"
-          onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
+          onHide={this.toggleModal.bind(this)} style={ {zIndex: 1210}}>
           <Row className='usersWithMapsRow'>
           <Col xs={12} md={6} className='usersWithMapsCol'>
           <Modal.Header closeButton>
