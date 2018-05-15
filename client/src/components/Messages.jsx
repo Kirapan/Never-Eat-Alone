@@ -26,7 +26,9 @@ class Messages extends React.Component {
 
   render() {
     const sortedList = this.state.messages.sort((a, b) => {
-      return b.created_at - a.created_at
+      let aa = new Date(a.created_at)
+      let bb = new Date(b.created_at)
+      return bb - aa
     })
     const inline = { borderTop: '1px solid #dadce0' }
     const messageList = sortedList.map((msg, idx) => {
