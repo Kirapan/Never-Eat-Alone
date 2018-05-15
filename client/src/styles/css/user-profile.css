@@ -1,0 +1,27 @@
+.profile-pic {
+  display: block;
+  margin: 0 auto;
+}
+
+#profile-button {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+}
+
+span#sizing-addon2.input-group-addon {
+  font-weight: bold;
+}
+
+
