@@ -97,7 +97,7 @@ class UserPreferences extends React.Component {
     })
 
     if (this.state.toProfiles === true) {
-      return <Redirect to='/api/users' />
+      return <Redirect to='/api/maps' />
     }
 
     return (

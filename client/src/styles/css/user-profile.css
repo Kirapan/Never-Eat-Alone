@@ -24,4 +24,10 @@ span#sizing-addon2.input-group-addon {
   font-weight: bold;
 }
 
+.profile-form {
+  width: 580px;
+  margin: auto;
+  padding: 70px;
+}
+
 

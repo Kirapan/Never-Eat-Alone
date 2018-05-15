@@ -47,7 +47,8 @@ class Parent extends React.Component {
         <Navbar id={this.state.id} email={this.state.email} logout={this._logout.bind(this)}/>
         <Grid className='grid'>
           <Switch>
-            <Route path='/api/users/:id/preferences' component={UserPreferences} />
+            <Route path='/api/users/:id/preferences'render={(props) => (
+              <UserPreferences {...props} id={this.state.id} email={this.state.email} />)} />
             <Route path='/api/users/:id/messages' render={(props) => (
               <Messages {...props} id={this.state.id} email={this.state.email} />)} />
             <Route path='/api/users/:id/favorites' render={(props) => (

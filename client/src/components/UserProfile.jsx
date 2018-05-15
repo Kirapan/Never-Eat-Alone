@@ -129,11 +129,12 @@ class userProfile extends React.Component {
               {/* <input type="file" onChange={this._handleImageChange} /> */}
               {/* <button type="button" onClick={this._handleImageSubmit}>Upload Image</button> */}
               {/* {$imagePreview} */}
-              <Image className="profile-pic" src={this.state.profile.image} alt='' height="120" width="120" rounded />
+              <img className="profile-background" scr="../img/profileback.jpg" />
+              <Image className="profile-pic" src={this.state.profile.image} alt='' height="120" width="120" circle />
             </div>
             <br />
 
-            <form onSubmit={this._handleSubmit}>
+            <form className="profile-form" onSubmit={this._handleSubmit}>
               <div class="input-group">
                 <span bsStyle="info" class="input-group-addon" id="sizing-addon2">Name</span>
                 <input type="text" class="form-control" aria-describedby="sizing-addon2" value={this.state.profile.name} name="name" onChange={this._handleNameChange} />
