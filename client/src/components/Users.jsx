@@ -2,7 +2,6 @@ import React from 'react'
 import { Link, Switch, Route } from 'react-router-dom'
 import Resource from '../models/resource'
 import Maps from './Map';
-import Messagebox2 from './Messagebox2'
 import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 
 const userData = Resource('users')
@@ -27,7 +26,9 @@ class Users extends React.Component {
       content: "",
       to_user: "",
       liked: false,
-      personClicked: ''
+      personClicked: '',
+      reply_id:"",
+      reply_name:""
     }
   }
 
@@ -181,14 +182,25 @@ class Users extends React.Component {
     }
   }
 
-  toggleModal = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+  toggleModal = (e) => {
+    if (!this.state.isOpen) {
+      let id = e.target.getAttribute('data-keyid')
+      id = parseInt(id)
+      let name = e.target.getAttribute('data-keyname')
+      this.setState({
+        isOpen: !this.state.isOpen,
+        reply_id :id,
+        reply_name: name
+      });
+    } else {
+      this.setState({
+        isOpen: !this.state.isOpen
+      });
+    }
   }
 
   _handleSubmit = (e) => {
-    userData.sendMessages(this.props.id, this.state.to_user, this.state.content)
+    userData.sendMessages(this.props.id, this.state.reply_id, this.state.content)
       .then(() => {
         console.log("ok")
       })
@@ -197,9 +209,7 @@ class Users extends React.Component {
   }
 
   _handleChange = (e) => {
-    let to_user = e.target.getAttribute('data-key')
-    to_user = parseInt(to_user)
-    this.setState({ content: e.target.value, to_user: to_user })
+    this.setState({ content: e.target.value })
   }
 
   _onClick(personClicked){
@@ -235,7 +245,7 @@ class Users extends React.Component {
           {this.state.favorites.indexOf(scroll.id) < 0 ?
             (<Button bsStyle="primary" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
             (<Button bsStyle="danger" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
-          <Button bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
+          <Button data-keyid={scroll.id} data-keyname={scroll.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
         </Thumbnail>
         <Modal show={this.state.isOpen}
             onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
@@ -254,16 +264,15 @@ class Users extends React.Component {
               </Modal.Footer>
 
           </Modal>
-
       </Col >)
     })
 
-//    if (!this.props.email) {
-//      return (<Row>
-//        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
-//      </Row>)
-//    } else {
-      return (<Grid className='usersGrid'>
+    if (!this.props.email) {
+      return (<Row>
+        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
+      </Row>)
+    } else {
+      return (<Grid>
         <Row className='usersDropRow'>
           <ButtonToolbar>
             <DropdownButton
@@ -294,13 +303,29 @@ class Users extends React.Component {
         <Row className='usersImageRow'>
           {displayImage}
         </Row>
+        <Modal show={this.state.isOpen}
+            onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
+            </Modal.Header>
+              <Modal.Body>
+                <FormGroup controlId="formControlsTextarea">
+                  <ControlLabel>Message:</ControlLabel>
+                  <FormControl componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
+                </FormGroup>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
+              </Modal.Footer>
+          </Modal>
         <Row className='usersLoadRow'>
           {this.state.loadMore ?
             <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
             <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
         </Row>
         </Grid>)
-    //}
+    }
   }
 }
 

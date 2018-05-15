@@ -4,6 +4,12 @@ const express = require('express');
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 //const bcrypt  = require('bcrypt');
+const faker = require('faker');
+
+
+function ten() {
+  return parseInt(Math.random() * 10) + 1
+}
 
 module.exports = (knex) => {
 
@@ -50,6 +56,7 @@ module.exports = (knex) => {
     }
 
     console.log("in login server", req.body.email);
+    //check if user already exists
     knex
       .select("*")
       .from("users")
@@ -82,6 +89,64 @@ module.exports = (knex) => {
       });
   })
 
+  function createIndustry(id) {
+    return knex('users_industries')
+      .insert({
+        user_id: id,
+        industry_id: 1
+      })
+  }
+
+  function createOffers(id) {
+    return knex('users_offers')
+      .insert({
+        user_id: id,
+        offer_id: 1
+      })
+  }
+
+  function createNeeds(id) {
+    return knex('users_needs')
+      .insert({
+        user_id: id,
+        need_id: 1
+      })
+  }
+
+  function createProfile(firstname, lastname, email, password) {
+    return knex('users')
+      .insert({
+        name: firstname + ' ' + lastname,
+        email: email,
+        password_digest: password,
+        image: faker.image.avatar(),
+        industry_id: ten(),
+        company: "",
+        address: ""
+      })
+      .returning('id')
+  }
+
+  function createInitialData(firstname, lastname, email, password) {
+    return new Promise(function (resolve, reject) {
+      createProfile(firstname, lastname, email, password)
+        .then((result) => {
+          console.log("ia m the emaileamil", email)
+          console.log("am i the id", result[0])
+          let id = result[0]
+          let promises = [];
+          promises.push(createIndustry(id), createOffers(id), createOffers(id), createOffers(id), createNeeds(id), createNeeds(id), createNeeds(id))
+          Promise.all(promises).then(data => {
+              return resolve();
+              console.log("success on signup")
+            })
+            .catch(err => {
+              console.log(err.message)
+            })
+        })
+    });
+  }
+
   router.post("/signup", (req, res) => {
     console.log("in signup", req.body.email);
     //check if user does already exist in DB
@@ -102,14 +167,9 @@ module.exports = (knex) => {
           // bcrypt.hash(req.body.password, 10, function(err, hash) {
           //   hashPassword =  hash;
           //   console.log("inside hash", hashPassword);
-          knex('users')
-            .insert({
-              name: req.body.firstname + ' ' + req.body.lastname,
-              email: req.body.email,
-              password_digest: req.body.password
-            })
+          createInitialData(req.body.firstname, req.body.lastname, req.body.email, req.body.password)
             .then((result) => {
-              console.log("after insert new user", result);
+              
               res.sendStatus(200);
             })
             .catch((err) => {
@@ -164,7 +224,7 @@ module.exports = (knex) => {
         name: data.name,
         industry_id: industry_id,
         company: data.company,
-        address: data.location,
+        address: data.address,
         lat: data.lat,
         lng: data.lng
       })
@@ -333,6 +393,7 @@ module.exports = (knex) => {
   router.get('/users/:id/messages', (req, res) => {
     getMessages(req.params.id)
       .then((messages) => {
+        console.log("i am the meessage in the sereer", messages)
         res.json(messages);
       })
       .catch((err) => {
@@ -342,18 +403,18 @@ module.exports = (knex) => {
 
 
 
-  function matching(id) {
-    return "i am working on it!!!!Machine Learning!!!"
-  }
-  router.get('/users/:id/matches', (req, res) => {
-    matching(req.params.id)
-      .then((matchlist) => {
-        res.json(matchlist);
-      })
-      .catch((err) => {
-        res.send(err);
-      })
-  })
+  // function matching(id) {
+  //   return "i am working on it!!!!Machine Learning!!!"
+  // }
+  // router.get('/users/:id/matches', (req, res) => {
+  //   matching(req.params.id)
+  //     .then((matchlist) => {
+  //       res.json(matchlist);
+  //     })
+  //     .catch((err) => {
+  //       res.send(err);
+  //     })
+  // })
 
   function favoritePage(id) {
     return knex

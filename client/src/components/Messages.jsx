@@ -18,6 +18,7 @@ class Messages extends React.Component {
   componentWillMount() {
     userData.findMessages(this.state.userId)
       .then((result) => {
+        console.log("iam the messages", result)
         this.setState({ messages: result })
       })
       .catch((errors) => this.setState({ errors: errors }))

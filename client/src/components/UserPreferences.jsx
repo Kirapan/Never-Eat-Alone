@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Resource from '../models/resource'
 import { Grid, Row, Col } from 'react-bootstrap'
 
@@ -14,7 +14,8 @@ class UserPreferences extends React.Component {
       offers_needs: [],
       user_industries: [],
       offers: [],
-      needs: []
+      needs: [],
+      toProfiles: false
     }
   }
 
@@ -53,14 +54,14 @@ class UserPreferences extends React.Component {
   }
 
   _handleSubmit = event => {
-    event.preventDefault();
+    this.setState({toProfiles: true})
     let data = {
       user_industries: this.state.user_industries,
       offers: this.state.offers,
       needs: this.state.needs
     }
     userData.saveUserPreferences(this.state.userId, data)
-      .then((result) => this.props.history.push(`/api/users/${this.state.userId}/matches`))
+      .then((result) => console.log("ok updated"))
       .catch((errors) => this.setState({ errors: errors }))
   }
 
@@ -95,6 +96,10 @@ class UserPreferences extends React.Component {
       return (<option value={item.title}>{item.title}</option>)
     })
 
+    if(this.state.toProfiles === true) {
+      return <Redirect to='/api/users' />
+    }
+
     return (
       <div>
         <Grid>
@@ -107,7 +112,7 @@ class UserPreferences extends React.Component {
             </Col>
           </Row>
           <Row className="profile-content">
-            <form onSubmit={this._handleSubmit}>
+            <form onSubmit={this._handleSubmit.bind(this)}>
               <label>
                 Interested Industries
           {this.state.user_industries.map((industry, i) => {
@@ -126,7 +131,7 @@ class UserPreferences extends React.Component {
                 return (<select value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
                 })}
               </label>
-              <input type="submit" value="Submit" />
+              <input type="submit" value="Continue to search lunch partners" />
             </form>
           </Row>
         </Grid>
