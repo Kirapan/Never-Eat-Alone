@@ -101,7 +101,7 @@ class UserPreferences extends React.Component {
     }
 
     return (
-      <div>
+      <div className='usersWithMapsRow'>
         <Grid>
           <Row className="header">
             <nav aria-label="...">
@@ -138,7 +138,7 @@ class UserPreferences extends React.Component {
               </div>
               <br/>
               <input id="profile-button" type="submit" value="Search!" />
-    
+
             </form>
             <br/>
           </Row>
