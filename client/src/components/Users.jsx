@@ -63,12 +63,13 @@ class Users extends React.Component {
         this.setState({ favorites: result })
       })
       .catch((errors) => this.setState({ errors: errors }))
-
   }
 
   initData = () => {
     let data = this.state.backup.slice(0, 20)
-    this.setState({ scrollData: data })
+    this.setState({ scrollData: data }, () => {
+      this.props.currentSelection(this.state.scrollData);
+    })
   }
   // componentDidMount() {
   //   window.addEventListener('scroll', this.handleOnScroll);
@@ -85,7 +86,9 @@ class Users extends React.Component {
     } else {
       let data = this.state.backup.slice(length, 20 + length)
       let newData = this.state.scrollData.concat(data)
-      this.setState({ scrollData: newData })
+      this.setState({ scrollData: newData }, () => {
+      this.props.currentSelection(this.state.scrollData);
+      })
     }
   }
 
@@ -124,7 +127,9 @@ class Users extends React.Component {
       backup: newList
     }, () => {
       let data = this.state.backup.slice(0, 20)
-      this.setState({ scrollData: data })
+      this.setState({ scrollData: data }, () => {
+      this.props.currentSelection(this.state.scrollData);
+      })
     });
   }
 
@@ -152,7 +157,9 @@ class Users extends React.Component {
       backup: newList
     }, () => {
       let data = this.state.backup.slice(0, 20)
-      this.setState({ scrollData: data })
+      this.setState({ scrollData: data }, () => {
+      this.props.currentSelection(this.state.scrollData);
+      })
     });
   }
 
@@ -213,11 +220,10 @@ class Users extends React.Component {
   }
 
   _onClick(personClicked){
-    console.log("clicked the Thumbnail", personClicked);
     const state = this.state;
-    this.setState(...state, {personClicked: personClicked})
-    console.log("state ", this.state);
-    this.props.person(this.state.personClicked);
+    this.setState(...state, {personClicked: personClicked}, () => {
+      this.props.person(this.state.personClicked);
+      })
   }
 
   // _handleLiked = (e) => {
@@ -267,11 +273,11 @@ class Users extends React.Component {
       </Col >)
     })
 
-    if (!this.props.email) {
-      return (<Row>
-        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
-      </Row>)
-    } else {
+//    if (!this.props.email) {
+//      return (<Row>
+//        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
+//      </Row>)
+//    } else {
       return (<Grid>
         <Row className='usersDropRow'>
           <ButtonToolbar>
@@ -325,7 +331,7 @@ class Users extends React.Component {
             <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
         </Row>
         </Grid>)
-    }
+    //}
   }
 }
 

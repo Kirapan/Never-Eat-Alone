@@ -43,7 +43,7 @@ class MyMapComponent extends React.Component {
     if (prevState.currentLocation !== this.state.currentLocation) {
       console.log("did update recenter???");
       this.recenterMap();
-    }LatLngBounds
+    }
   }
 
   componentWillMount(){

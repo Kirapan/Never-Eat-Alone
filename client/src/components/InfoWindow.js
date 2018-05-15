@@ -57,14 +57,14 @@ class InfoWindows extends Component {
 
     const content = this.props.info.image ? (//infoWindow for people
         <div>
-          <img src="https://picsum.photos/100/100/?image=883"/>
+          <img src={this.props.info.image}/>
           <p>{this.props.info.name}</p>
           <p>Company: {this.props.info.company}</p>
           <Button onClick={this._sendMessage.bind(this)}>Send message</Button>
         </div>
     ) : (//infoWindow for restaurants
         <div>
-
+          <img src="https://picsum.photos/100/100/?random"/>
           <p>{this.props.info.name}</p>
           <p>{this.props.info.location.formattedAddress[0]} </p>
           <Button onClick={this._navigate.bind(this)}>Go to website</Button>
