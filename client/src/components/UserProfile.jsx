@@ -111,7 +111,7 @@ class userProfile extends React.Component {
     // }
 
     return (
-      <div>
+      <div className='usersWithMapsRow'>
         <Grid>
           <Row className="header">
             <nav aria-label="...">
