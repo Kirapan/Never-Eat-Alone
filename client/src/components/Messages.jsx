@@ -32,7 +32,7 @@ class Messages extends React.Component {
     })
     const inline = { borderTop: '1px solid #dadce0' }
     const messageList = sortedList.map((msg, idx) => {
-      return (<div>
+      return (<div className='usersWithMapsRow'>
         <Image src={msg.image} alt={msg.name} style={{ margin: 30, width: 128 }} rounded />
         <Popover
           id={'popover-basic-' + idx}
