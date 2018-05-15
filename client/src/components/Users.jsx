@@ -1,8 +1,9 @@
-import React from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
-import Resource from '../models/resource'
+import React from 'react';
+import { Link, Switch, Route } from 'react-router-dom';
+import Resource from '../models/resource';
 import Maps from './Map';
-import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import Restaurant from './Restaurant';
 
 const userData = Resource('users')
 
@@ -253,23 +254,6 @@ class Users extends React.Component {
             (<Button bsStyle="danger" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
           <Button data-keyid={scroll.id} data-keyname={scroll.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
         </Thumbnail>
-        <Modal show={this.state.isOpen}
-            onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
-            <Modal.Header closeButton>
-              <Modal.Title>Reply to {scroll.name}</Modal.Title>
-            </Modal.Header>
-              <Modal.Body>
-                <FormGroup controlId="formControlsTextarea">
-                  <ControlLabel>Message:</ControlLabel>
-                  <FormControl data-key={scroll.id} componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
-                </FormGroup>
-              </Modal.Body>
-
-              <Modal.Footer>
-                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
-              </Modal.Footer>
-
-          </Modal>
       </Col >)
     })
 
@@ -302,28 +286,33 @@ class Users extends React.Component {
               })}
               <MenuItem eventKey="" onSelect={this._handleOfferSelect.bind(this)}>All</MenuItem>
             </DropdownButton>
-
-            {/* {this.state.liked? (<Button bsStyle='danger' onClick={this._handleLiked.bind(this)}>Liked</Button>):(<Button bsStyle='info' onClick={this._handleLiked.bind(this)}>Liked</Button>)} */}
           </ButtonToolbar>
         </Row>
         <Row className='usersImageRow'>
           {displayImage}
         </Row>
-        <Modal show={this.state.isOpen}
-            onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
-            <Modal.Header closeButton>
-              <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
-            </Modal.Header>
-              <Modal.Body>
-                <FormGroup controlId="formControlsTextarea">
-                  <ControlLabel>Message:</ControlLabel>
-                  <FormControl componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
-                </FormGroup>
-              </Modal.Body>
-
-              <Modal.Footer>
-                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
-              </Modal.Footer>
+        <Modal show={this.state.isOpen} bsSize="lg"
+          onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
+          <Row className='usersWithMapsRow'>
+          <Col xs={12} md={6} className='usersWithMapsCol'>
+          <Modal.Header closeButton>
+            <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body bsSize="large">
+            <FormGroup controlId="formControlsTextarea">
+              <ControlLabel>Message:</ControlLabel>
+              <FormControl componentClass="textarea" placeholder="Write your message..." onChange={this._handleChange.bind(this)} />
+            </FormGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
+          </Modal.Footer>
+          </Col>
+          <Col xs={12} md={6} className='usersWithMapsCol'>
+          <Restaurant/>
+          <br/>
+          </Col>
+          </Row>
           </Modal>
         <Row className='usersLoadRow'>
           {this.state.loadMore ?

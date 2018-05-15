@@ -13,57 +13,13 @@ class UsersWithMaps extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: [],
-      backup: [],
-      user_offers: [],
-      industries: [],
-      offers_needs: [],
-      favorites:[],
       scrollData: [],
-      filter: {
-        industry: "",
-        offer: ""
-      },
-      loadMore: true,
-      isOpen: false,
-      content: '',
-      to_user: '',
-      liked: false,
       personClicked: ''
     }
   }
 
   componentWillMount() {
-    userData.findAll()
-      .then((result) => {
-        this.setState({
-          lists: result,
-          backup: result,
-          errors: null,
-        })
-      })
-      .then(() => {
-        this.initData();
-      })
-      .catch((errors) => this.setState({ errors: errors }))
 
-    userData.findIdustries()
-      .then((result) => {
-        this.setState({ industries: result })
-      })
-      .catch((errors) => this.setState({ errors: errors }))
-
-    userData.findOffersNeeds()
-      .then((result) => {
-        this.setState({ offers_needs: result })
-      })
-      .catch((errors) => this.setState({ errors: errors }))
-
-    userData.findFavorites(this.props.id)
-      .then((result) => {
-        this.setState({ favorites: result })
-      })
-      .catch((errors) => this.setState({ errors: errors }))
   }
 
   _onClick(personClicked){

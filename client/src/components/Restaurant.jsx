@@ -66,15 +66,8 @@ class Restaurant extends React.Component {
   }
 
 render() {
-    return (
-      <div>
-        <Grid>
-          <div>
-            <Map venues={this.state.venues} personClicked={this.state.personClicked}
+    return (<Map venues={this.state.venues} personClicked={this.state.personClicked}
                  restaurant={true} zoom={15}/>
-          </div>
-        </Grid>
-      </div>
     )
   }
 }

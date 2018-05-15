@@ -61,7 +61,7 @@ class Messagebox extends React.Component {
               </Modal.Body>
 
               <Modal.Footer>
-                <Button onClick={this._handleSubmit.bind(this)}>Send test</Button>
+                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
               </Modal.Footer>
               <Restaurant />
           </Modal>}

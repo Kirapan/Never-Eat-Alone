@@ -158,6 +158,11 @@ render(){
       }
     ]
 
+  //depending on whether style is for restaurants or users different size
+  const style = this.props.restaurant ? (
+    <div style={{ height: `500px`, width: '400px' }} />) :
+  (<div style={{ height: `83vh`, width: '47vw', position: 'fixed' }} />)
+
   //depending on whether markers are for restaurants or users different data structure
   const markers = this.props.restaurant ? (this.props.venues.info.map((marker, index)=> {
      return (
@@ -229,7 +234,7 @@ render(){
   return(
     <div>
       <GoogleMapExample
-        containerElement={ <div style={{ height: `83vh`, width: '47vw', position: 'fixed' }} /> }
+        containerElement={style}
         mapElement={ <div style={{ height: `100%` }} /> }
       />
     </div>
