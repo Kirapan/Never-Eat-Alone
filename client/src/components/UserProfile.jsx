@@ -4,7 +4,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Resource from '../models/resource'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Grid, Row, Col, Panel, Image } from 'react-bootstrap'
 import Geosuggest from 'react-geosuggest'
 import '../styles/css/geo-suggest.css'
 
@@ -114,58 +114,70 @@ class userProfile extends React.Component {
       <div>
         <Grid>
           <Row className="header">
-            <Col xs={6} md={6}>
-              <Link to={`/api/users/${id}`}>Your Profile</Link>
-            </Col>
-            <Col xs={6} md={6}>
-              <Link to={`/api/users/${id}/preferences`}>Preferences</Link>
-            </Col>
+            <nav aria-label="...">
+              <ul class="pager">
+                <li> <Link to={`/api/users/${id}`}>Your Profile</Link></li>
+                <li>   <Link to={`/api/users/${id}/preferences`}>Preferences</Link></li>
+              </ul>
+            </nav>
           </Row>
           <Row className="profile-content">
+
+
+            <div>
+              {/* <input value={this.state.profile.image} placeholder="Copy paste your image url here" onChange={this._handleImageUrl}/> */}
+              {/* <input type="file" onChange={this._handleImageChange} /> */}
+              {/* <button type="button" onClick={this._handleImageSubmit}>Upload Image</button> */}
+              {/* {$imagePreview} */}
+              <Image className="profile-pic" src={this.state.profile.image} alt='' height="120" width="120" rounded />
+            </div>
+            <br />
+
             <form onSubmit={this._handleSubmit}>
-            <label>
-                <div>
-                  Image
-                {/* <input value={this.state.profile.image} placeholder="Copy paste your image url here" onChange={this._handleImageUrl}/> */}
-                  {/* <input type="file" onChange={this._handleImageChange} /> */}
-                  {/* <button type="button" onClick={this._handleImageSubmit}>Upload Image</button> */}
-                  {/* {$imagePreview} */}
-                  <img src={this.state.profile.image} alt='' height="100" width="100" />
-                </div>
-              </label>
-              <label>
-                Name
-             <input type="text" value={this.state.profile.name} name="name" onChange={this._handleNameChange} />
-              </label>
-              <label>
-                Email
-             <input value={this.state.profile.email} disabled={true} />
-              </label>
+              <div class="input-group">
+                <span bsStyle="info" class="input-group-addon" id="sizing-addon2">Name</span>
+                <input type="text" class="form-control" aria-describedby="sizing-addon2" value={this.state.profile.name} name="name" onChange={this._handleNameChange} />
+              </div>
+              <br />
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">Email</span>
+                <input type="text" class="form-control" aria-describedby="sizing-addon2" value={this.state.profile.email} disabled={true} />
+              </div>
+              <br />
+
               {/* <label>
                 Password
              <input type="password" value={this.state.profile.password} />
               </label> */}
-              <label>
-                Industry
-          <select value={this.state.profile.title} name="Industry" onChange={this._handleIndustryChange} >
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">
+                  Industry</span>
+                <select class="form-control" aria-describedby="sizing-addon2" value={this.state.profile.title} name="Industry" onChange={this._handleIndustryChange} >
                   {industries}
                 </select>
-              </label>
-              <label>
-                Company
-          <input value={this.state.profile.company} name="company" onChange={this._handleCompanyChange} />
-              </label>
-              <label>
-                Company Address
+              </div>
+              <br />
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">
+                  Company</span>
+                <input class="form-control" aria-describedby="sizing-addon2" value={this.state.profile.company} name="company" onChange={this._handleCompanyChange} />
+              </div>
+              <br />
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">
+                  Company Address</span>
                 <Geosuggest
+                  class="form-control" aria-describedby="sizing-addon2"
                   ref={el => this._geoSuggest = el}
                   initialValue={this.state.profile.address}
                   onSuggestSelect={this.onSuggestSelect}
                   location={new google.maps.LatLng(43.6, -79.3)}
                   radius="20" />
-              </label>
-              <input type="submit" value="Save and Continue" />
+              </div>
+              <br />
+              <input id="profile-button" type="submit" value="Save and Continue" />
             </form>
+            <br />
           </Row>
         </Grid>
       </div>)

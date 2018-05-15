@@ -54,7 +54,7 @@ class UserPreferences extends React.Component {
   }
 
   _handleSubmit = event => {
-    this.setState({toProfiles: true})
+    this.setState({ toProfiles: true })
     let data = {
       user_industries: this.state.user_industries,
       offers: this.state.offers,
@@ -68,21 +68,21 @@ class UserPreferences extends React.Component {
   _handleIndustryChange = e => {
     const newIndustry = e.target.value
     let newArray = this.state.user_industries;
-    newArray[e.target.getAttribute('data-key')] = {title :newIndustry}
+    newArray[e.target.getAttribute('data-key')] = { title: newIndustry }
     this.setState({ user_industries: newArray })
   }
 
   _handleNeedsChange = e => {
     const newNeeds = e.target.value
     let newArray = this.state.needs;
-    newArray[e.target.getAttribute('data-key')] ={ title:newNeeds }
+    newArray[e.target.getAttribute('data-key')] = { title: newNeeds }
     this.setState({ needs: newArray })
   }
 
   _handleOffersChange = e => {
     const newOffers = e.target.value
     let newArray = this.state.offers;
-    newArray[e.target.getAttribute('data-key')] ={title: newOffers}
+    newArray[e.target.getAttribute('data-key')] = { title: newOffers }
     this.setState({ offers: newArray })
   }
 
@@ -96,7 +96,7 @@ class UserPreferences extends React.Component {
       return (<option value={item.title}>{item.title}</option>)
     })
 
-    if(this.state.toProfiles === true) {
+    if (this.state.toProfiles === true) {
       return <Redirect to='/api/users' />
     }
 
@@ -104,35 +104,43 @@ class UserPreferences extends React.Component {
       <div>
         <Grid>
           <Row className="header">
-            <Col xs={6} md={6}>
-              <Link to={`/api/users/${id}`}>Your Profile</Link>
-            </Col>
-            <Col xs={6} md={6}>
-              <Link to={`/api/users/${id}/preferences`}>Preferences</Link>
-            </Col>
+            <nav aria-label="...">
+              <ul class="pager">
+                <li> <Link to={`/api/users/${id}`}>Your Profile</Link></li>
+                <li>   <Link to={`/api/users/${id}/preferences`}>Preferences</Link></li>
+              </ul>
+            </nav>
           </Row>
           <Row className="profile-content">
             <form onSubmit={this._handleSubmit.bind(this)}>
-              <label>
-                Interested Industries
-          {this.state.user_industries.map((industry, i) => {
-                  return (<select value={industry.title} data-key={i} onChange={this._handleIndustryChange}>{industries}</select>)
+              <div class="input-group">
+                <span bsStyle="info" class="input-group-addon" id="sizing-addon2">
+                  Interested Industries</span>
+                {this.state.user_industries.map((industry, i) => {
+                  return (<select class="form-control" aria-describedby="sizing-addon2" value={industry.title} data-key={i} onChange={this._handleIndustryChange}>{industries}</select>)
                 })}
-              </label>
-              <label>
-                What topics would you like to talk about?
+              </div>
+              <br/>
+              <div class="input-group">
+                <span bsStyle="info" class="input-group-addon" id="sizing-addon2">
+                Pick 3 topics you would like to know</span>
           {this.state.needs.map((need, i) => {
-                  return (<select value={need.title} data-key={i} onChange={this._handleNeedsChange}>{offers_needs}</select>)
+                  return (<select class="form-control" aria-describedby="sizing-addon2" value={need.title} data-key={i} onChange={this._handleNeedsChange}>{offers_needs}</select>)
                 })}
-              </label>
-              <label>
-                What expertise could you offer?
+            </div>
+            <br/>
+            <div class="input-group">
+                <span bsStyle="info" class="input-group-addon" id="sizing-addon2">
+                Pick 3 expertise you could offer</span>
           {this.state.offers.map((offer, i) => {
-                return (<select value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
+                  return (<select class="form-control" aria-describedby="sizing-addon2"value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
                 })}
-              </label>
-              <input type="submit" value="Continue to search lunch partners" />
+              </div>
+              <br/>
+              <input id="profile-button" type="submit" value="Search!" />
+    
             </form>
+            <br/>
           </Row>
         </Grid>
       </div>
