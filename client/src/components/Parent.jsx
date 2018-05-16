@@ -6,17 +6,13 @@ import Index from './Index';
 import Users from './Users';
 import UserProfile from './UserProfile';
 import UserPreferences from './UserPreferences';
-import Messagebox from './Messagebox'
 import Messages from './Messages';
 import Login from './Login';
 import Signup from './Signup';
 import Footer from './Footer';
-import Maps from './Map';
 import Favorites from './Favorites'
 import UsersWithMaps from './UsersWithMaps';
 import Restaurant from './Restaurant';
-import Resource from '../models/resource'
-const userData = Resource('users')
 
 class Parent extends React.Component {
   constructor(props) {

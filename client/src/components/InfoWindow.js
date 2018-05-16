@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router'
 import { Button } from 'react-bootstrap';
-import {
-  GoogleMapLoader,
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-  InfoWindow
-} from "react-google-maps";
+import { InfoWindow } from "react-google-maps";
+
 const faker = require('faker');
 
 class InfoWindows extends Component {
@@ -61,7 +55,7 @@ class InfoWindows extends Component {
 
     const content = this.props.info.image ? (//infoWindow for people
         <div>
-          <img src={this.props.info.image}/>
+          <img src={this.props.info.image} alt='peopleImage'/>
           <p>{this.props.info.name}</p>
           <p>Company: {this.props.info.company}</p>
           <Button onClick={this._sendMessage.bind(this)}>Send message</Button>
@@ -69,7 +63,7 @@ class InfoWindows extends Component {
     ) : (//infoWindow for restaurants
         <div>
           <img src="https://picsum.photos/100/100/?random"
-              onClick={this._navigate.bind(this)} />
+              onClick={this._navigate.bind(this)} alt='restaurantImage'/>
           <p>{this.props.info.name}</p>
           <p>{this.props.info.location.formattedAddress[0]} </p>
           <Button onClick={this._restaurantChosen.bind(this)}>Choose</Button>

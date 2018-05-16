@@ -1,30 +1,11 @@
 import React from 'react';
-import Resource from '../models/resource';
-import {Grid } from 'react-bootstrap';
 import Map from './Map';
 
-const userData = Resource('users');
 
-//Client ID
-//L1BAD2VJONF3BY1VCXSYNPTSBDINHO3FLDX5I2VYGUPD5ZX1
-//Client Secret
-//FUMHJKGEJTBYUI1343NXI5GNOFZZBCCDLBTKGBO54JXJGBX1
-
-var foursquare = require('react-foursquare')({
+let foursquare = require('react-foursquare')({
   clientID: 'L1BAD2VJONF3BY1VCXSYNPTSBDINHO3FLDX5I2VYGUPD5ZX1',
   clientSecret: 'FUMHJKGEJTBYUI1343NXI5GNOFZZBCCDLBTKGBO54JXJGBX1'
 });
-
-var params = {
-  ll: '43.64,-79.39',
-  query: 'Restaurant',
-  section: 'topPicks',
-  limit: 10,
-  openNow: 1,
-  sortByDistance: 1,
-  intent: 'checkin',
-  radius: 500
-};
 
 class Restaurant extends React.Component {
   constructor(props) {
@@ -35,30 +16,52 @@ class Restaurant extends React.Component {
         info: [],
         marker: []
       },
-      restaurantClicked: ''
+      restaurantClicked: '',
+      params: {
+        ll: '',
+        query: 'Restaurant',
+        section: 'topPicks',
+        limit: 10,
+        openNow: 1,
+        sortByDistance: 1,
+        intent: 'checkin',
+        radius: 500
+      }
     }
   }
 
   componentDidMount() {
     let markers = [];
     let venueDetails = [];
-    foursquare.venues.getVenues(params)
-      .then(res=> {
-        console.log("foursquare", res)
-        //assign all venues to an array
-        res.response.venues.map((venue) => {
-          markers.push(venue.location)
-          let venueParam = {venue_id: venue.id}
-          //request details for each venue
-          foursquare.venues.getVenue(venueParam)
-            .then(res=> {
-              venueDetails.push(res.response.venue);
-          })
+
+    //retrieving the current location based on browser
+    if (navigator && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const coords = pos.coords;
+            const lat = coords.latitude.toString().substring(0,5);
+            const lng = coords.longitude.toString().substring(0,6);
+            this.setState({params: {ll: lat + ',' + lng}}, () => {
+              foursquare.venues.getVenues(this.state.params)
+                .then(res=> {
+                  console.log("foursquare", res)
+                  //assign all venues to an array
+                  res.response.venues.map((venue) => {
+                    markers.push(venue.location)
+                    let venueParam = {venue_id: venue.id}
+                    //request details for each venue
+                    foursquare.venues.getVenue(venueParam)
+                      .then(res => {
+                        venueDetails.push(res.response.venue);
+                        const state = this.state;
+                        this.setState(...state, {venues: {info: venueDetails,
+                                                          marker: markers}});
+                    })
+                  })
+              })
+
+            })
         })
-    })
-    const state = this.state;
-    this.setState(...state, {venues: {info: venueDetails,
-                                      marker: markers}});
+    }
 
     this.props.restaurantChosen(this.state.restaurantClicked);
   }
@@ -73,7 +76,7 @@ class Restaurant extends React.Component {
 
 render() {
     return (<Map venues={this.state.venues} personClicked={this.state.restaurantClicked}
-                 restaurant={true} zoom={15} restaurantChosen={this._restaurantChosen.bind(this)}/>
+                 restaurant={true} zoom={14} restaurantChosen={this._restaurantChosen.bind(this)}/>
     )
   }
 }

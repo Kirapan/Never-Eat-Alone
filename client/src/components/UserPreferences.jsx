@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Resource from '../models/resource'
-import { Grid, Row, Col ,Image} from 'react-bootstrap'
+import { Grid, Row, Image } from 'react-bootstrap'
 
 const userData = Resource('users')
 
