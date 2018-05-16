@@ -95,7 +95,7 @@ class Signup extends React.Component {
 
   render() {
     if (this.state.toUserProfile === true) {
-      return <Redirect to={'users/'+ this.state.id + '/preferences'} />
+      return <Redirect to={'users/'+ this.state.id } />
     }
 
     return (<div className="login">
