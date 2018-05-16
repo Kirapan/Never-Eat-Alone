@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Popover, Label, Image, Button } from 'react-bootstrap'
+import { Popover, Image, Button } from 'react-bootstrap'
 import { Link, Switch, Route } from 'react-router-dom'
 import Resource from '../models/resource'
 import Messagebox from './Messagebox'

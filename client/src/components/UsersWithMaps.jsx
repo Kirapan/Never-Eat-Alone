@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
-import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button } from 'react-bootstrap'
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom'
-import Resource from '../models/resource'
+import React from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
 import Users from './Users';
-import Messagebox2 from './Messagebox2';
 import Map from './Map';
-
-const userData = Resource('users')
 
 class UsersWithMaps extends React.Component {
   constructor(props) {

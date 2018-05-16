@@ -1,9 +1,6 @@
 import React from 'react';
-import Resource from '../models/resource';
-import {Grid } from 'react-bootstrap';
 import Map from './Map';
 
-const userData = Resource('users');
 
 let foursquare = require('react-foursquare')({
   clientID: 'L1BAD2VJONF3BY1VCXSYNPTSBDINHO3FLDX5I2VYGUPD5ZX1',

@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  GoogleMapLoader,
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-  InfoWindow
-} from "react-google-maps";
+import { Marker } from "react-google-maps";
 import InfoWindows from './InfoWindow'
 
 class Markers extends Component {

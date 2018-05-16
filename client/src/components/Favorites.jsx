@@ -1,9 +1,6 @@
-import React from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
-import Resource from '../models/resource'
-import Maps from './Map';
-import Messagebox2 from './Messagebox2'
-import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import React from 'react';
+import Resource from '../models/resource';
+import { Grid, Row, Col, Button, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import Restaurant from './Restaurant';
 import TimePicker from 'react-bootstrap-time-picker';
 
@@ -141,7 +138,7 @@ class Favorites extends React.Component {
     const displayImage = newList.map((prof, idx) => {
       return (<Col xs={3} md={2} className='usersCol'>
         <div className='usersThumb' >
-          <img class="img-circle usersImg" src={prof.image} />
+          <img class="img-circle usersImg" src={prof.image} alt='usersImg'/>
           <h5><strong>{prof.name}</strong></h5>
           <h6 className='usersIndustry'>{prof.industry}</h6>
           <h6>{prof.offers[0]}, {prof.offers[1]},{prof.offers[2]} </h6>

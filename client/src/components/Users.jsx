@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
 import Resource from '../models/resource';
-import Maps from './Map';
-import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Row, Grid, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import Restaurant from './Restaurant';
 import TimePicker from 'react-bootstrap-time-picker';
 
@@ -294,7 +292,7 @@ class Users extends React.Component {
     const displayImage = this.state.scrollData.map((scroll, idx) => {
       return (<Col xs={4} md={4}>
         <div className='usersThumb' onClick={this._onClick.bind(this, scroll)}>
-          <img class="img-circle usersImg" src={scroll.image} />
+          <img class="img-circle usersImg" src={scroll.image} alt='userImage'/>
           <h5><strong>{scroll.name}</strong></h5>
           <h6 className='usersIndustry'>{scroll.industry}</h6>
           <h6>{scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>

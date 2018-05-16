@@ -1,6 +1,6 @@
 import React from 'react';
 import Resource from '../models/resource';
-import { Grid, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import logo from "./logo.png"
 const userData = Resource('users');
 
@@ -65,7 +65,7 @@ class Login extends React.Component {
 
   render() {
     return (<div className="login">
-      <img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Space-Light-Desktop-Wallpapers-HD.jpg" alt="background picture" />
+      <img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Space-Light-Desktop-Wallpapers-HD.jpg" alt="backgroundPicture" />
       <form onSubmit={this._handleSubmit.bind(this)} className="submit">
         <img className="logo" src={logo} alt="logo" />
         <div class="formgroup">
@@ -75,7 +75,7 @@ class Login extends React.Component {
         <br />
         <div class="formgroup">
           <label>Password: </label>
-          <input type="submit" id="password" type="password" class="form-control"
+          <input id="password" type="password" class="form-control"
             onChange={this._udpatePassword.bind(this)} />
         </div>
         <br />

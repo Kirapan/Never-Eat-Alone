@@ -1,20 +1,11 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Resource from '../models/resource'
+import React from 'react';
 import {
-  GoogleMapLoader,
-  withScriptjs,
   withGoogleMap,
-  GoogleMap,
-  Marker,
-  InfoWindow,
-  LatLngBounds
+  GoogleMap
 } from "react-google-maps";
 import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
 import Markers from './Marker';
 
-const userData = Resource('users');
-const _ = require("lodash");
 let _searchBox;
 
 class MyMapComponent extends React.Component {

@@ -4,7 +4,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Resource from '../models/resource'
-import { Grid, Row, Col, Panel, Image } from 'react-bootstrap'
+import { Grid, Row, Image } from 'react-bootstrap'
 import Geosuggest from 'react-geosuggest'
 import '../styles/css/geo-suggest.css'
 
