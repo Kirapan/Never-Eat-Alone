@@ -18,13 +18,13 @@ h5.user-name {
   font-size: 18px;
 }
 h6.usersIndustry{
-  font-size: 14px;
+  font-size: 16px;
   color: #32a0d1;
   margin-bottom: 10px;
 }
 .btn-toolbar {
-  margin: 10px;
-  margin-bottom: 50px;
+  margin-left: 40px;
+  margin-bottom: 30px;
 }
 
 .usersWithMapsRow {
@@ -46,6 +46,6 @@ h6.usersIndustry{
   margin: 5px;
 }
 
-div.usersWithMapsCol.col-md-6.col-xs-12 {
+div.usersWithMapsCol-onpage.col-md-6.col-xs-12 {
   margin-top: 100px;
 }
