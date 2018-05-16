@@ -69,11 +69,10 @@ module.exports = (knex) => {
             id: result[0].id,
             email: result[0].email
           };
+          //with Bearer
+          //const token = "Bearer " + jwt.sign(payload, process.env.SECRETKEY);
           const token = jwt.sign(payload, process.env.SECRETKEY);
-          req.headers = {
-            Authorization: "Bearer " + token
-          };
-          console.log("in getToken", req.headers);
+          console.log("in getToken", token);
           res.send(token);
         }
         //        res.authenticate(req.boapp.use(express.staticdy.password).then(user => {
@@ -169,7 +168,7 @@ module.exports = (knex) => {
           //   console.log("inside hash", hashPassword);
           createInitialData(req.body.firstname, req.body.lastname, req.body.email, req.body.password)
             .then((result) => {
-              
+
               res.sendStatus(200);
             })
             .catch((err) => {

@@ -4,6 +4,7 @@ import Resource from '../models/resource';
 import Maps from './Map';
 import { Grid, Row, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Thumbnail, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import Restaurant from './Restaurant';
+import TimePicker from 'react-bootstrap-time-picker';
 
 const userData = Resource('users')
 
@@ -19,17 +20,19 @@ class Users extends React.Component {
       favorites: [],
       scrollData: [],
       filter: {
-        industry: "",
-        offer: ""
+        industry: '',
+        offer: ''
       },
       loadMore: true,
       isOpen: false,
-      content: "",
-      to_user: "",
+      content: '',
+      to_user: '',
       liked: false,
       personClicked: '',
-      reply_id:"",
-      reply_name:""
+      reply_id: '',
+      reply_name: '',
+      restaurant: '',
+      time: 0
     }
   }
 
@@ -211,16 +214,36 @@ class Users extends React.Component {
   }
 
   _handleSubmit = (e) => {
-    userData.sendMessages(this.props.id, this.state.reply_id, this.state.content)
-      .then(() => {
-        console.log("ok")
-      })
-      .catch((errors) => this.setState({ errors: errors }))
-      this.toggleModal()
+    const state = this.state;
+    const date = this.convertSeconds(this.state.time);
+    const message = this.state.content + " At: " + this.state.restaurant + " Time: " + date;
+    this.setState(...state, {content: message} , () => {
+      userData.sendMessages(this.props.id, this.state.reply_id, this.state.content)
+        .then(() => {
+          console.log("ok")
+        })
+        .catch((errors) => this.setState({ errors: errors }))
+        this.toggleModal()
+      });
+  }
+
+
+  convertSeconds(seconds) {
+    let days     = Math.floor(seconds / (24*60*60));
+        seconds -= days    * (24*60*60);
+    let hours    = Math.floor(seconds / (60*60));
+        seconds -= hours   * (60*60);
+    let minutes  = Math.floor(seconds / (60));
+        seconds -= minutes * (60);
+
+    if (minutes === 0)
+    {minutes = '00'};
+    let hoursAndMinutes = hours + ":" + minutes;
+    return hoursAndMinutes;
   }
 
   _handleChange = (e) => {
-    this.setState({ content: e.target.value })
+    this.setState({content: e.target.value});
   }
 
   _onClick(personClicked){
@@ -230,6 +253,23 @@ class Users extends React.Component {
       })
   }
 
+  _restaurantChosen(restaurant){
+    console.log("in users", restaurant)
+    const state = this.state;
+    this.setState(...state, {restaurant: restaurant.name,
+                             restaurantObject: restaurant});
+  }
+
+  _udpateRestaurant(event) {
+    event.preventDefault();
+    const state = this.state;
+    this.setState(...state, {restaurant: event.target.value});
+  }
+
+  _handleTimeChange(time) {
+    const state = this.state;
+    this.setState(...state, {time: time});
+  }
   // _handleLiked = (e) => {
   //   let newList = []
   //   newList = this.state.lists.filter((item)=> {
@@ -295,8 +335,8 @@ class Users extends React.Component {
           {displayImage}
         </Row>
         <Modal show={this.state.isOpen} bsSize="lg"
-          onHide={this.toggleModal.bind(this)} style={ {zIndex: 1210}}>
-          <Row className='usersWithMapsRow'>
+          onHide={this.toggleModal.bind(this)} style={{zIndex: 1210}}>
+          <Row>
           <Col xs={12} md={6} className='usersWithMapsCol'>
           <Modal.Header closeButton>
             <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
@@ -305,6 +345,17 @@ class Users extends React.Component {
             <FormGroup controlId="formControlsTextarea">
               <ControlLabel>Message:</ControlLabel>
               <FormControl componentClass="textarea" placeholder="Write your message..." onChange={this._handleChange.bind(this)} />
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">Suggested restaurant: </span>
+                <input type="text" class="form-control" aria-describedby="sizing-addon2"
+                onChange={this._udpateRestaurant.bind(this)} value={this.state.restaurant}
+                placeholder="Pick from map or type..." />
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">Suggested time: </span>
+                <TimePicker start="10:00" end="15:00" step={30}
+                  onChange={this._handleTimeChange.bind(this)} value={this.state.time} />
+              </div>
             </FormGroup>
           </Modal.Body>
           <Modal.Footer>
@@ -312,8 +363,7 @@ class Users extends React.Component {
           </Modal.Footer>
           </Col>
           <Col xs={12} md={6} className='usersWithMapsCol'>
-          <Restaurant/>
-          <br/>
+          <Restaurant restaurantChosen={this._restaurantChosen.bind(this)}/>
           </Col>
           </Row>
           </Modal>

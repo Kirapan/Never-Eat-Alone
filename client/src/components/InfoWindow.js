@@ -46,6 +46,10 @@ class InfoWindows extends Component {
     window.open(this.props.info.shortUrl);
   }
 
+  _restaurantChosen() {
+    this.props.restaurantChosen(this.props.info);
+  }
+
   render() {
     if (this.state.toUser === true) {
       return <Redirect to={'users/'+  this.props.info.id} />
@@ -64,10 +68,11 @@ class InfoWindows extends Component {
         </div>
     ) : (//infoWindow for restaurants
         <div>
-          <img src="https://picsum.photos/100/100/?random"/>
+          <img src="https://picsum.photos/100/100/?random"
+              onClick={this._navigate.bind(this)} />
           <p>{this.props.info.name}</p>
           <p>{this.props.info.location.formattedAddress[0]} </p>
-          <Button onClick={this._navigate.bind(this)}>Go to website</Button>
+          <Button onClick={this._restaurantChosen.bind(this)}>Choose</Button>
         </div>
     )
 
