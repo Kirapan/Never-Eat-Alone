@@ -86,3 +86,21 @@ html, body {
     cursor: default;
     border-radius: 4px;
 }
+
+.btn-danger {
+  margin: 5px;
+  background-color: #9eedfa;
+  border-color: black;
+}
+
+.btn-primary {
+  margin: 5px;
+  background-color: #243065;
+  border-color: black;
+}
+
+.btn-warning {
+  margin: 5px;
+  background-color: #32a0d1;
+  border-color: black;
+}

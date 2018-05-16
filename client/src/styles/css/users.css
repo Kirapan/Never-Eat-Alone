@@ -1,11 +1,16 @@
-.thumbnail .caption {
-    height: 110px;
+.usersThumb {
+  width: 80%;
+  height: 290px;
+  margin: auto;
+  border: 3px;
+  padding: 5px;
+  border-color: black;
+  text-align: center;
+  box-shadow: 4px 4px 4px grey;
 }
 
-.usersThumb {
-  width: 210px;
-  height: 290px;
-  margin: 5px;
+.usersImg {
+  opacity: 0.7;
 }
 
 .btn-toolbar {
@@ -15,4 +20,21 @@
 .usersWithMapsRow {
   margin-top: 80px;
   margin-left: 5px;
+}
+
+.usersButtons{
+  position: absolute;
+  bottom: 5px;
+}
+
+.usersIndustry{
+  font-style: italic;
+}
+
+.usersCol{
+  margin: 5px;
+}
+
+.usersAlert{
+
 }

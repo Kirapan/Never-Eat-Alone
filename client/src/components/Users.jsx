@@ -251,7 +251,6 @@ class Users extends React.Component {
   }
 
   _restaurantChosen(restaurant){
-    console.log("in users", restaurant)
     const state = this.state;
     this.setState(...state, {restaurant: restaurant.name,
                              restaurantObject: restaurant});
@@ -285,15 +284,18 @@ class Users extends React.Component {
 
     const displayImage = this.state.scrollData.map((scroll, idx) => {
       return (<Col xs={4} md={4}>
-        <Thumbnail className='usersThumb' src={scroll.image} alt="242x210" onClick={this._onClick.bind(this, scroll)}>
+        <div className='usersThumb' onClick={this._onClick.bind(this, scroll)}>
+          <img class="img-circle usersImg" src={scroll.image} />
           <h5><strong>{scroll.name}</strong></h5>
-          <h6>Industry: {scroll.industry}</h6>
-          <h6>Offers: {scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
-          {this.state.favorites.indexOf(scroll.id) < 0 ?
-            (<Button bsStyle="primary" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
-            (<Button bsStyle="danger" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
-          <Button data-keyid={scroll.id} data-keyname={scroll.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
-        </Thumbnail>
+          <h6 className='usersIndustry'>{scroll.industry}</h6>
+          <h6>{scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
+          <div className="usersButtons">
+            {this.state.favorites.indexOf(scroll.id) < 0 ?
+              (<Button bsStyle="primary" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
+              (<Button bsStyle="danger" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
+            <Button data-keyid={scroll.id} data-keyname={scroll.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
+          </div>
+        </div>
       </Col >)
     })
 

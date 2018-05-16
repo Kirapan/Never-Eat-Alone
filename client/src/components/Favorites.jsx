@@ -23,10 +23,8 @@ class Favorites extends React.Component {
   componentWillMount() {
     userData.findAll()
       .then((result) => {
-        console.log("find alllllll???", result)
         const state = this.state;
         this.setState(...state, { lists: result })
-        console.log("iam listtttttt", this.state.lists)
       })
       .catch((errors) => this.setState({ errors: errors }))
 
@@ -46,7 +44,6 @@ class Favorites extends React.Component {
     if (this.state.favorites.indexOf(id) < 0) {
       userData.addFavorites(this.props.id, id)
         .then((result) => {
-          console.log("i am in adddddddd")
           let fav_array = this.state.favorites
           fav_array.push(id)
           this.setState({ favorites: fav_array })
@@ -55,7 +52,6 @@ class Favorites extends React.Component {
     } else {
       userData.deleteFavorites(this.props.id, id)
         .then((result) => {
-          console.log("i am herer")
           let index = this.state.favorites.indexOf(id)
           let fav_array = this.state.favorites
           fav_array.splice(index, 1)
@@ -104,55 +100,51 @@ class Favorites extends React.Component {
         newList.push(list)
       }
     })
-    console.log(newList)
 
     const displayImage = newList.map((prof, idx) => {
-      return (<Col xs={3} md={3}>
-        <Thumbnail src={prof.image} alt="242x200" >
+      return (<Col xs={3} md={2} className='usersCol'>
+        <div className='usersThumb' >
+          <img class="img-circle usersImg" src={prof.image} />
           <h5><strong>{prof.name}</strong></h5>
-          <h6>Industry: {prof.industry}</h6>
-          <h6>Offers: {prof.offers[0]}, {prof.offers[1]},{prof.offers[2]} </h6>
+          <h6 className='usersIndustry'>{prof.industry}</h6>
+          <h6>{prof.offers[0]}, {prof.offers[1]},{prof.offers[2]} </h6>
+          <div className="usersButtons">
           {this.state.favorites.indexOf(prof.id) < 0 ?
             (<Button bsStyle="primary" data-key={prof.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
             (<Button bsStyle="danger" data-key={prof.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
           <Button data-keyid={prof.id} data-keyname={prof.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
-        </Thumbnail>
+          </div>
+        </div>
       </Col >)
     })
 
-    if (!this.props.email) {
-      return (<Row>
-        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
-      </Row>)
-    } else {
+//    if (!this.props.email) {
+//      return (<Row className='usersWithMapsRow'>
+//        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
+//      </Row>)
+//    } else {
       return (<Grid className='usersWithMapsRow'>
         <Row className='usersImageRow'>
           {displayImage}
         </Row>
         <Modal show={this.state.isOpen}
             onHide={this.toggleModal.bind(this)} style={ {zIndex: 1200}}>
-            <Modal.Header closeButton>
-              <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
-            </Modal.Header>
-              <Modal.Body>
-                <FormGroup controlId="formControlsTextarea">
-                  <ControlLabel>Message:</ControlLabel>
-                  <FormControl componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
-                </FormGroup>
-              </Modal.Body>
-
-              <Modal.Footer>
-                <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
-              </Modal.Footer>
+          <Modal.Header closeButton>
+            <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
+          </Modal.Header>
+            <Modal.Body>
+              <FormGroup controlId="formControlsTextarea">
+                <ControlLabel>Message:</ControlLabel>
+                <FormControl componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
+              </FormGroup>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
+            </Modal.Footer>
           </Modal>
-        <Row>
-          {this.state.loadMore ?
-            <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
-            <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
-        </Row>
       </Grid>)
     }
-  }
+  //}
 }
 
 export default Favorites
