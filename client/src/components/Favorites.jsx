@@ -179,7 +179,7 @@ class Favorites extends React.Component {
     })
 
     const displayImage = newList.map((prof, idx) => {
-      return (<Col xs={3} md={2} className='usersCol'>
+      return (<Col xs={6} md={3} className='usersCol'>
         <div className='usersThumb' >
           <img class="img-circle usersImg" src={prof.image} alt='usersImg'/>
           <h5><strong>{prof.name}</strong></h5>
@@ -201,6 +201,7 @@ class Favorites extends React.Component {
 //      </Row>)
 //    } else {
       return (<Grid className='usersWithMapsRow'>
+      <img className="favoriteback" src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Space-Purple-Haze-HD-Desktop-Wallpapers.jpg" alt="backgroud-picture" />
         <Row className='usersImageRow'>
           {displayImage}
         </Row>
