@@ -37,7 +37,6 @@ class TopNav extends React.Component {
           <Navbar.Brand>
             <Link to='/'>
               <img className="logo-nav" src={logo} alt="logo-pic"/>
-              Never Lunch Alone
             </Link>
           </Navbar.Brand>
         </Navbar.Header>
