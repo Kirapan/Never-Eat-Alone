@@ -1,17 +1,19 @@
 import React from 'react';
 import Resource from '../models/resource';
 import { Button } from 'react-bootstrap';
-import logo from "./logo.png"
+import logo from './logo.png';
+import { Redirect } from 'react-router';
 const userData = Resource('users');
 
 class Signup extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: ""
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+      toUserProfile: ''
     }
   }
 
@@ -69,7 +71,8 @@ class Signup extends React.Component {
                     email: result.authData.email
                   });
                   this.props.doLogin(this.state);
-                  this.props.history.push('/');
+                  //this.props.history.push('/');
+                  this._navigateToUserProfile();
                 })
                 .catch((err) => {
                   console.log("verifyToken not valid");
@@ -80,12 +83,21 @@ class Signup extends React.Component {
             });
         })
         .catch((err) => {
-          console.log("login not succesful", err);
+          alert('Email does already exist - please login!');
         });
     }
   }
 
+  _navigateToUserProfile(){
+    const state = this.state;
+    this.setState(...state, {toUserProfile: true});
+  }
+
   render() {
+    if (this.state.toUserProfile === true) {
+      return <Redirect to={'users/'+ this.state.id + '/preferences'} />
+    }
+
     return (<div className="login">
     <img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Space-Light-Desktop-Wallpapers-HD.jpg" alt='backgroundPicture' />
       <form onSubmit={this._handleSubmit.bind(this)} className="submit">

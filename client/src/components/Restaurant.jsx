@@ -17,16 +17,7 @@ class Restaurant extends React.Component {
         marker: []
       },
       restaurantClicked: '',
-      params: {
-        ll: '',
-        query: 'Restaurant',
-        section: 'topPicks',
-        limit: 10,
-        openNow: 1,
-        sortByDistance: 1,
-        intent: 'checkin',
-        radius: 500
-      }
+      params: ''
     }
   }
 
@@ -40,7 +31,15 @@ class Restaurant extends React.Component {
             const coords = pos.coords;
             const lat = coords.latitude.toString().substring(0,5);
             const lng = coords.longitude.toString().substring(0,6);
-            this.setState({params: {ll: lat + ',' + lng}}, () => {
+            const state = this.state;
+            this.setState(...state, {params: {ll: lat + ',' + lng,
+                                              query: 'Restaurant',
+                                              section: 'topPicks',
+                                              limit: 10,
+                                              openNow: 1,
+                                              sortByDistance: 1,
+                                              intent: 'checkin',
+                                              radius: 500}}, () => {
               foursquare.venues.getVenues(this.state.params)
                 .then(res=> {
                   console.log("foursquare", res)
@@ -67,7 +66,6 @@ class Restaurant extends React.Component {
   }
 
   componentWillMount() {
-    console.log("in Restaurant will mount");
   }
 
   _restaurantChosen(restaurant){
@@ -76,7 +74,7 @@ class Restaurant extends React.Component {
 
 render() {
     return (<Map venues={this.state.venues} personClicked={this.state.restaurantClicked}
-                 restaurant={true} zoom={14} restaurantChosen={this._restaurantChosen.bind(this)}/>
+                 restaurant={true} zoom={15} restaurantChosen={this._restaurantChosen.bind(this)}/>
     )
   }
 }

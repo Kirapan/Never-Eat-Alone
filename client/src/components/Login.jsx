@@ -58,7 +58,7 @@ class Login extends React.Component {
         });
       })
       .catch((err) => {
-        console.log("login not succesful");
+        alert('Email and/or Password not correct!');
       });
     }
   }

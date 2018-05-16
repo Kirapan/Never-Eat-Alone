@@ -61,6 +61,7 @@ module.exports = (knex) => {
       .select("*")
       .from("users")
       .where('email', req.body.email)
+      .andWhere('password_digest', req.body.password)
       .then((result) => {
         if (!result) {
           res.sendStatus(400);
@@ -84,7 +85,7 @@ module.exports = (knex) => {
         //        })
       })
       .catch((err) => {
-        console.error(err);
+        res.sendStatus(401);
       });
   })
 

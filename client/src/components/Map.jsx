@@ -26,25 +26,18 @@ class MyMapComponent extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("did update", this.props.personClicked)
     if (prevProps.google !== this.props.google) {
-      console.log("did update ...")
       this.loadMap();
     }
     if (prevState.currentLocation !== this.state.currentLocation) {
-      console.log("did update recenter???");
       this.recenterMap();
     }
   }
 
   componentWillMount(){
-    console.log("will mount", this.props.personClicked);
-
   }
 
   componentDidMount(){
-    console.log("did mount", this.props.personClicked)
-
     if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((pos) => {
             const coords = pos.coords;
@@ -59,11 +52,9 @@ class MyMapComponent extends React.Component {
   }
 
   loadMap() {
-    console.log("in load");
   }
 
   recenterMap() {
-    console.log("in recenter");
     const map = this.map;
     const curr = this.state.currentLocation;
   }
@@ -83,7 +74,6 @@ class MyMapComponent extends React.Component {
   }
 
   handleBoundsChanged() {
-    console.log("handleBoundsChanged");
      this.setState({
        //bounds: this._map.getBounds(),
        center: this.state.center
@@ -91,12 +81,10 @@ class MyMapComponent extends React.Component {
    }
 
   handleSearchBoxMounted(searchBox) {
-    console.log('handleSearchBoxMounted', searchBox);
     _searchBox = searchBox;
   }
 
   handlePlacesChanged(){
-    console.log("handlePlacesChanged");
     const places = _searchBox.getPlaces();
 
     // Add a marker for each place returned from search bar
@@ -160,7 +148,7 @@ render(){
 
   //depending on whether markers are for restaurants or users different data structure
   const markers = this.props.restaurant ? (this.props.venues.info.map((marker, index)=> {
-     return (
+     return (//restaurant markers
        <Markers
          key={index}
          data={marker}
@@ -168,8 +156,9 @@ render(){
          title="Click to zoom"
          icon={'https://maps.google.com/mapfiles/kml/shapes/dining_maps.png'}
          restaurantChosen={this._restaurantChosen.bind(this)}
+         markerNumber={index}
        />)
-     })) : (
+     })) : (//user markers
     this.props.marker.map((marker, index)=> {
      return (
        <Markers
@@ -199,30 +188,6 @@ render(){
       restaurantChosen={this._restaurantChosen.bind(this)}
     >
     <div>
-    <SearchBox
-      ref={this.handleSearchBoxMounted}
-      bounds={this.state.bounds}
-      onPlacesChanged={this.handlePlacesChanged.bind(this)}
-      controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
-    >
-      <input
-        type="text"
-        placeholder="Please enter"
-        style={{
-          boxSizing: `border-box`,
-          border: `1px solid transparent`,
-          width: `240px`,
-          height: `32px`,
-          marginTop: `27px`,
-          padding: `0 12px`,
-          borderRadius: `3px`,
-          boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-          fontSize: `14px`,
-          outline: `none`,
-          textOverflow: `ellipses`
-        }}
-      />
-    </SearchBox>
     {markers}
     {personMarker}
     </div>
