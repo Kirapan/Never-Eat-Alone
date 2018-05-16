@@ -137,6 +137,9 @@ class Users extends React.Component {
       this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
       })
+      this.setState({personClicked: ''}, () => {
+        this.props.person(this.state.personClicked);
+        })
     });
   }
 
@@ -167,7 +170,11 @@ class Users extends React.Component {
       this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
       })
+      this.setState({personClicked: ''}, () => {
+        this.props.person(this.state.personClicked);
+        })
     });
+
   }
 
   _handleLike = (e) => {
