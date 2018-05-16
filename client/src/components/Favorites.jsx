@@ -16,17 +16,13 @@ class Favorites extends React.Component {
       lists: [],
       favorites: [],
       liked: false,
-      reply_id:"",
-      reply_name:"",
-      date: '',
-      format: 'YYYY-MM-DD',
-      inputFormat: 'DD/MM/YYYY',
-      startDate: ''
+      reply_id: '',
+      reply_name: '',
+      date: ''
     }
   }
 
   componentWillMount() {
-    this._getInitialState;
     userData.findAll()
       .then((result) => {
         const state = this.state;
@@ -89,7 +85,6 @@ class Favorites extends React.Component {
     const state = this.state;
     let message = ''
     let time = '';
-    let date = '';
 
     if (!this.state.content){
       alert('Please fill in a message');
@@ -106,18 +101,6 @@ class Favorites extends React.Component {
       message = this.state.content + " At: " + this.state.restaurant + " Date: " + this.state.date.toString().substr(0,15) + " Time: " + this.convertSeconds(this.state.time);
     }
 
-    if (this.state.date) {
-      date = this.state.date.toString().substr(0,15);
-    }
-
-    //check if time has been set, otherwise default to 10:00
-    if (!this.state.time){
-      time = '10:00';
-    } else {
-      time = this.convertSeconds(this.state.time);
-    }
-    console.log("what is send ", message);
-    //message = this.state.content + " At: " + this.state.restaurant + " Time: " + time;
     this.setState(...state, {content: message} , () => {
       userData.sendMessages(this.props.id, this.state.reply_id, this.state.content)
         .then(() => {

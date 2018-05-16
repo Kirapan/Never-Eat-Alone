@@ -3,6 +3,8 @@ import Resource from '../models/resource';
 import { Row, Grid, Col, Alert, DropdownButton, MenuItem, ButtonToolbar, Button, Modal,FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import Restaurant from './Restaurant';
 import TimePicker from 'react-bootstrap-time-picker';
+import DatePicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 const userData = Resource('users')
 
@@ -209,7 +211,10 @@ class Users extends React.Component {
       this.setState({
         isOpen: !this.state.isOpen,
         reply_id :id,
-        reply_name: name
+        reply_name: name,
+        restaurant: '',
+        date: '',
+        time: ''
       });
     } else {
       this.setState({
@@ -220,16 +225,23 @@ class Users extends React.Component {
 
   _handleSubmit = (e) => {
     const state = this.state;
-    let date = '';
+    let message = ''
+    let time = '';
 
-    //check if time has been set, otherwise default to 10:00
-    if (!this.state.time){
-      console.log("time", date);
-      date = '10:00';
+    if (!this.state.content){
+      alert('Please fill in a message');
+    } else if (!this.state.restaurant && !this.state.date && !this.state.time) {
+      time = '10:00';
+      message = this.state.content + " Date: " + this._getToday() + " Time: " + time;
+    } else if (!this.state.date && !this.state.time) {
+      time = '10:00';
+      message = this.state.content + " At: " + this.state.restaurant + " Date: " + this._getToday() + " Time: " + time;
+    } else if (!this.state.time) {
+      time = '10:00';
+      message = this.state.content + " At: " + this.state.restaurant + " Date: " + this.state.date.toString().substr(0,15) + " Time: " + time;
     } else {
-      date = this.convertSeconds(this.state.time);
+      message = this.state.content + " At: " + this.state.restaurant + " Date: " + this.state.date.toString().substr(0,15) + " Time: " + this.convertSeconds(this.state.time);
     }
-    const message = this.state.content + " At: " + this.state.restaurant + " Time: " + date;
     this.setState(...state, {content: message} , () => {
       userData.sendMessages(this.props.id, this.state.reply_id, this.state.content)
         .then(() => {
@@ -280,6 +292,28 @@ class Users extends React.Component {
   _handleTimeChange(time) {
     const state = this.state;
     this.setState(...state, {time: time});
+  }
+
+  _handleDateChange = (newDate) => {
+    this.setState({date: newDate});
+  }
+
+  _getToday() {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth()+1; //January is 0!
+    let yyyy = today.getFullYear();
+
+    if(dd<10) {
+        dd = '0'+dd
+    }
+
+    if(mm<10) {
+        mm = '0'+mm
+    }
+
+    today = mm + '/' + dd + '/' + yyyy;
+    return today;
   }
   // _handleLiked = (e) => {
   //   let newList = []
@@ -365,6 +399,10 @@ class Users extends React.Component {
                 <input type="text" class="form-control" aria-describedby="sizing-addon2"
                 onChange={this._udpateRestaurant.bind(this)} value={this.state.restaurant}
                 placeholder="Pick from map or type..." />
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">Suggested date: </span>
+                <DatePicker onDayClick={this._handleDateChange.bind(this)} todayButton={"Today"}/>
               </div>
               <div class="input-group">
                 <span class="input-group-addon" id="sizing-addon2">Suggested time: </span>

@@ -3,8 +3,6 @@ import { Redirect } from 'react-router';
 import { Button } from 'react-bootstrap';
 import { InfoWindow } from "react-google-maps";
 
-const faker = require('faker');
-
 class InfoWindows extends Component {
   constructor(props){
     super(props);
