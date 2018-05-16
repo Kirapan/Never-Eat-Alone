@@ -136,20 +136,20 @@ img.logo {
   height: 220px;
 }
 
-.btn-danger {
+/* .btn-danger {
   margin: 5px;
   background-color: #9eedfa;
   border-color: black;
-}
+} */
 
 .btn-primary {
   margin: 5px;
   background-color: #243065;
-  border-color: black;
+  border-color: #243065;
 }
 
 .btn-warning {
   margin: 5px;
   background-color: #32a0d1;
-  border-color: black;
+  border-color: #32a0d1;
 }

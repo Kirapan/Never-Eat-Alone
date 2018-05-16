@@ -1,20 +1,30 @@
 .usersThumb {
   width: 80%;
   height: 290px;
-  margin: auto;
-  border: 3px;
+  margin: 90px 0 0 40px;
+  border: 1px solid black;
   padding: 5px;
   border-color: black;
   text-align: center;
-  box-shadow: 4px 4px 4px grey;
+  box-shadow: 4px 10px 4px grey;
 }
 
 .usersImg {
-  opacity: 0.7;
+  /* opacity: 0.7; */
+  margin: -70px 0 20px;
 }
 
+h5.user-name {
+  font-size: 18px;
+}
+h6.usersIndustry{
+  font-size: 14px;
+  color: #32a0d1;
+  margin-bottom: 10px;
+}
 .btn-toolbar {
-  margin: 5px;
+  margin: 10px;
+  margin-bottom: 50px;
 }
 
 .usersWithMapsRow {
@@ -25,6 +35,7 @@
 .usersButtons{
   position: absolute;
   bottom: 5px;
+  padding: 10px;
 }
 
 .usersIndustry{
@@ -35,6 +46,6 @@
   margin: 5px;
 }
 
-.usersAlert{
-
+div.usersWithMapsCol.col-md-6.col-xs-12 {
+  margin-top: 100px;
 }

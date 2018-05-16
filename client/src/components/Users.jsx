@@ -71,7 +71,7 @@ class Users extends React.Component {
   }
 
   initData = () => {
-    let data = this.state.backup.slice(0, 21)
+    let data = this.state.backup.slice(0, 20)
     this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
     })
@@ -89,7 +89,7 @@ class Users extends React.Component {
     if (checkMore === length) {
       this.setState({ loadMore: false })
     } else {
-      let data = this.state.backup.slice(length, 21 + length)
+      let data = this.state.backup.slice(length, 20 + length)
       let newData = this.state.scrollData.concat(data)
       this.setState({ scrollData: newData }, () => {
       this.props.currentSelection(this.state.scrollData);
@@ -131,7 +131,7 @@ class Users extends React.Component {
     this.setState({
       backup: newList
     }, () => {
-      let data = this.state.backup.slice(0, 21)
+      let data = this.state.backup.slice(0, 20)
       this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
       })
@@ -164,7 +164,7 @@ class Users extends React.Component {
     this.setState({
       backup: newList
     }, () => {
-      let data = this.state.backup.slice(0, 21)
+      let data = this.state.backup.slice(0, 20)
       this.setState({ scrollData: data }, () => {
       this.props.currentSelection(this.state.scrollData);
       })
@@ -290,17 +290,18 @@ class Users extends React.Component {
   render() {
 
     const displayImage = this.state.scrollData.map((scroll, idx) => {
-      return (<Col xs={4} md={4}>
+      return (<Col xs={6} md={6}>
         <div className='usersThumb' onClick={this._onClick.bind(this, scroll)}>
           <img class="img-circle usersImg" src={scroll.image} alt='userImage'/>
-          <h5><strong>{scroll.name}</strong></h5>
+          <h5 className="user-name"><strong>{scroll.name}</strong></h5>
           <h6 className='usersIndustry'>{scroll.industry}</h6>
-          <h6>{scroll.offers[0]}, {scroll.offers[1]},{scroll.offers[2]} </h6>
+          <h6 style={{opacity: 0.7}}>{scroll.offers[0]}</h6><h6 style={{opacity: 0.7}}>{scroll.offers[1]}</h6><h6 style={{opacity: 0.7}}>{scroll.offers[2]} </h6>
           <div className="usersButtons">
             {this.state.favorites.indexOf(scroll.id) < 0 ?
-              (<Button bsStyle="primary" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
+              (<Button bsStyle="success" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
               (<Button bsStyle="danger" data-key={scroll.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
-            <Button data-keyid={scroll.id} data-keyname={scroll.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
+            &nbsp;
+            <Button bsStyle="warning"data-keyid={scroll.id} data-keyname={scroll.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
           </div>
         </div>
       </Col >)
@@ -341,7 +342,7 @@ class Users extends React.Component {
           {displayImage}
         </Row>
         <Modal show={this.state.isOpen} bsSize="large"
-          onHide={this.toggleModal.bind(this)} style={{zIndex: 1210}}>
+          onHide={this.toggleModal.bind(this)} style={{zIndex: 1200}}>
           <Row>
           <Col xs={12} md={6} className='usersWithMapsCol'>
           <Modal.Header closeButton>
