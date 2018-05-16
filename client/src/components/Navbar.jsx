@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {Navbar, Nav, NavItem} from 'react-bootstrap';
+import logo from "./minilogo.png"
 
 class TopNav extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class TopNav extends React.Component {
         <Navbar.Header>
           <Navbar.Brand>
             <Link to='/'>
+              <img className="logo-nav" src={logo} alt="logo-pic"/>
               Never Lunch Alone
             </Link>
           </Navbar.Brand>
