@@ -38,7 +38,10 @@ class Users extends React.Component {
 
   componentWillMount() {
     userData.findAll()
-      .then((result) => {
+      .then((data) => {
+        let result= data.filter(item=>{
+          return item.id !== this.props.id
+        })
         this.setState({
           lists: result,
           backup: result,
