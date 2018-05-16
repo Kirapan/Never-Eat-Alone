@@ -39,7 +39,7 @@ class UsersWithMaps extends React.Component {
           <Users className='usersWithMapsElement' id={this.props.id} email={this.props.email}
             person={this._onClick.bind(this)} currentSelection={this._currentSelection.bind(this)}/>
         </Col>
-        <Col xs={12} md={6} className='usersWithMapsCol'>
+        <Col xs={12} md={6} className='usersWithMapsCol-onpage'>
           <Map className='usersWithMapsElement' marker={this.state.scrollData} personClicked={this.state.personClicked} zoom={12}/>
         </Col>
       </Row>

@@ -33,9 +33,8 @@ h6.usersIndustry{
 }
 
 .usersButtons{
-  position: absolute;
-  bottom: 5px;
-  padding: 10px;
+  text-align: center;
+  padding: 15px;
 }
 
 .usersIndustry{
@@ -47,5 +46,6 @@ h6.usersIndustry{
 }
 
 div.usersWithMapsCol-onpage.col-md-6.col-xs-12 {
-  margin-top: 100px;
+  margin-top: 80px;
+
 }

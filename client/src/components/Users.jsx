@@ -352,7 +352,7 @@ class Users extends React.Component {
         <Modal show={this.state.isOpen} bsSize="large"
           onHide={this.toggleModal.bind(this)} style={{zIndex: 1200}}>
           <Row>
-          <Col xs={12} md={6} className='usersWithMapsCol-onpage'>
+          <Col xs={12} md={6} className='usersWithMapsCol'>
           <Modal.Header closeButton>
             <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
           </Modal.Header>
