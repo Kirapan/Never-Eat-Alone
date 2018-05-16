@@ -39,35 +39,25 @@ class Login extends React.Component {
     }
 
     userData.login(loginInfo)
+    .then((result) => {
+      console.log("after login", result);
+      localStorage.setItem('Authorization', result);
+      userData.verifyToken(result)
       .then((result) => {
-        console.log("after login", result);
-        localStorage.setItem('Authorization', result);
-
-        userData.verifyToken(result)
-          .then((result) => {
-            console.log("after login", result);
-            userData.verifyToken(result)
-              .then((result) => {
-                const state = this.state;
-                this.setState(...state, {
-                  id: result.authData.id,
-                  email: result.authData.email
-                });
-                this.props.doLogin(this.state);
-                this.props.history.push('/');
-              })
-              .catch((err) => {
-                console.log("verifyToken not valid");
-              });
-          })
-          .catch((err) => {
-            console.log("login not succesful");
-          });
+        const state = this.state;
+        this.setState(...state, {id: result.authData.id,
+                                 email: result.authData.email});
+        this.props.doLogin(this.state);
+        this.props.history.push('/');
       })
+      .catch((err) => {
+        console.log("verifyToken not valid");
+      });
+    })
+    .catch((err) => {
+      console.log("login not succesful");
+    });
   }
-
-
-
 
   render() {
     return (<div className="login" >
