@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 import { Button } from 'react-bootstrap';
 import { InfoWindow } from "react-google-maps";
 
@@ -11,13 +11,23 @@ class InfoWindows extends Component {
     this.state = {
       isOpen: '',
       toUser: false,
-      toMessage: false
+      toMessage: false,
+      food: [
+      'https://picsum.photos/100/100/?image=859',
+      'https://picsum.photos/100/100/?image=882',
+      'https://picsum.photos/100/100/?image=856',
+      'https://picsum.photos/100/100/?image=1060',
+      'https://picsum.photos/100/100/?image=835',
+      'https://picsum.photos/100/100/?image=785',
+      'https://picsum.photos/100/100/?image=635',
+      'https://picsum.photos/100/100/?image=513',
+      'https://picsum.photos/100/100/?image=431',
+      'https://picsum.photos/100/100/?image=395',
+      'https://picsum.photos/100/100/?image=225']
     }
   }
 
   componentWillMount() {
-    let food = faker.image.food()
-    console.log("in infoWindow ", food);
     const state = this.state;
     this.setState(...state, {isOpen: this.props.open});
   }
@@ -62,7 +72,7 @@ class InfoWindows extends Component {
         </div>
     ) : (//infoWindow for restaurants
         <div>
-          <img src="https://picsum.photos/100/100/?random"
+          <img src={this.state.food[this.props.markerNumber]}
               onClick={this._navigate.bind(this)} alt='restaurantImage'/>
           <p>{this.props.info.name}</p>
           <p>{this.props.info.location.formattedAddress[0]} </p>

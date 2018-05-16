@@ -30,7 +30,7 @@ class Users extends React.Component {
       reply_id: '',
       reply_name: '',
       restaurant: '',
-      time: 0
+      time: ''
     }
   }
 
@@ -220,7 +220,15 @@ class Users extends React.Component {
 
   _handleSubmit = (e) => {
     const state = this.state;
-    const date = this.convertSeconds(this.state.time);
+    let date = '';
+
+    //check if time has been set, otherwise default to 10:00
+    if (!this.state.time){
+      console.log("time", date);
+      date = '10:00';
+    } else {
+      date = this.convertSeconds(this.state.time);
+    }
     const message = this.state.content + " At: " + this.state.restaurant + " Time: " + date;
     this.setState(...state, {content: message} , () => {
       userData.sendMessages(this.props.id, this.state.reply_id, this.state.content)

@@ -15,11 +15,9 @@ class Markers extends Component {
   }
 
   componentDidUpdate(){
-    console.log("in componentDidUpdate marker");
   }
 
   componentDidMount(){
-    console.log("in componentDidMount marker");
   }
 
   componentWillMount(){
@@ -59,7 +57,8 @@ class Markers extends Component {
       >
       {this.state.isOpen && <InfoWindows info={this.props.data}
         open={this.state.isOpen} onClose={this.handleToggle}
-        restaurantChosen={this._restaurantChosen.bind(this)} />}
+        restaurantChosen={this._restaurantChosen.bind(this)}
+        markerNumber={this.props.markerNumber}/>}
       </Marker>
     );
   }
