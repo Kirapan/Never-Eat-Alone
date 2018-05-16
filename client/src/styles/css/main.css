@@ -14,9 +14,18 @@ body {
   position: fixed;
   width: 100%;
   z-index: 1;
-  margin:0;
+  margin: 0;
+  padding-left: 2em;
+  padding-right: 2em;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.logo-nav {
+  width: 115px;
+  height: 45px;
+  float: left;
+  margin: -12px -20px 0;
 }
 
 .navbar-text {
@@ -65,9 +74,11 @@ div.formgroup {
 input#email.form-control {
   height: 45px;
 }
+
 input#firstname.form-control {
   height: 45px;
 }
+
 input#lastname.form-control {
   height: 45px;
 }

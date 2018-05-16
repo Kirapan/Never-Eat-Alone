@@ -8,11 +8,11 @@ function hundred(){
 }
 
 function lat() {
-  return Number(43.6 + Math.random()/10).toFixed(6)
+  return Number(43.636 + Math.random()/100).toFixed(6)
 }
 
 function lng() {
-  return Number(-79.3 - Math.random()/10).toFixed(6)
+  return Number(-79.390 - Math.random()/100).toFixed(6)
 }
 
 exports.seed = function(knex, Promise) {
