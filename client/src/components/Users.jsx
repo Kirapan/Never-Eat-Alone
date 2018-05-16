@@ -234,7 +234,6 @@ class Users extends React.Component {
       });
   }
 
-
   convertSeconds(seconds) {
     let days     = Math.floor(seconds / (24*60*60));
         seconds -= days    * (24*60*60);
@@ -343,14 +342,14 @@ class Users extends React.Component {
         <Row className='usersImageRow'>
           {displayImage}
         </Row>
-        <Modal show={this.state.isOpen} bsSize="lg"
+        <Modal show={this.state.isOpen} bsSize="large"
           onHide={this.toggleModal.bind(this)} style={{zIndex: 1210}}>
           <Row>
           <Col xs={12} md={6} className='usersWithMapsCol'>
           <Modal.Header closeButton>
             <Modal.Title>Reply to {this.state.reply_name}</Modal.Title>
           </Modal.Header>
-          <Modal.Body bsSize="large">
+          <Modal.Body>
             <FormGroup controlId="formControlsTextarea">
               <ControlLabel>Message:</ControlLabel>
               <FormControl componentClass="textarea" placeholder="Write your message..." onChange={this._handleChange.bind(this)} />
