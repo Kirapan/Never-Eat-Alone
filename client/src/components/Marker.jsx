@@ -52,15 +52,21 @@ class Markers extends Component {
     }
   }
 
+  _restaurantChosen(restaurant){
+    this.props.restaurantChosen(restaurant);
+  }
+
   render() {
 
     return (<Marker position={{lat: parseFloat(this.state.location.lat),
                               lng: parseFloat(this.state.location.lng)}}
                     onClick={this.handleToggle}
                     icon={this.props.icon}
+                    restaurantChosen={this._restaurantChosen.bind(this)}
       >
       {this.state.isOpen && <InfoWindows info={this.props.data}
-        open={this.state.isOpen} onClose={this.handleToggle} />}
+        open={this.state.isOpen} onClose={this.handleToggle}
+        restaurantChosen={this._restaurantChosen.bind(this)} />}
       </Marker>
     );
   }

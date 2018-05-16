@@ -126,6 +126,10 @@ class MyMapComponent extends React.Component {
                             });
   }
 
+  _restaurantChosen(restaurant){
+    this.props.restaurantChosen(restaurant);
+  }
+
 render(){
   const marker = [
       {
@@ -160,8 +164,8 @@ render(){
 
   //depending on whether style is for restaurants or users different size
   const style = this.props.restaurant ? (
-    <div style={{ height: `500px`, width: '400px' }} />) :
-  (<div style={{ height: `83vh`, width: '47vw', position: 'fixed' }} />)
+    <div style={{ height: '500px', width: '400px', margin: '20px' }} />) :
+  (<div style={{ height: '83vh', width: '47vw', position: 'fixed' }} />)
 
   //depending on whether markers are for restaurants or users different data structure
   const markers = this.props.restaurant ? (this.props.venues.info.map((marker, index)=> {
@@ -172,6 +176,7 @@ render(){
          location={marker.location}
          title="Click to zoom"
          icon={'https://maps.google.com/mapfiles/kml/shapes/dining_maps.png'}
+         restaurantChosen={this._restaurantChosen.bind(this)}
        />)
      })) : (
     this.props.marker.map((marker, index)=> {
@@ -200,6 +205,7 @@ render(){
       defaultZoom = {this.props.zoom}
       onBoundsChanged={this.state.bounds}
       onCenterChanged={this.currentLocation}
+      restaurantChosen={this._restaurantChosen.bind(this)}
     >
     <div>
     <SearchBox

@@ -41,6 +41,7 @@ class Login extends React.Component {
     userData.login(loginInfo)
     .then((result) => {
       console.log("after login", result);
+      localStorage.setItem('Authorization', result);
       userData.verifyToken(result)
       .then((result) => {
         const state = this.state;

@@ -35,7 +35,7 @@ class Restaurant extends React.Component {
         info: [],
         marker: []
       },
-      personClicked: ''
+      restaurantClicked: ''
     }
   }
 
@@ -59,15 +59,21 @@ class Restaurant extends React.Component {
     const state = this.state;
     this.setState(...state, {venues: {info: venueDetails,
                                       marker: markers}});
+
+    this.props.restaurantChosen(this.state.restaurantClicked);
   }
 
   componentWillMount() {
     console.log("in Restaurant will mount");
   }
 
+  _restaurantChosen(restaurant){
+    this.props.restaurantChosen(restaurant);
+  }
+
 render() {
-    return (<Map venues={this.state.venues} personClicked={this.state.personClicked}
-                 restaurant={true} zoom={15}/>
+    return (<Map venues={this.state.venues} personClicked={this.state.restaurantClicked}
+                 restaurant={true} zoom={15} restaurantChosen={this._restaurantChosen.bind(this)}/>
     )
   }
 }
