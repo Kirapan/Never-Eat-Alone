@@ -116,21 +116,15 @@ class userProfile extends React.Component {
           <Row className="header">
             <nav aria-label="...">
               <ul class="pager">
-                <li> <Link to={`/api/users/${id}`}>Your Profile</Link></li>
+                <li> <Link to={`/api/users/${id}`}>Profile</Link></li>
                 <li>   <Link to={`/api/users/${id}/preferences`}>Preferences</Link></li>
               </ul>
             </nav>
           </Row>
           <Row className="profile-content">
-
-
             <div>
-              {/* <input value={this.state.profile.image} placeholder="Copy paste your image url here" onChange={this._handleImageUrl}/> */}
-              {/* <input type="file" onChange={this._handleImageChange} /> */}
-              {/* <button type="button" onClick={this._handleImageSubmit}>Upload Image</button> */}
-              {/* {$imagePreview} */}
-              <img className="profile-background" scr="../img/profileback.jpg" />
-              <Image className="profile-pic" src={this.state.profile.image} alt='' height="120" width="120" circle />
+              <img className="profile-background" src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Download-Largest-Collection-of-Space-HD-Desktop-Wallpapers.jpg" alt="background" />
+              <Image className="profile-pic" src={this.state.profile.image} alt='' height="160" width="160" circle />
             </div>
             <br />
 

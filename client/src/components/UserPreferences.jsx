@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import Resource from '../models/resource'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Grid, Row, Col ,Image} from 'react-bootstrap'
 
 const userData = Resource('users')
 
@@ -15,11 +15,18 @@ class UserPreferences extends React.Component {
       user_industries: [],
       offers: [],
       needs: [],
-      toProfiles: false
+      toProfiles: false,
+      profile: {}
     }
   }
 
   componentWillMount() {
+    userData.findUserProfile(this.state.userId)
+      .then((result) => this.setState({
+        profile: result,
+        errors: null
+      }))
+      .catch((errors) => this.setState({ errors: errors }))
 
     userData.findOffersNeeds()
       .then((result) => {
@@ -112,7 +119,12 @@ class UserPreferences extends React.Component {
             </nav>
           </Row>
           <Row className="profile-content">
-            <form onSubmit={this._handleSubmit.bind(this)}>
+          <div>
+              <img className="profile-background" src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Download-Largest-Collection-of-Space-HD-Desktop-Wallpapers.jpg" alt="background" />
+              <Image className="profile-pic" src={this.state.profile.image} alt='' height="160" width="160" circle />
+            </div>
+            <br />
+            <form className="profile-form" onSubmit={this._handleSubmit.bind(this)}>
               <div class="input-group">
                 <span bsStyle="info" class="input-group-addon" id="sizing-addon2">
                   Interested Industries</span>
