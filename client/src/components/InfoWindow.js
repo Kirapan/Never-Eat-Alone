@@ -58,22 +58,23 @@ class InfoWindows extends Component {
     }
 
     if (this.state.toMessage === true) {
-      return <Redirect to={'messages/'+  this.props.info.id} />
+      return <Redirect to={'users/' + this.props.info.id + '/messages/'} />
+    //removed from infoWindow not working
+    //  <Button className='btn-default' onClick={this._sendMessage.bind(this)}>Invite</Button>
     }
 
     const content = this.props.info.image ? (//infoWindow for people
-        <div>
-          <img src={this.props.info.image} alt='peopleImage'/>
-          <p>{this.props.info.name}</p>
-          <p>Company: {this.props.info.company}</p>
-          <Button onClick={this._sendMessage.bind(this)}>Send message</Button>
+        <div className='infoWindow'>
+          <img className='img-circle infoWindowImage' src={this.props.info.image} alt='peopleImage'/>
+          <h5 className='infoWindowName'><strong>{this.props.info.name}</strong></h5>
+          <h6 className='infoWindowCompany'>{this.props.info.company}</h6>
         </div>
     ) : (//infoWindow for restaurants
-        <div>
-          <img src={this.state.food[this.props.markerNumber]}
+        <div className='infoWindow'>
+          <img className='img-rounded' src={this.state.food[this.props.markerNumber]}
               onClick={this._navigate.bind(this)} alt='restaurantImage'/>
-          <p>{this.props.info.name}</p>
-          <p>{this.props.info.location.formattedAddress[0]} </p>
+          <h5 className='infoWindowName'><strong>{this.props.info.name}</strong></h5>
+          <h6 className='infoWindowCompany'>{this.props.info.location.formattedAddress[0]}</h6>
           <Button onClick={this._restaurantChosen.bind(this)}>Choose</Button>
         </div>
     )

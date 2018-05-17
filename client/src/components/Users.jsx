@@ -396,7 +396,7 @@ class Users extends React.Component {
               <FormControl componentClass="textarea" placeholder="Write your message..." onChange={this._handleChange.bind(this)} />
               <div class="input-group">
                 <span class="input-group-addon" id="sizing-addon2">Suggested restaurant: </span>
-                <input type="text" class="form-control" aria-describedby="sizing-addon2"
+                <input type="text" class="form-control" id='restaurantChoice' aria-describedby="sizing-addon2"
                 onChange={this._udpateRestaurant.bind(this)} value={this.state.restaurant}
                 placeholder="Pick from map or type..." />
               </div>

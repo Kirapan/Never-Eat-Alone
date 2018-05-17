@@ -27,12 +27,12 @@ class Index extends React.Component {
     }
 
     return (<Grid>
-      <Carousel>
+      <Carousel interval="5000">
         <Carousel.Item>
           <img alt="BUSINESS_LUNCH_1" src={Image1} />
           <Carousel.Caption>
             <h1>Are you tired of eating lunch alone?</h1>
-            <h3>50% of business professionals eat there lunch alone.</h3>
+            <h3>50% of business professionals eat their lunch alone.</h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>

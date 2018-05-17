@@ -111,6 +111,7 @@ class MyMapComponent extends React.Component {
   }
 
 render(){
+  //sample marker data
   const marker = [
       {
         info: {
