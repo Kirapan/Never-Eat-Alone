@@ -1,5 +1,5 @@
 import React from 'react'
-import { Popover, Image, Button } from 'react-bootstrap'
+import { Popover, Image, Button, ButtonGroup } from 'react-bootstrap'
 import { Link, Switch, Route } from 'react-router-dom'
 import Resource from '../models/resource'
 import Messagebox from './Messagebox'
@@ -32,33 +32,45 @@ class Messages extends React.Component {
     })
     const inline = { borderTop: '1px solid #dadce0' }
     const messageList = sortedList.map((msg, idx) => {
-      return (<div className='usersWithMapsRow'>
-        <Image src={msg.image} alt={msg.name} style={{ margin: 30, width: 128 }} rounded />
-        <Popover
+      return (<Popover
           id={'popover-basic-' + idx}
+          className="popover-all"
           placement="right"
           positionLeft={300}
           positionTop={90 + 160 * idx}
           title={msg.name}
           style={{ zIndex: 8 }}
         >
-          <p >{msg.content}</p><br style={inline} />
-          <small >{msg.created_at}           </small>
+          <Image className="sender" src={msg.image} alt={msg.name} style={{ margin: 30, width: 128 }} rounded />
+          <div id="right-part-message"><p className="receive-content">{msg.content}</p><br style={inline} />
+          
           <Link to={{
             pathname: `/api/users/${this.state.userId}/messages/${msg.from_user_id}`,
             state: { modal: true }
           }
           }>
-            <Button bsStyle="warning">Reply</Button></Link>
-        </Popover>
+            <Button className="reply-button" bsStyle="warning">Reply</Button></Link>
+            <br/>
+            <small >{msg.created_at}           </small></div>
         <Switch>
           <Route path='/api/users/:id/messages/:to_id' render={(props) => (
             <Messagebox {...props} messages={this.state.messages} />)} />
         </Switch>
-      </div>);
+        </Popover>);
+    })
+
+    const buttonGroup = sortedList.map((msg,idx) => {
+      return (
+        
+          <Button href={"#popover-basic-" + idx}>{msg.name}</Button>
+        
+      )
     })
     return (
-      <div>
+      <div className="iamthediv">
+        <ButtonGroup vertical className="message-button">
+        {buttonGroup}
+        </ButtonGroup>
         {messageList}
       </div >
     )

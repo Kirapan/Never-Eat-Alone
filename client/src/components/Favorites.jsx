@@ -179,16 +179,19 @@ class Favorites extends React.Component {
     })
 
     const displayImage = newList.map((prof, idx) => {
-      return (<Col xs={6} md={3} className='usersCol'>
+      return (<Col xs={6} md={3} className='usersCol-favorite'>
         <div className='usersThumb' >
           <img class="img-circle usersImg" src={prof.image} alt='usersImg'/>
-          <h5><strong>{prof.name}</strong></h5>
+          <h5 className="user-name"><strong>{prof.name}</strong></h5>
           <h6 className='usersIndustry'>{prof.industry}</h6>
-          <h6>{prof.offers[0]}, {prof.offers[1]},{prof.offers[2]} </h6>
+          <h6 style={{opacity: 0.7}}>{prof.offers[0]}</h6>
+          <h6 style={{opacity: 0.7}}>{prof.offers[1]}</h6>
+          <h6 style={{opacity: 0.7}}>{prof.offers[2]}</h6>
           <div className="usersButtons">
           {this.state.favorites.indexOf(prof.id) < 0 ?
             (<Button bsStyle="primary" data-key={prof.id} onClick={this._handleLike.bind(this)}>Like</Button>) :
             (<Button bsStyle="danger" data-key={prof.id} onClick={this._handleLike.bind(this)}>Liked</Button>)}
+          &nbsp;
           <Button data-keyid={prof.id} data-keyname={prof.name} bsStyle="default" onClick={this.toggleModal.bind(this)}>Invite</Button>
           </div>
         </div>
