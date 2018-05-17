@@ -422,7 +422,7 @@ class Users extends React.Component {
           </Modal>
         <Row className='usersLoadRow'>
           {this.state.loadMore ?
-            <Button onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
+            <Button bsStyle="warning" className="load-more" onClick={this.loadMore} style={{ display: 'flex', justifyContent: 'center' }}>Load More!</Button> :
             <Alert bsStyle="warning"><strong>No more profiles</strong></Alert>}
         </Row>
         </Grid>)
