@@ -38,6 +38,7 @@ class MyMapComponent extends React.Component {
   }
 
   componentDidMount(){
+  //not taking the browser's location
 //    if (navigator && navigator.geolocation) {
 //        navigator.geolocation.getCurrentPosition((pos) => {
 //            const coords = pos.coords;
@@ -144,7 +145,7 @@ render(){
   //depending on whether style is for restaurants or users different size
   const style = this.props.restaurant ? (
     <div style={{ height: '500px', width: '400px', margin: '20px' }} />) :
-  (<div style={{ height: '83vh', width: '47vw', position: 'fixed', marginBottom: '15px' }} />)
+  (<div style={{ height: '77vh', width: '47vw', position: 'fixed', marginBottom: '15px' }} />)
 
   //depending on whether markers are for restaurants or users different data structure
   const markers = this.props.restaurant ? (this.props.venues.info.map((marker, index)=> {
