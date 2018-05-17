@@ -17,14 +17,18 @@
 h5.user-name {
   font-size: 18px;
 }
-h6.usersIndustry{
+
+h6.usersIndustry {
   font-size: 16px;
   color: #32a0d1;
   margin-bottom: 10px;
 }
+
 .btn-toolbar {
   margin-left: 40px;
   margin-bottom: 30px;
+  position: fixed;
+  z-index: 1269;
 }
 
 .usersWithMapsRow {
@@ -32,16 +36,16 @@ h6.usersIndustry{
   margin-left: 5px;
 }
 
-.usersButtons{
+.usersButtons {
   text-align: center;
   padding: 15px;
 }
 
-.usersIndustry{
+.usersIndustry {
   font-style: italic;
 }
 
-.usersCol{
+.usersCol {
   margin: 5px;
 }
 
