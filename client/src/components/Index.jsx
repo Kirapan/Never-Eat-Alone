@@ -40,8 +40,8 @@ class Index extends React.Component {
         <Carousel.Item>
           <img alt="BUSINESS_LUNCH_2" src={Image2} />
           <Carousel.Caption>
-            <h1>We have the solution!</h1>
-            <h3>Find a business professional that can give you valuable advice.</h3>
+            <h1>Turn your lunch into business opportunities!</h1>
+            <h3>Connect with industry experts, land your dream job and a lot more.</h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
