@@ -1,10 +1,15 @@
 import React from 'react';
-import {Grid, Carousel } from 'react-bootstrap'
+import { Redirect } from 'react-router';
+import {Grid, Carousel, Button } from 'react-bootstrap';
+import Image1 from '../img/BUSINESS_LUNCH_1.jpg';
+import Image2 from '../img/BUSINESS_LUNCH_2.jpg';
+import Image3 from '../img/BUSINESS_LUNCH_3.jpg';
 
 class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      toSignup: false
     }
   }
 
@@ -12,33 +17,58 @@ class Index extends React.Component {
 
   }
 
-  _handleSumbit(event) {
-    alert('submited')
-    event.preventDefault();
+  _signup(){
+    this.setState({toSignup: true})
   }
 
   render() {
+    if(this.state.toSignup){
+      return <Redirect to={'api/signup'} />
+    }
+
     return (<Grid>
       <Carousel>
         <Carousel.Item>
-          <img alt="800x500" src="https://www.thechalkdown.com/wp-content/uploads/2018/02/businessman-behaving-business-lunch.jpg" />
+          <img alt="BUSINESS_LUNCH_1" src={Image1} />
           <Carousel.Caption>
-            <h3>Are you tired of eating lunch alone?</h3>
-            <p>50% of business professionals eat there lunch alone.</p>
+            <h1>Are you tired of eating lunch alone?</h1>
+            <h3>50% of business professionals eat there lunch alone.</h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img alt="800x500" src="http://www.hotelpurlilium.it/scripts/adw_img/news/grandi/BUSINESS_LUNCH.jpg" />
+          <img alt="BUSINESS_LUNCH_2" src={Image2} />
           <Carousel.Caption>
-            <h3>We have the solution!</h3>
-            <p>Find a business professional that can give you valuable advice.</p>
+            <h1>We have the solution!</h1>
+            <h3>Find a business professional that can give you valuable advice.</h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img alt="800x500" src="https://media.timeout.com/images/104691590/630/472/image.jpg" />
+          <img alt="BUSINESS_LUNCH_3" src={Image3} />
           <Carousel.Caption>
-            <h3>Never Lunch Alone</h3>
-            <p>Build by Xiaoting and Michael.</p>
+            <h1>Never Lunch Alone</h1>
+            <h3>© 2018 Copyright: Xiaoqi and Michael</h3>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossOrigin="anonymous"/>
+            <div className="footer-icons">
+                <div className="row">
+                    <div className="col-md-12 py-5">
+                        <div className="mb-5 flex-center">
+                            <a className="fb-ic" href="https://facebook.com">
+                                <i className="fab fa-facebook-square"></i>
+                            </a>
+                            <a className="tw-ic" href="https://twitter.com">
+                                <i className="fab fa-twitter-square"></i>
+                            </a>
+                            <a className="gplus-ic" href="https://googleplus.com">
+                                <i className="fab fa-google-plus-square"></i>
+                            </a>
+                            <a className="li-ic" href="https://linkedin.com">
+                                <i className="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Button type='submit' onClick={this._signup.bind(this)}>Signup today</Button>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>

@@ -33,6 +33,7 @@ class Messagebox extends React.Component {
   }
 
   _handleSubmit = (e) => {
+    console.log("message", e.target.value);
     const state = this.state;
     let message = ''
     let time = '';
@@ -135,7 +136,7 @@ class Messagebox extends React.Component {
               <Modal.Body>
                 <FormGroup controlId="formControlsTextarea">
                   <ControlLabel>Message:</ControlLabel>
-                  <FormControl componentClass="textarea" placeholder="Say something..." onChange={this._handleChange.bind(this)} />
+                  <FormControl componentClass="textarea" placeholder="Write your message..." onChange={this._handleChange.bind(this)} />
                   <div class="input-group">
                   <span class="input-group-addon" id="sizing-addon2">Suggested restaurant: </span>
                   <input type="text" class="form-control" aria-describedby="sizing-addon2"
