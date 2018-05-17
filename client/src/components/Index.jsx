@@ -56,16 +56,16 @@ class Index extends React.Component {
                 <div className="row">
                     <div className="col-md-12 py-5">
                         <div className="mb-5 flex-center">
-                            <a className="fb-ic" href="https://facebook.com">
+                            <a className="fb-ic" href="https://facebook.com" target="_blank">
                                 <i className="fab fa-facebook-square"></i>
                             </a>
-                            <a className="tw-ic" href="https://twitter.com">
+                            <a className="tw-ic" href="https://twitter.com" target="_blank">
                                 <i className="fab fa-twitter-square"></i>
                             </a>
-                            <a className="gplus-ic" href="https://googleplus.com">
+                            <a className="gplus-ic" href="https://googleplus.com" target="_blank">
                                 <i className="fab fa-google-plus-square"></i>
                             </a>
-                            <a className="li-ic" href="https://linkedin.com">
+                            <a className="li-ic" href="https://linkedin.com" target="_blank">
                                 <i className="fab fa-linkedin"></i>
                             </a>
                         </div>
