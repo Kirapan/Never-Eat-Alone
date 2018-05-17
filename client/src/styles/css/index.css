@@ -1,18 +1,32 @@
 .carousel-inner img {
     -webkit-filter: grayscale(90%);
-    filter: grayscale(90%); /* make all photos black and white */
+    filter: grayscale(95%); /* make all photos black and white */
+    filter: brightness(30%);
     width: 100%; /* Set width to 100% */
     margin-top: 80px;
     margin: auto;
+    padding: 10px;
+    max-height: 92vh;
 }
 
 .carousel-inner {
   margin-top: 60px;
-  height: 90vh;
+  max-height: 92vh;
+}
+
+.carousel-caption h1 {
+  color: #fff !important;
+  font-size: 49px;
 }
 
 .carousel-caption h3 {
-    color: #fff !important;
+  color: #fff !important;
+  font-style: italic;
+  font-size: 25px;
+}
+
+.fab {
+    padding: 10px;
 }
 
 @media (max-width: 600px) {

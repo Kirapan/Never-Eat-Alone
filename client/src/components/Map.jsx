@@ -17,8 +17,8 @@ class MyMapComponent extends React.Component {
       industries: [],
       offers_needs: [],
       currentLocation: {
-        lat: '',
-        lng: ''
+        lat: 43.687517,
+        lng: -79.452732
       },
       bounds: null,
       zoom: ''
@@ -38,17 +38,17 @@ class MyMapComponent extends React.Component {
   }
 
   componentDidMount(){
-    if (navigator && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const coords = pos.coords;
-            this.setState({
-                currentLocation: {
-                    lat: coords.latitude,
-                    lng: coords.longitude
-                }
-            })
-        })
-    }
+//    if (navigator && navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition((pos) => {
+//            const coords = pos.coords;
+//            this.setState({
+//                currentLocation: {
+//                    lat: coords.latitude,
+//                    lng: coords.longitude
+//                }
+//            })
+//        })
+//    }
   }
 
   loadMap() {

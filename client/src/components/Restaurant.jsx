@@ -28,38 +28,39 @@ class Restaurant extends React.Component {
     //retrieving the current location based on browser
     if (navigator && navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((pos) => {
-            const coords = pos.coords;
-            const lat = coords.latitude.toString().substring(0,5);
-            const lng = coords.longitude.toString().substring(0,6);
-            const state = this.state;
-            this.setState(...state, {params: {ll: lat + ',' + lng,
-                                              query: 'Restaurant',
-                                              section: 'topPicks',
-                                              limit: 10,
-                                              openNow: 1,
-                                              sortByDistance: 1,
-                                              intent: 'checkin',
-                                              radius: 500}}, () => {
-              foursquare.venues.getVenues(this.state.params)
-                .then(res=> {
-                  console.log("foursquare", res)
-                  //assign all venues to an array
-                  res.response.venues.map((venue) => {
-                    markers.push(venue.location)
-                    let venueParam = {venue_id: venue.id}
-                    //request details for each venue
-                    foursquare.venues.getVenue(venueParam)
-                      .then(res => {
-                        venueDetails.push(res.response.venue);
-                        const state = this.state;
-                        this.setState(...state, {venues: {info: venueDetails,
-                                                          marker: markers}});
-                    })
-                  })
+        //retrieval of location from the browser
+        const coords = pos.coords;
+        const lat = coords.latitude.toString().substring(0,5);
+        const lng = coords.longitude.toString().substring(0,6);
+        //hard coding lat and lng for presentation
+        const state = this.state;
+        this.setState(...state, {params: {ll: 43.68 + ',' + -79.45,
+                                          query: 'Restaurant',
+                                          section: 'topPicks',
+                                          limit: 10,
+                                          openNow: 1,
+                                          sortByDistance: 1,
+                                          intent: 'checkin',
+                                          radius: 1000}}, () => {
+          foursquare.venues.getVenues(this.state.params)
+            .then(res=> {
+              console.log("foursquare", res)
+              //assign all venues to an array
+              res.response.venues.map((venue) => {
+                markers.push(venue.location)
+                let venueParam = {venue_id: venue.id}
+                //request details for each venue
+                foursquare.venues.getVenue(venueParam)
+                  .then(res => {
+                    venueDetails.push(res.response.venue);
+                    const state = this.state;
+                    this.setState(...state, {venues: {info: venueDetails,
+                                                      marker: markers}});
+                })
               })
-
-            })
+          })
         })
+      })
     }
 
     this.props.restaurantChosen(this.state.restaurantClicked);
@@ -74,7 +75,7 @@ class Restaurant extends React.Component {
 
 render() {
     return (<Map venues={this.state.venues} personClicked={this.state.restaurantClicked}
-                 restaurant={true} zoom={15} restaurantChosen={this._restaurantChosen.bind(this)}/>
+                 restaurant={true} zoom={13} restaurantChosen={this._restaurantChosen.bind(this)}/>
     )
   }
 }
