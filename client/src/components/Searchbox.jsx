@@ -22,3 +22,19 @@
         }}
       />
     </SearchBox>
+
+
+    <Carousel.Item>
+          <img alt="BUSINESS_LUNCH_1" src={Image1} />
+          <Carousel.Caption>
+            <h1>Are you tired of eating lunch alone?</h1>
+            <h3>50% of business professionals eat their lunch alone.</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img alt="BUSINESS_LUNCH_2" src={Image2} />
+          <Carousel.Caption>
+            <h1>We have the solution!</h1>
+            <h3>Find a business professional that can give you valuable advice.</h3>
+          </Carousel.Caption>
+        </Carousel.Item>

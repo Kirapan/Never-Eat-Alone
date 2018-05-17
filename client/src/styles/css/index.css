@@ -34,3 +34,9 @@
         display: none; /* Hide the carousel text when the screen is less than 600 pixels wide */
     }
 }
+
+#indexMichael {
+  height: 100px;
+  width: 100px;
+  filter: brightness(70%);
+}

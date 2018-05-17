@@ -4,6 +4,8 @@ import {Grid, Carousel, Button } from 'react-bootstrap';
 import Image1 from '../img/BUSINESS_LUNCH_1.jpg';
 import Image2 from '../img/BUSINESS_LUNCH_2.jpg';
 import Image3 from '../img/BUSINESS_LUNCH_3.jpg';
+import Michael from '../img/MichaelProfile.jpg';
+import Xiaoqi from '../img/XiaoqiProfile.png';
 
 class Index extends React.Component {
   constructor(props) {
@@ -45,6 +47,8 @@ class Index extends React.Component {
         <Carousel.Item>
           <img alt="BUSINESS_LUNCH_3" src={Image3} />
           <Carousel.Caption>
+            <img className='img-circle' id='indexMichael' alt="Michael" src={Michael} />
+            <img className='img-circle' id='indexMichael' alt="Xiaoqi" src={Xiaoqi} />
             <h1>Never Lunch Alone</h1>
             <h3>© 2018 Copyright: Xiaoqi and Michael</h3>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossOrigin="anonymous"/>
