@@ -112,7 +112,9 @@ module.exports = (knex) => {
         need_id: 1
       })
   }
+  
 
+  
   function createProfile(firstname, lastname, email, password) {
     return knex('users')
       .insert({
