@@ -119,7 +119,7 @@ class UserPreferences extends React.Component {
             </nav>
           </Row>
           <Row className="profile-content">
-          <div>
+            <div>
               <img className="profile-background" src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Download-Largest-Collection-of-Space-HD-Desktop-Wallpapers.jpg" alt="background" />
               <Image className="profile-pic" src={this.state.profile.image} alt='' height="160" width="160" circle />
             </div>
@@ -132,27 +132,27 @@ class UserPreferences extends React.Component {
                   return (<select class="form-control" aria-describedby="sizing-addon2" value={industry.title} data-key={i} onChange={this._handleIndustryChange}>{industries}</select>)
                 })}
               </div>
-              <br/>
+              <br />
               <div class="input-group">
                 <span bsStyle="info" class="input-group-addon" id="sizing-addon2">
-                Pick 3 topics you would like to know</span>
-          {this.state.needs.map((need, i) => {
+                  Pick 3 topics you would like to know</span>
+                {this.state.needs.map((need, i) => {
                   return (<select class="form-control" aria-describedby="sizing-addon2" value={need.title} data-key={i} onChange={this._handleNeedsChange}>{offers_needs}</select>)
                 })}
-            </div>
-            <br/>
-            <div class="input-group">
+              </div>
+              <br />
+              <div class="input-group">
                 <span bsStyle="info" class="input-group-addon" id="sizing-addon2">
-                Pick 3 expertise you could offer</span>
-          {this.state.offers.map((offer, i) => {
-                  return (<select class="form-control" aria-describedby="sizing-addon2"value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
+                  Pick 3 expertise you could offer</span>
+                {this.state.offers.map((offer, i) => {
+                  return (<select class="form-control" aria-describedby="sizing-addon2" value={offer.title} data-key={i} onChange={this._handleOffersChange}>{offers_needs}</select>)
                 })}
               </div>
-              <br/>
+              <br />
               <input id="profile-button" type="submit" value="Search!" />
 
             </form>
-            <br/>
+            <br />
           </Row>
         </Grid>
       </div>

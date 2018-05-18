@@ -33,12 +33,11 @@ class Messagebox extends React.Component {
   }
 
   _handleSubmit = (e) => {
-    console.log("message", e.target.value);
     const state = this.state;
     let message = ''
     let time = '';
 
-    if (!this.state.content){
+    if (!this.state.content) {
       alert('Please fill in a message');
     } else if (!this.state.restaurant && !this.state.date && !this.state.time) {
       time = '10:00';
@@ -48,31 +47,30 @@ class Messagebox extends React.Component {
       message = this.state.content + " At: " + this.state.restaurant + " Date: " + this._getToday() + " Time: " + time;
     } else if (!this.state.time) {
       time = '10:00';
-      message = this.state.content + " At: " + this.state.restaurant + " Date: " + this.state.date.toString().substr(0,15) + " Time: " + time;
+      message = this.state.content + " At: " + this.state.restaurant + " Date: " + this.state.date.toString().substr(0, 15) + " Time: " + time;
     } else {
-      message = this.state.content + " At: " + this.state.restaurant + " Date: " + this.state.date.toString().substr(0,15) + " Time: " + this.convertSeconds(this.state.time);
+      message = this.state.content + " At: " + this.state.restaurant + " Date: " + this.state.date.toString().substr(0, 15) + " Time: " + this.convertSeconds(this.state.time);
     }
 
-    this.setState(...state, {content: message} , () => {
+    this.setState(...state, { content: message }, () => {
       userData.sendMessages(this.state.userId, this.state.toId, this.state.content)
         .then(() => {
           console.log("ok")
         })
         .catch((errors) => this.setState({ errors: errors }))
-        this._hide();
+      this._hide();
     });
   }
 
   convertSeconds(seconds) {
-    let days     = Math.floor(seconds / (24*60*60));
-        seconds -= days    * (24*60*60);
-    let hours    = Math.floor(seconds / (60*60));
-        seconds -= hours   * (60*60);
-    let minutes  = Math.floor(seconds / (60));
-        seconds -= minutes * (60);
+    let days = Math.floor(seconds / (24 * 60 * 60));
+    seconds -= days * (24 * 60 * 60);
+    let hours = Math.floor(seconds / (60 * 60));
+    seconds -= hours * (60 * 60);
+    let minutes = Math.floor(seconds / (60));
+    seconds -= minutes * (60);
 
-    if (minutes === 0)
-    {minutes = '00'};
+    if (minutes === 0) { minutes = '00' };
     let hoursAndMinutes = hours + ":" + minutes;
     return hoursAndMinutes;
   }
@@ -81,39 +79,41 @@ class Messagebox extends React.Component {
     this.setState({ content: e.target.value })
   }
 
-  _restaurantChosen(restaurant){
+  _restaurantChosen(restaurant) {
     const state = this.state;
-    this.setState(...state, {restaurant: restaurant.name,
-                             restaurantObject: restaurant});
+    this.setState(...state, {
+      restaurant: restaurant.name,
+      restaurantObject: restaurant
+    });
   }
 
   _udpateRestaurant(event) {
     event.preventDefault();
     const state = this.state;
-    this.setState(...state, {restaurant: event.target.value});
+    this.setState(...state, { restaurant: event.target.value });
   }
 
   _handleTimeChange(time) {
     const state = this.state;
-    this.setState(...state, {time: time});
+    this.setState(...state, { time: time });
   }
 
   _handleDateChange = (newDate) => {
-    this.setState({date: newDate});
+    this.setState({ date: newDate });
   }
 
   _getToday() {
     let today = new Date();
     let dd = today.getDate();
-    let mm = today.getMonth()+1; //January is 0!
+    let mm = today.getMonth() + 1; //January is 0!
     let yyyy = today.getFullYear();
 
-    if(dd<10) {
-        dd = '0'+dd
+    if (dd < 10) {
+      dd = '0' + dd
     }
 
-    if(mm<10) {
-        mm = '0'+mm
+    if (mm < 10) {
+      mm = '0' + mm
     }
 
     today = mm + '/' + dd + '/' + yyyy;
@@ -125,27 +125,27 @@ class Messagebox extends React.Component {
     const messages_to_id = this.props.messages.filter(mess => mess.from_user_id == this.state.toId)
     const name = messages_to_id[0].name
     return (<div>
-        {this.state.toId &&
-          <Modal show={this.state.show} bsSize="large"
-            onHide={this._hide} style={{zIndex: 1200}}>
-            <Row>
+      {this.state.toId &&
+        <Modal show={this.state.show} bsSize="large"
+          onHide={this._hide} style={{ zIndex: 1200 }}>
+          <Row>
             <Col xs={12} md={6} className='usersWithMapsCol'>
-            <Modal.Header closeButton>
-              <Modal.Title>Reply to {name}</Modal.Title>
-            </Modal.Header>
+              <Modal.Header closeButton>
+                <Modal.Title>Reply to {name}</Modal.Title>
+              </Modal.Header>
               <Modal.Body>
                 <FormGroup controlId="formControlsTextarea">
                   <ControlLabel>Message:</ControlLabel>
                   <FormControl componentClass="textarea" placeholder="Write your message..." onChange={this._handleChange.bind(this)} />
                   <div class="input-group">
-                  <span class="input-group-addon" id="sizing-addon2">Suggested restaurant: </span>
-                  <input type="text" class="form-control" id='restaurantChoice' aria-describedby="sizing-addon2"
-                  onChange={this._udpateRestaurant.bind(this)} value={this.state.restaurant}
-                  placeholder="Pick from map or type..." />
+                    <span class="input-group-addon" id="sizing-addon2">Suggested restaurant: </span>
+                    <input type="text" class="form-control" id='restaurantChoice' aria-describedby="sizing-addon2"
+                      onChange={this._udpateRestaurant.bind(this)} value={this.state.restaurant}
+                      placeholder="Pick from map or type..." />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon" id="sizing-addon2">Suggested date: </span>
-                    <DatePicker onDayClick={this._handleDateChange.bind(this)} todayButton={"Today"}/>
+                    <DatePicker onDayClick={this._handleDateChange.bind(this)} todayButton={"Today"} />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon" id="sizing-addon2">Suggested time: </span>
@@ -157,13 +157,13 @@ class Messagebox extends React.Component {
               <Modal.Footer>
                 <Button onClick={this._handleSubmit.bind(this)}>Send</Button>
               </Modal.Footer>
-              </Col>
-              <Col xs={12} md={6} className='usersWithMapsCol'>
-                <Restaurant restaurantChosen={this._restaurantChosen.bind(this)}/>
-              </Col>
+            </Col>
+            <Col xs={12} md={6} className='usersWithMapsCol'>
+              <Restaurant restaurantChosen={this._restaurantChosen.bind(this)} />
+            </Col>
           </Row>
-          </Modal>}
-      </div>
+        </Modal>}
+    </div>
     )
   }
 }

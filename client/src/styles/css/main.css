@@ -171,7 +171,7 @@ div.popover.popover-all {
   position: relative;
   display: block;
   left: 0px;
-  top:0;
+  top: 0;
   max-width: 600px;
   margin: -115px 0 40px 30px;
   height: 300px;
@@ -223,6 +223,6 @@ div.iamthediv {
 }
 
 .load-more {
-  margin:auto;
+  margin: auto;
   margin-bottom: 20px;
 }

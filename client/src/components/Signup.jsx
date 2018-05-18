@@ -47,7 +47,7 @@ class Signup extends React.Component {
       this.state.password);
 
     if (!this.state.firstname || !this.state.lastname ||
-        !this.state.email || !this.state.password) {
+      !this.state.email || !this.state.password) {
       alert('Name, Email and/or Password is required!')
     } else {
       const signUpInfo = {
@@ -59,10 +59,8 @@ class Signup extends React.Component {
 
       userData.signup(signUpInfo)
         .then((result) => {
-          console.log("after signup", result);
           userData.login(signUpInfo)
             .then((result) => {
-              console.log("after getToken", result);
               userData.verifyToken(result)
                 .then((result) => {
                   const state = this.state;
@@ -88,18 +86,18 @@ class Signup extends React.Component {
     }
   }
 
-  _navigateToUserProfile(){
+  _navigateToUserProfile() {
     const state = this.state;
-    this.setState(...state, {toUserProfile: true});
+    this.setState(...state, { toUserProfile: true });
   }
 
   render() {
     if (this.state.toUserProfile === true) {
-      return <Redirect to={'users/'+ this.state.id } />
+      return <Redirect to={'users/' + this.state.id} />
     }
 
     return (<div className="login">
-    <img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Space-Light-Desktop-Wallpapers-HD.jpg" alt='backgroundPicture' />
+      <img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Space-Light-Desktop-Wallpapers-HD.jpg" alt='backgroundPicture' />
       <form onSubmit={this._handleSubmit.bind(this)} className="submit">
         <img className="logo" src={logo} alt="logo" />
         <div class="formgroup">
