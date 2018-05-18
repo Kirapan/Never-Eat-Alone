@@ -17,7 +17,7 @@ class TopNav extends React.Component {
   _logout(e) {
     e.preventDefault();
     const state = this.state;
-    this.setState(...state, { email: '' });
+    this.setState(...state, { email: ''});
     this.props.logout();
   }
 

@@ -34,7 +34,7 @@ class Parent extends React.Component {
 
   _logout() {
     const state = this.state;
-    this.setState(...state, { id: '', email: '', message: [] });
+    this.setState(...state, { id: '', email: '', message: []});
   }
 
   render() {
