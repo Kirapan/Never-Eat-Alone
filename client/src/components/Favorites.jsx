@@ -1,6 +1,7 @@
 import React from 'react';
 import Resource from '../models/resource';
 import { Grid, Row, Col, Button, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import Restaurant from './Restaurant';
 import TimePicker from 'react-bootstrap-time-picker';
 import DatePicker from 'react-day-picker';
@@ -198,11 +199,11 @@ class Favorites extends React.Component {
       </Col >)
     })
 
-//    if (!this.props.email) {
-//      return (<Row className='usersWithMapsRow'>
-//        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
-//      </Row>)
-//    } else {
+    if (!this.props.email) {
+      return (<Row className='usersWithMapsRow'>
+        <h2>Please<Link to='/api/signup'> Signup</Link> or<Link to='/api/login'> Login</Link> first!</h2>
+      </Row>)
+    } else {
       return (<Grid className='usersWithMapsRow'>
       <img className="favoriteback" src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/09/Space-Purple-Haze-HD-Desktop-Wallpapers.jpg" alt="backgroud-picture" />
         <Row className='usersImageRow'>
@@ -247,7 +248,7 @@ class Favorites extends React.Component {
         </Modal>
       </Grid>)
     }
-  //}
+  }
 }
 
 export default Favorites
