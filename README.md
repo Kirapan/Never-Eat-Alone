@@ -48,7 +48,7 @@ ChattyApp enables users to connect professionals nearby to expand network, obtai
 
 ## Final Product
 
-!["URL Homepage"](https://github.com/Kirapan/Never-Eat-Alone/docs/Home.png?raw=true)
+!["URL Homepage"](https://github.com/Kirapan/Never-Eat-Alone/blob/master/docs/Home.png?raw=true)
 !["URL Users"](https://github.com/Kirapan/Never-Eat-Alone/docs/Find.png?raw=true)
 !["URL Messages"](https://github.com/Kirapan/Never-Eat-Alone/docs/Messages.png?raw=true)
 !["URL Favorites"](https://github.com/Kirapan/Never-Eat-Alone/docs/Favorites.png?raw=true)
