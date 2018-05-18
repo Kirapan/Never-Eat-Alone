@@ -48,10 +48,10 @@ ChattyApp enables users to connect professionals nearby to expand network, obtai
 
 ## Final Product
 
-!["URL Homepage"](https://github.com/michaelrychly/react-simple-boilerplate/blob/master/docs/Entry%20page.png?raw=true)
-!["URL Usernames"](https://github.com/michaelrychly/react-simple-boilerplate/blob/master/docs/Change%20user%20names.png?raw=true)
+!["URL Homepage"](https://github.com/michaelrychly/projects/Never-Eat-Alone/docs/Home.png?raw=true)
+!["URL Users"](https://github.com/michaelrychly/projects/Never-Eat-Alone/docs/Home.png?raw=true)
 !["URL Messages"](https://github.com/michaelrychly/react-simple-boilerplate/blob/master/docs/Messages%20sent.png?raw=true)
-!["URL Online"](https://github.com/michaelrychly/react-simple-boilerplate/blob/master/docs/Show%20online%20clients.png?raw=true)
+!["URL Favorites"](https://github.com/michaelrychly/react-simple-boilerplate/blob/master/docs/Show%20online%20clients.png?raw=true)
 
 ## Room for improvement
 
