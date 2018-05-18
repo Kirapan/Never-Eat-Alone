@@ -27,38 +27,45 @@ class Restaurant extends React.Component {
 
     //retrieving the current location based on browser
     if (navigator && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
+      navigator.geolocation.getCurrentPosition((pos) => {
         //retrieval of location from the browser
         const coords = pos.coords;
-        const lat = coords.latitude.toString().substring(0,5);
-        const lng = coords.longitude.toString().substring(0,6);
+        const lat = coords.latitude.toString().substring(0, 5);
+        const lng = coords.longitude.toString().substring(0, 6);
         //hard coding lat and lng for presentation
         const state = this.state;
-        this.setState(...state, {params: {ll: 43.68 + ',' + -79.45,
-                                          query: 'Restaurant',
-                                          section: 'topPicks',
-                                          limit: 10,
-                                          openNow: 1,
-                                          sortByDistance: 1,
-                                          intent: 'checkin',
-                                          radius: 1000}}, () => {
+        this.setState(...state, {
+          params: {
+            ll: 43.68 + ',' + -79.45,
+            query: 'Restaurant',
+            section: 'topPicks',
+            limit: 10,
+            openNow: 1,
+            sortByDistance: 1,
+            intent: 'checkin',
+            radius: 1000
+          }
+        }, () => {
           foursquare.venues.getVenues(this.state.params)
-            .then(res=> {
-              console.log("foursquare", res)
+            .then(res => {
               //assign all venues to an array
               res.response.venues.map((venue) => {
                 markers.push(venue.location)
-                let venueParam = {venue_id: venue.id}
+                let venueParam = { venue_id: venue.id }
                 //request details for each venue
                 foursquare.venues.getVenue(venueParam)
                   .then(res => {
                     venueDetails.push(res.response.venue);
                     const state = this.state;
-                    this.setState(...state, {venues: {info: venueDetails,
-                                                      marker: markers}});
-                })
+                    this.setState(...state, {
+                      venues: {
+                        info: venueDetails,
+                        marker: markers
+                      }
+                    });
+                  })
               })
-          })
+            })
         })
       })
     }
@@ -69,13 +76,13 @@ class Restaurant extends React.Component {
   componentWillMount() {
   }
 
-  _restaurantChosen(restaurant){
+  _restaurantChosen(restaurant) {
     this.props.restaurantChosen(restaurant);
   }
 
-render() {
+  render() {
     return (<Map venues={this.state.venues} personClicked={this.state.restaurantClicked}
-                 restaurant={true} zoom={13} restaurantChosen={this._restaurantChosen.bind(this)}/>
+      restaurant={true} zoom={13} restaurantChosen={this._restaurantChosen.bind(this)} />
     )
   }
 }

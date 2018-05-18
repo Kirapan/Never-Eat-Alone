@@ -28,7 +28,6 @@ class Parent extends React.Component {
 
   //prop method for login, setting the email state
   _doLogin = (input) => {
-    console.log("in parent", input);
     const state = this.state;
     this.setState(...state, { id: input.id, email: input.email });
   }
@@ -40,32 +39,32 @@ class Parent extends React.Component {
 
   render() {
     return (<div>
-        <Navbar id={this.state.id} email={this.state.email} logout={this._logout.bind(this)}/>
-        <Grid className='grid'>
-          <Switch>
-            <Route path='/api/users/:id/preferences'render={(props) => (
-              <UserPreferences {...props} id={this.state.id} email={this.state.email} />)} />
-            <Route path='/api/users/:id/messages' render={(props) => (
-              <Messages {...props} id={this.state.id} email={this.state.email} />)} />
-            <Route path='/api/users/:id/favorites' render={(props) => (
-              <Favorites {...props} id={this.state.id} email={this.state.email} />)} />
-            <Route path='/api/users/:id' component={UserProfile} />
-            <Route path='/api/users' render={(props) => (
-              <Users {...props} id={this.state.id} email={this.state.email}/>)}  />
-            <Route path='/api/messages/:id/' render={(props) => (
-              <Messages {...props} id={this.state.id} email={this.state.email} />)} />
-            <Route exact path='/api/login' render={(props) => (
-              <Login {...props} doLogin={this._doLogin} /> )} />
-            <Route exact path='/api/signup' render={(props) => (
-              <Signup {...props} doLogin={this._doLogin} /> )} />
-            <Route exact path='/api/maps' render={(props) => (
-              <UsersWithMaps {...props} id={this.state.id} email={this.state.email}/> )} />
-            <Route path='/api/restaurant' component={Restaurant} />
-            <Route path='/api/about' component={Footer} />
-            <Route path='/' component={Index} />
-          </Switch>
-        </Grid>
-      </div>
+      <Navbar id={this.state.id} email={this.state.email} logout={this._logout.bind(this)} />
+      <Grid className='grid'>
+        <Switch>
+          <Route path='/api/users/:id/preferences' render={(props) => (
+            <UserPreferences {...props} id={this.state.id} email={this.state.email} />)} />
+          <Route path='/api/users/:id/messages' render={(props) => (
+            <Messages {...props} id={this.state.id} email={this.state.email} />)} />
+          <Route path='/api/users/:id/favorites' render={(props) => (
+            <Favorites {...props} id={this.state.id} email={this.state.email} />)} />
+          <Route path='/api/users/:id' component={UserProfile} />
+          <Route path='/api/users' render={(props) => (
+            <Users {...props} id={this.state.id} email={this.state.email} />)} />
+          <Route path='/api/messages/:id/' render={(props) => (
+            <Messages {...props} id={this.state.id} email={this.state.email} />)} />
+          <Route exact path='/api/login' render={(props) => (
+            <Login {...props} doLogin={this._doLogin} />)} />
+          <Route exact path='/api/signup' render={(props) => (
+            <Signup {...props} doLogin={this._doLogin} />)} />
+          <Route exact path='/api/maps' render={(props) => (
+            <UsersWithMaps {...props} id={this.state.id} email={this.state.email} />)} />
+          <Route path='/api/restaurant' component={Restaurant} />
+          <Route path='/api/about' component={Footer} />
+          <Route path='/' component={Index} />
+        </Switch>
+      </Grid>
+    </div>
     )
   }
 }

@@ -12,14 +12,9 @@ class UsersWithMaps extends React.Component {
     }
   }
 
-  componentWillMount() {
-
-  }
-
   _onClick(personClicked){
     const state = this.state;
     this.setState(...state, {personClicked: personClicked})
-    console.log("state ", this.state);
   }
 
   _currentSelection(selected){

@@ -14,14 +14,10 @@ function ten() {
 module.exports = (knex) => {
 
   router.post('/verifyToken', verifyToken, (req, res) => {
-    console.log("in server verify", req.headers.Authorization);
     jwt.verify(req.token, process.env.SECRETKEY, (err, authData) => {
-      console.log("in verify in post");
       if (err) {
-        console.log("in error");
         res.sendStatus(403);
       } else {
-        console.log("in else ", authData);
         res.send({
           authData
         });
@@ -40,7 +36,6 @@ module.exports = (knex) => {
     //      const bearerToken = bearer[1];
     //      req.token = bearerToken;
     req.token = req.body.token;
-    console.log("in verifyToken function", req.token);
     //      console.log("in if", req.token);
     next();
     //    } else {
@@ -54,8 +49,6 @@ module.exports = (knex) => {
     if (!req.body.email || !req.body.password) {
       res.sendStatus(401).send("Fields not set");
     }
-
-    console.log("in login server", req.body.email);
     //check if user already exists
     knex
       .select("*")
@@ -73,7 +66,6 @@ module.exports = (knex) => {
           //with Bearer
           //const token = "Bearer " + jwt.sign(payload, process.env.SECRETKEY);
           const token = jwt.sign(payload, process.env.SECRETKEY);
-          console.log("in getToken", token);
           res.send(token);
         }
         //        res.authenticate(req.boapp.use(express.staticdy.password).then(user => {
@@ -112,9 +104,7 @@ module.exports = (knex) => {
         need_id: 1
       })
   }
-  
 
-  
   function createProfile(firstname, lastname, email, password) {
     return knex('users')
       .insert({
@@ -133,14 +123,11 @@ module.exports = (knex) => {
     return new Promise(function (resolve, reject) {
       createProfile(firstname, lastname, email, password)
         .then((result) => {
-          console.log("ia m the emaileamil", email)
-          console.log("am i the id", result[0])
           let id = result[0]
           let promises = [];
           promises.push(createIndustry(id), createOffers(id), createOffers(id), createOffers(id), createNeeds(id), createNeeds(id), createNeeds(id))
           Promise.all(promises).then(data => {
               return resolve();
-              console.log("success on signup")
             })
             .catch(err => {
               console.log(err.message)
@@ -150,7 +137,6 @@ module.exports = (knex) => {
   }
 
   router.post("/signup", (req, res) => {
-    console.log("in signup", req.body.email);
     //check if user does already exist in DB
     knex
       .select('id')
@@ -158,13 +144,10 @@ module.exports = (knex) => {
       .where('email', req.body.email)
       .then((result) => {
         let user_id = result;
-        console.log("user", result, " and type ", result.typeof);
         //user does already exist - redirext user to login
         if (typeof result !== 'undefined' && result.length > 0) {
-          console.log("user_id ", result)
           res.sendStatus(400);
         } else { //user does not exist - create new user
-          console.log("user does not exist ", result)
           //let hashPassword = '';
           // bcrypt.hash(req.body.password, 10, function(err, hash) {
           //   hashPassword =  hash;
@@ -175,14 +158,12 @@ module.exports = (knex) => {
               res.sendStatus(200);
             })
             .catch((err) => {
-              console.log("error on insert");
               console.log(err);
             })
           // });
         }
       })
       .catch((err) => {
-        console.log("error on select user");
         console.error(err);
       })
   })
@@ -210,7 +191,6 @@ module.exports = (knex) => {
   router.get('/users/:id', (req, res) => {
     getUserProfile(req.params.id)
       .then((results) => {
-        console.log("i am how result lokk like", results)
         res.json(results[0]);
       })
       .catch((err) => {
@@ -272,7 +252,6 @@ module.exports = (knex) => {
   }
 
   router.put('/users/:id/updatePrefences', (req, res) => {
-    console.log("req.bodyvodsfdsf", req.body)
     //update the interested industries
     knex('users_industries')
       .where("user_id", req.params.id)
@@ -309,14 +288,12 @@ module.exports = (knex) => {
         findID(req.body.offers)
           .then((result) => {
             let id = req.params.id
-            console.log("iamthefinalresult", result)
             let array = result.map(item => {
               return {
                 user_id: id,
                 offer_id: item.id
               }
             })
-            console.log("offerrsssss", array)
             knex('users_offers').insert(array)
               .then(() => {})
               .catch((err) => {
@@ -328,7 +305,6 @@ module.exports = (knex) => {
           })
       })
       .catch((err) => {
-        console.log("users offerserrroooorr")
         res.send(err);
       })
     //update the needs
@@ -371,10 +347,8 @@ module.exports = (knex) => {
   }
 
   router.put('/users/:from_id/messages/:to_id', (req, res) => {
-    console.log("i am the content", req.body)
     sendMessages(req.params.from_id, req.params.to_id, req.body.content)
       .then((messages) => {
-        console.log("ok")
         res.json(messages);
       })
       .catch((err) => {
@@ -395,28 +369,12 @@ module.exports = (knex) => {
   router.get('/users/:id/messages', (req, res) => {
     getMessages(req.params.id)
       .then((messages) => {
-        console.log("i am the meessage in the sereer", messages)
         res.json(messages);
       })
       .catch((err) => {
         res.send(err);
       })
   })
-
-
-
-  // function matching(id) {
-  //   return "i am working on it!!!!Machine Learning!!!"
-  // }
-  // router.get('/users/:id/matches', (req, res) => {
-  //   matching(req.params.id)
-  //     .then((matchlist) => {
-  //       res.json(matchlist);
-  //     })
-  //     .catch((err) => {
-  //       res.send(err);
-  //     })
-  // })
 
   function favoritePage(id) {
     return knex
@@ -428,7 +386,6 @@ module.exports = (knex) => {
   router.get('/users/:id/favorites', (req, res) => {
     favoritePage(req.params.id)
       .then((favorites) => {
-        console.log("ia m favorites hahhaah", favorites)
         let result = [];
         favorites.forEach(item => {
           result.push(item.favoritee_id)
@@ -518,7 +475,6 @@ module.exports = (knex) => {
         res.send(err);
       })
   })
-
 
   function getUserNeeds(id) {
     return knex

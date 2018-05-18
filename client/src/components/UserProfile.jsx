@@ -58,20 +58,11 @@ class userProfile extends React.Component {
     this.setState({ profile: newProfile })
   }
 
-  // _handleImageSubmit = (e) => {
-  //   const newProfile = { ...this.state.profile, image: this.state.imagePreviewUrl, file: this.state.file }
-  //   this.setState({ profile: newProfile })
-  // }
 
   _handleCompanyChange = e => {
     const newProfile = { ...this.state.profile, company: e.target.value }
     this.setState({ profile: newProfile })
   }
-
-  // _handleImageUrl= e => {
-  //   const newProfile = { ...this.state.profile, image: e.target.value }
-  //   this.setState({ profile: newProfile })
-  // }
 
   onSuggestSelect = suggest => {
     if (!suggest) return
@@ -81,34 +72,11 @@ class userProfile extends React.Component {
     suggest = ""
   }
 
-  // _handleImageChange = e => {
-  //   e.preventDefault();
-  //   let reader = new FileReader();
-  //   let file = e.target.files[0];
-
-  //   reader.onloadend = (evt) => {
-  //     //localStorage.setItem("img", reader.result)
-  //     this.setState({
-  //       file: file,
-  //       imagePreviewUrl: reader.result
-  //     });
-  //   }
-
-  //   reader.readAsDataURL(file)
-  // }
-
   render() {
     const id = this.state.userId
     const industries = this.state.industries.map(industry => {
       return (<option key={industry.id} value={industry.title}>{industry.title}</option>)
     })
-
-    // let { imagePreviewUrl } = this.state;
-    // //imagePreviewUrl = localStorage.getItem("img")
-    // let $imagePreview = null;
-    // if (imagePreviewUrl) {
-    //   $imagePreview = (<img src={imagePreviewUrl} alt='' height="100" width="100" />);
-    // }
 
     return (
       <div className='usersWithMapsRow'>

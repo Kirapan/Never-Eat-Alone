@@ -18,7 +18,6 @@ class Messages extends React.Component {
   componentWillMount() {
     userData.findMessages(this.state.userId)
       .then((result) => {
-        console.log("iam the messages", result)
         this.setState({ messages: result })
       })
       .catch((errors) => this.setState({ errors: errors }))
@@ -33,43 +32,43 @@ class Messages extends React.Component {
     const inline = { borderTop: '1px solid #dadce0' }
     const messageList = sortedList.map((msg, idx) => {
       return (<Popover
-          id={'popover-basic-' + idx}
-          className="popover-all"
-          placement="right"
-          positionLeft={300}
-          positionTop={90 + 160 * idx}
-          title={msg.name}
-          style={{ zIndex: 8 }}
-        >
-          <Image className="sender" src={msg.image} alt={msg.name} style={{ margin: 30, width: 128 }} rounded />
-          <div id="right-part-message"><p className="receive-content">{msg.content}</p><br style={inline} />
-          
+        id={'popover-basic-' + idx}
+        className="popover-all"
+        placement="right"
+        positionLeft={300}
+        positionTop={90 + 160 * idx}
+        title={msg.name}
+        style={{ zIndex: 8 }}
+      >
+        <Image className="sender" src={msg.image} alt={msg.name} style={{ margin: 30, width: 128 }} rounded />
+        <div id="right-part-message"><p className="receive-content">{msg.content}</p><br style={inline} />
+
           <Link to={{
             pathname: `/api/users/${this.state.userId}/messages/${msg.from_user_id}`,
             state: { modal: true }
           }
           }>
             <Button className="reply-button" bsStyle="warning">Reply</Button></Link>
-            <br/>
-            <small >{msg.created_at}           </small></div>
+          <br />
+          <small >{msg.created_at}           </small></div>
         <Switch>
           <Route path='/api/users/:id/messages/:to_id' render={(props) => (
             <Messagebox {...props} messages={this.state.messages} />)} />
         </Switch>
-        </Popover>);
+      </Popover>);
     })
 
-    const buttonGroup = sortedList.map((msg,idx) => {
+    const buttonGroup = sortedList.map((msg, idx) => {
       return (
-        
-          <Button href={"#popover-basic-" + idx}>{msg.name}</Button>
-        
+
+        <Button href={"#popover-basic-" + idx}>{msg.name}</Button>
+
       )
     })
     return (
       <div className="iamthediv">
         <ButtonGroup vertical className="message-button">
-        {buttonGroup}
+          {buttonGroup}
         </ButtonGroup>
         {messageList}
       </div >
