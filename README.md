@@ -1,6 +1,9 @@
 # Never-Eat-Alone
+Never-Eat-Alone enables users to connect to business professionals nearby to expand their network, obtain career advice, understand other industries, explore business opportunities or even secure next promotion over lunch. Build in React and Node.js and integrated Google Maps and Foursquare API.
 
-ChattyApp enables users to connect professionals nearby to expand network, obtain career advice, understand other industries, explore business opportunities or even secure next promotion over lunch.
+## Main contributors
+[Xiaoqi Pan](https://github.com/Kirapan)
+[Michael Rychly](https://github.com/michaelrychly) 
 
 ## Getting Started
 
