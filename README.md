@@ -2,7 +2,7 @@
 Never-Eat-Alone enables users to connect to business professionals nearby to expand their network, obtain career advice, understand other industries, explore business opportunities or even secure next promotion over lunch. Build in React and Node.js and integrated Google Maps and Foursquare API.
 
 ## Main contributors
-[Xiaoqi Pan](https://github.com/Kirapan)
+[Xiaoqi Pan](https://github.com/Kirapan), 
 [Michael Rychly](https://github.com/michaelrychly) 
 
 ## Getting Started
